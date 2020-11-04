@@ -84,6 +84,11 @@ output "database_network_acl_arn" {
   value       = module.vpc.database_network_acl_arn
 }
 
+output "default_security_group_id" {
+  value = data.aws_security_group.default.id
+}
+
+
 # debug
 # output "module_vpc" {
 #   description = "Module VPC"
