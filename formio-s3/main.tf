@@ -87,7 +87,7 @@ resource "aws_iam_policy" "policy" {
             "Action": "s3:*",
             "Resource": [
                 "${aws_s3_bucket.bucket.arn}",
-                "arn:aws-us-gov:s3:*:306881650362:accesspoint/*",
+                "arn:aws-us-gov:s3:*:${var.aws_account_id}:accesspoint/*",
                 "arn:aws-us-gov:s3:*:*:job/*",
                 "${aws_s3_bucket.bucket.arn}/*"
             ]
