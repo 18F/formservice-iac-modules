@@ -25,6 +25,12 @@ variable "name_prefix" {
     default     = []
     description = "List of existing Security Groups to be allowed to connect to the DocumentDB cluster"
   }
+
+  variable "allowed_cidr_blocks" {
+  type        = list(string)
+  default     = []
+  description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
+}
   variable "zone_id" {
     default = ""
   } 

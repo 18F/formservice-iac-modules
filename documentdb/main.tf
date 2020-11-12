@@ -29,5 +29,8 @@ module "documentdb_cluster" {
   vpc_id                  = var.vpc_id
   subnet_ids              = var.subnet_ids
   allowed_security_groups = var.allowed_security_groups
+  allowed_cidr_blocks     = var.allowed_cidr_blocks
   zone_id                 = ""
 }
+
+
