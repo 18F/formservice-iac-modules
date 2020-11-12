@@ -48,22 +48,4 @@ variable "FORMIO_S3_REGION" {  }
 variable "FORMIO_S3_KEY" {  }
 variable "FORMIO_S3_SECRET" {  }
 
-# variable "env_vars" {
-#   type        = map(string)
-#   default = {
-#     "ADMIN_EMAIL" = "leonard.becraft@gsa.gov"
-#     "ADMIN_PASS"  = "formio_admin_password"
-#     "DB_SECRET"   = "super_secret_password"
-#     "JWT_SECRET"  = "super_secret_password"
 
-#     "LICENSE_KEY"    = "formio_license_key"
-#     "MONGO"          = "mongodb://formio:<password>@<cluster_endpoint>:27017/formio?ssl=true"
-#     "PORTAL_ENABLED" = "true"
-#     "VPAT"           = "true"
-
-#     "FORMIO_S3_BUCKET" = "" # s3 bucket name
-#     "FORMIO_S3_REGION" = "" 
-#     "FORMIO_S3_KEY"    = "" # pdf user access key
-#     "FORMIO_S3_SECRET" = "" # pdf user secret key
-#   }
-# }
