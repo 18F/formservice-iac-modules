@@ -21,6 +21,8 @@ module "documentdb_cluster" {
   version = "0.6.0"
   # insert the 3 required variables here
   
+  engine_version = "3.6.0"
+
   name                    = var.name_prefix
   cluster_size            = var.cluster_size
   master_username         = var.master_username
