@@ -48,7 +48,8 @@ resource "aws_elastic_beanstalk_application_version" "default" {
 resource "aws_elastic_beanstalk_environment" "env" {
   name                = "${var.name_prefix}-formio-env"
   application         = aws_elastic_beanstalk_application.app.name
-  solution_stack_name = "64bit Amazon Linux 2018.03 v2.22.1 running Multi-container Docker 19.03.6-ce (Generic)"
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.23.0 running Multi-container Docker 19.03.6-ce (Generic)"
+                         
 
   tags = {
     name = "${var.name_prefix}-formio-env"
