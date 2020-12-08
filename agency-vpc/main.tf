@@ -120,13 +120,6 @@ module "vpc" {
   }
 }
 
-##############################
-# transit gateway
-##############################
 
-resource "aws_ec2_transit_gateway" "tgw" {
-  auto_accept_shared_attachments = "enable"
-  tags = { Name = "${var.name_prefix}-TGW"}
-}
 
 

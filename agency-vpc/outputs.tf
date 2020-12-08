@@ -109,13 +109,4 @@ output "database_route_table_ids" {
   value       = module.vpc.database_route_table_ids
 }
 
-## Transit Gateway
-output "tgw_id" {
-  description = "EC2 Transit Gateway identifier"
-  value       = aws_ec2_transit_gateway.tgw.id
-}
 
-output "tgw_propagation_default_route_table_id" {
-  description = "Identifier of the default propagation route table"
-  value       = aws_ec2_transit_gateway.tgw.propagation_default_route_table_id
-}
