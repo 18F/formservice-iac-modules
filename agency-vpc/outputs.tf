@@ -52,45 +52,70 @@ output "vpc_endpoint_s3_id" {
 ##############
 # Network ACLs
 ##############
-output "default_network_acl_id" {
-  description = "The ID of the default network ACL"
-  value       = module.vpc.default_network_acl_id
-}
+# output "default_network_acl_id" {
+#   description = "The ID of the default network ACL"
+#   value       = module.vpc.default_network_acl_id
+# }
 
-output "public_network_acl_id" {
-  description = "ID of the public network ACL"
-  value       = module.vpc.public_network_acl_id
-}
-output "public_network_acl_arn" {
-  description = "ARN of the public network ACL"
-  value       = module.vpc.public_network_acl_arn
-}
+# output "public_network_acl_id" {
+#   description = "ID of the public network ACL"
+#   value       = module.vpc.public_network_acl_id
+# }
+# output "public_network_acl_arn" {
+#   description = "ARN of the public network ACL"
+#   value       = module.vpc.public_network_acl_arn
+# }
 
-output "private_network_acl_id" {
-  description = "ID of the private network ACL"
-  value       = module.vpc.private_network_acl_id
-}
-output "private_network_acl_arn" {
-  description = "ARN of the private network ACL"
-  value       = module.vpc.private_network_acl_arn
-}
+# output "private_network_acl_id" {
+#   description = "ID of the private network ACL"
+#   value       = module.vpc.private_network_acl_id
+# }
+# output "private_network_acl_arn" {
+#   description = "ARN of the private network ACL"
+#   value       = module.vpc.private_network_acl_arn
+# }
 
-output "database_network_acl_id" {
-  description = "ID of the database network ACL"
-  value       = module.vpc.database_network_acl_id
-}
-output "database_network_acl_arn" {
-  description = "ARN of the database network ACL"
-  value       = module.vpc.database_network_acl_arn
-}
+# output "database_network_acl_id" {
+#   description = "ID of the database network ACL"
+#   value       = module.vpc.database_network_acl_id
+# }
+# output "database_network_acl_arn" {
+#   description = "ARN of the database network ACL"
+#   value       = module.vpc.database_network_acl_arn
+# }
+
+# output "default_security_group_id" {
+#   value = data.aws_security_group.default.id
+# }
+
 
 output "default_security_group_id" {
   value = data.aws_security_group.default.id
 }
 
+## Route Table IDS
+output "public_route_table_ids" {
+  description = "List of IDs of public route tables"
+  value       = module.vpc.public_route_table_ids
+}
 
-# debug
-# output "module_vpc" {
-#   description = "Module VPC"
-#   value       = module.vpc
-# }
+output "private_route_table_ids" {
+  description = "List of IDs of private route tables"
+  value       = module.vpc.private_route_table_ids
+}
+
+output "database_route_table_ids" {
+  description = "List of IDs of database route tables"
+  value       = module.vpc.database_route_table_ids
+}
+
+## Transit Gateway
+output "tgw_id" {
+  description = "EC2 Transit Gateway identifier"
+  value       = aws_ec2_transit_gateway.tgw.id
+}
+
+output "tgw_propagation_default_route_table_id" {
+  description = "Identifier of the default propagation route table"
+  value       = aws_ec2_transit_gateway.tgw.propagation_default_route_table_id
+}

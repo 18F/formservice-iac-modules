@@ -49,3 +49,4 @@ override.tf.json
 terraform.rc
 
 .terragrunt*
+kubeconfig*
