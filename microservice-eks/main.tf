@@ -53,10 +53,9 @@ resource "aws_security_group" "worker_group_mgmt_one" {
     to_port   = 22
     protocol  = "tcp"
 
-    cidr_blocks = [
-      "10.20.0.0/16",
-    ]
+    cidr_blocks = var.ssh_ingress_cidr_blocks
   }
+  tags = { Name = "${var.name_prefix}-worker_group_mgmt"}
 }
 
 resource "aws_security_group" "all_worker_mgmt" {
@@ -68,10 +67,9 @@ resource "aws_security_group" "all_worker_mgmt" {
     to_port   = 22
     protocol  = "tcp"
 
-    cidr_blocks = [
-      "10.20.0.0/16"
-    ]
+    cidr_blocks = var.ssh_ingress_cidr_blocks
   }
+  tags = { Name = "${var.name_prefix}-all_worker_mgmt"}
 }
 
 module "eks" {
