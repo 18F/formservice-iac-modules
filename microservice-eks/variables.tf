@@ -14,6 +14,7 @@ variable "cluster_name" {
 }
 
 variable "vpc_id" {}
+variable "key_name" { description = "key pair"}
 
 variable "private_subnet_ids" { type = list(string)}
 variable "ssh_ingress_cidr_blocks" { type = list(string)}
