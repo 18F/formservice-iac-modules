@@ -48,4 +48,8 @@ variable "FORMIO_S3_REGION" {  }
 variable "FORMIO_S3_KEY" {  }
 variable "FORMIO_S3_SECRET" {  }
 
-
+variable "PORT" {  }
+variable "DEFAULT_DATABASE" {  }
+variable "PER_PROJECT_DBS" {  }
+variable "PROXY" {  }
+variable "PRIMARY" {  }
