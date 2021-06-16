@@ -217,11 +217,6 @@ module "vpc_endpoints" {
 # Supporting Resources
 ################################################################################
 
-data "aws_security_group" "default" {
-  name   = "default"
-  vpc_id = module.vpc.vpc_id
-}
-
 # Data source used to avoid race condition
 data "aws_vpc_endpoint_service" "dynamodb" {
   service = "dynamodb"
