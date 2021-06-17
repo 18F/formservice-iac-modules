@@ -31,7 +31,6 @@ data "aws_security_group" "default" {
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = ">= 3.7.0"
 
   name             = var.name_prefix
   cidr             = var.vpc_cidr
@@ -91,16 +90,11 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = var.single_nat_gateway
 
-  
-
-  vpc_endpoint_tags = {
-    Endpoint = "true"
-  }
-
-  tags = {
-    Terraform   = "true"
-    Name        = var.name_prefix
-  }
+  # tags = merge(local.tags, {
+  #   Terraform   = "true"
+  #   Name  = var.name_prefix
+  #   Endpoint = "true"
+  # })
 }
 
 ##############################
@@ -138,81 +132,69 @@ module "vpc_endpoints" {
 
   endpoints = {
     s3 = {
-      service = "s3"
-      tags    = { Name = "s3-vpc-endpoint" }
+      # interface endpoint
+      service             = "s3"
+      tags                = { Name = "${var.name_prefix}-s3-vpc-endpoint" }
     },
-    dynamodb = {
-      service         = "dynamodb"
-      service_type    = "Gateway"
-      route_table_ids = flatten([module.vpc.intra_route_table_ids, module.vpc.private_route_table_ids, module.vpc.public_route_table_ids])
-      policy          = data.aws_iam_policy_document.dynamodb_endpoint_policy.json
-      tags            = { Name = "dynamodb-vpc-endpoint" }
+    # dynamodb = {
+    #   # gateway endpoint
+    #   service         = "dynamodb"
+    #   route_table_ids = ["rt-12322456", "rt-43433343", "rt-11223344"]
+    #   tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
+    # },
+    sns = {
+      service             = "sns"
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-sns-vpc-endpoint" }
+    },
+    sqs = {
+      service             = "sqs"
+      private_dns_enabled = true
+      # security_group_ids  = ["sg-987654321"]
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-sqs-vpc-endpoint" }
     },
     ssm = {
       service             = "ssm"
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
-    },
-    ssmmessages = {
-      service             = "ssmmessages"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
+
     },
     lambda = {
       service             = "lambda"
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
-    },
-    ecs = {
-      service             = "ecs"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    ecs_telemetry = {
-      service             = "ecs-telemetry"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    ec2 = {
-      service             = "ec2"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    ec2messages = {
-      service             = "ec2messages"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-lambda-vpc-endpoint" }
     },
     ecr_api = {
       service             = "ecr.api"
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
+      tags                = { Name = "${var.name_prefix}-ecr-api-vpc-endpoint" }
     },
     ecr_dkr = {
       service             = "ecr.dkr"
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
+      tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
     },
     kms = {
       service             = "kms"
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
-    },
-    codedeploy = {
-      service             = "codedeploy"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-    codedeploy_commands_secure = {
-      service             = "codedeploy-commands-secure"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-    },
-      
+      tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
+    }
+  }
+
+  tags = {
+    Owner       = "faas-prod"
+    Environment = "PROD"
   }
 }
+
 ################################################################################
 # Supporting Resources
 ################################################################################
@@ -266,5 +248,3 @@ data "aws_iam_policy_document" "generic_endpoint_policy" {
     }
   }
 }
-
-
