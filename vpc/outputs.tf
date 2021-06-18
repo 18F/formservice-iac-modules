@@ -36,10 +36,10 @@ output "nat_public_ips" {
 }
 
 # VPC endpoints
-output "vpc_endpoint_s3_id" {
-  description = "The ID of VPC endpoint for S3"
-  value       = module.vpc.vpc_endpoint_s3_id
-}
+#output "vpc_endpoint_s3_id" {
+#  description = "The ID of VPC endpoint for S3"
+#  value       = module.vpc.vpc_endpoint_s3_id
+#}
 ##############
 # Network ACLs
 ##############
