@@ -136,12 +136,12 @@ module "vpc_endpoints" {
       service             = "s3"
       tags                = { Name = "${var.name_prefix}-s3-vpc-endpoint" }
     },
-    # dynamodb = {
-    #   # gateway endpoint
-    #   service         = "dynamodb"
-    #   route_table_ids = ["rt-12322456", "rt-43433343", "rt-11223344"]
-    #   tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
-    # },
+    dynamodb = {
+      # gateway endpoint
+      service         = "dynamodb"
+      route_table_ids = module.vpc.route_table
+      tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
+    },
     sns = {
       service             = "sns"
       subnet_ids          = module.vpc.private_subnets
