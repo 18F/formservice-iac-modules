@@ -139,7 +139,7 @@ module "vpc_endpoints" {
     dynamodb = {
       # gateway endpoint
       service         = "dynamodb"
-      route_table_ids = module.vpc.route_table
+      route_table_ids = [ "rtb-05f5b51d08a2d4b9c", "rtb-030b6d714908a02d9" ]
       tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
     },
     sns = {
