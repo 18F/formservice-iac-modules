@@ -17,7 +17,3 @@ variable "single_nat_gateway" {
   type    = bool
   default = true
 }
-variable "route_table" {
-  type    = list(string)
-  default = [ "rtb-05f5b51d08a2d4b9c", "rtb-030b6d714908a02d9" ]
-}
