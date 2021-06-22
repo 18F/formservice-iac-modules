@@ -66,7 +66,7 @@ module "ec2_linux" {
 ###################################
 # security group for terraform linux
 ###################################
-resource "aws_security_group" "terraform linux" {
+resource "aws_security_group" "terraform-linux-sg" {
   name        = "${var.name_prefix}-terraform-linux-sg"
   description = "Allow ssh and rdp connections"
   vpc_id      = var.vpc_id
