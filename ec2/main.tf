@@ -38,7 +38,8 @@ module "ec2_linux" {
   #key_name              = var.key_pair
   monitoring = var.linux_monitoring
   # kms_keyid = var.kms_key
-
+  iam_instance_profile = var.iam_instance_profile
+  
   root_block_device = [
     {
       volume_size = var.linux_root_block_size

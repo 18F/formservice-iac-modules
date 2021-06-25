@@ -17,7 +17,7 @@ variable "linux_monitoring" {default = "true"}
 variable "vpc_id" {}
 variable "subnet_id" {}
 variable "kms_key" {default = ""}
-variable "key_pair" {}
+variable "key_pair" {default = ""}
 
 variable "linux_root_block_size" {
   type        = string
