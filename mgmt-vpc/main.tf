@@ -25,9 +25,12 @@ data "aws_security_group" "default" {
   vpc_id = module.vpc.vpc_id
 }
 
+################################################################################
+# VPC Module
+################################################################################
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.57.0"
 
   name             = var.name_prefix
   cidr             = var.vpc_cidr
@@ -57,6 +60,14 @@ module "vpc" {
 
   vpc_flow_log_tags = { Name = "${var.name_prefix}-vpc-flow-logs-cloudwatch" }
 
+  manage_default_route_table = true
+  default_route_table_tags   = { DefaultRouteTable = true }
+
+  # Default security group - ingress/egress rules cleared to deny all
+  manage_default_security_group  = true
+  default_security_group_ingress = []
+  default_security_group_egress  = []
+
   ###################
   # public subnets
   ###################
@@ -79,14 +90,11 @@ module "vpc" {
   enable_nat_gateway = true
   single_nat_gateway = var.single_nat_gateway
 
-  vpc_endpoint_tags = {
-    Endpoint = "true"
-  }
-
-  tags = {
-    Terraform   = "true"
-    Name        = var.name_prefix
-  }
+  # tags = merge(local.tags, {
+  #   Terraform   = "true"
+  #   Name  = var.name_prefix
+  #   Endpoint = "true"
+  # })
 }
 
 ##############################
@@ -116,10 +124,127 @@ resource "aws_ec2_transit_gateway" "tgw" {
 #   depends_on = [module.vpc, aws_ec2_transit_gateway_vpc_attachment.this]
 # }
 
+module "vpc_endpoints" {
+  source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
+  vpc_id             = module.vpc.vpc_id
+  security_group_ids = [data.aws_security_group.default.id]
 
+  endpoints = {
+    s3 = {
+      # interface endpoint
+      service             = "s3"
+      tags                = { Name = "${var.name_prefix}-s3-vpc-endpoint" }
+    },
+    #dynamodb = {
+      # gateway endpoint
+    #  service         = "dynamodb"
+    #  route_table_ids = [ "rtb-05f5b51d08a2d4b9c", "rtb-030b6d714908a02d9" ]
+    #  tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
+    #},
+    sns = {
+      service             = "sns"
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-sns-vpc-endpoint" }
+    },
+    sqs = {
+      service             = "sqs"
+      private_dns_enabled = true
+      # security_group_ids  = ["sg-987654321"]
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-sqs-vpc-endpoint" }
+    },
+    ssm = {
+      service             = "ssm"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
 
+    },
+    lambda = {
+      service             = "lambda"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-lambda-vpc-endpoint" }
+    },
+    ecr_api = {
+      service             = "ecr.api"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
+      tags                = { Name = "${var.name_prefix}-ecr-api-vpc-endpoint" }
+    },
+    ecr_dkr = {
+      service             = "ecr.dkr"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
+      tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
+    },
+    kms = {
+      service             = "kms"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
+    }
+  }
 
+  tags = {
+    Owner       = "faas-prod"
+    Environment = "PROD"
+  }
+}
 
+################################################################################
+# Supporting Resources
+################################################################################
 
+# Data source used to avoid race condition
+data "aws_vpc_endpoint_service" "dynamodb" {
+  service = "dynamodb"
 
+  filter {
+    name   = "service-type"
+    values = ["Gateway"]
+  }
+}
+
+data "aws_iam_policy_document" "dynamodb_endpoint_policy" {
+  statement {
+    effect    = "Deny"
+    actions   = ["dynamodb:*"]
+    resources = ["*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "StringNotEquals"
+      variable = "aws:sourceVpce"
+
+      values = [data.aws_vpc_endpoint_service.dynamodb.id]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "generic_endpoint_policy" {
+  statement {
+    effect    = "Deny"
+    actions   = ["*"]
+    resources = ["*"]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "StringNotEquals"
+      variable = "aws:sourceVpce"
+
+      values = [data.aws_vpc_endpoint_service.dynamodb.id]
+    }
+  }
+}

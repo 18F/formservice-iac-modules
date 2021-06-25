@@ -36,10 +36,10 @@ output "nat_public_ips" {
 }
 
 # VPC endpoints
-output "vpc_endpoint_s3_id" {
-  description = "The ID of VPC endpoint for S3"
-  value       = module.vpc.vpc_endpoint_s3_id
-}
+#output "vpc_endpoint_s3_id" {
+#  description = "The ID of VPC endpoint for S3"
+#  value       = module.vpc.vpc_endpoint_s3_id
+#}
 ##############
 # Network ACLs
 ##############
@@ -96,4 +96,46 @@ output "tgw_id" {
 output "tgw_propagation_default_route_table_id" {
   description = "Identifier of the default propagation route table"
   value       = aws_ec2_transit_gateway.tgw.propagation_default_route_table_id
+}
+
+# Subnets
+output "private_subnets" {
+  description = "List of IDs of private subnets"
+  value       = module.vpc.private_subnets
+}
+
+output "public_subnets" {
+  description = "List of IDs of public subnets"
+  value       = module.vpc.public_subnets
+}
+
+# VPC endpoints
+output "vpc_endpoint_ssm_id" {
+  description = "The ID of VPC endpoint for SSM"
+  value       = module.vpc_endpoints.endpoints["ssm"].id
+}
+
+output "vpc_endpoint_ssm_network_interface_ids" {
+  description = "One or more network interfaces for the VPC Endpoint for SSM."
+  value       = module.vpc_endpoints.endpoints["ssm"].network_interface_ids
+}
+
+output "vpc_endpoint_ssm_dns_entry" {
+  description = "The DNS entries for the VPC Endpoint for SSM."
+  value       = module.vpc_endpoints.endpoints["ssm"].dns_entry
+}
+
+output "vpc_endpoint_lambda_id" {
+  description = "The ID of VPC endpoint for Lambda"
+  value       = module.vpc_endpoints.endpoints["lambda"].id
+}
+
+output "vpc_endpoint_lambda_network_interface_ids" {
+  description = "One or more network interfaces for the VPC Endpoint for Lambda."
+  value       = module.vpc_endpoints.endpoints["lambda"].network_interface_ids
+}
+
+output "vpc_endpoint_lambda_dns_entry" {
+  description = "The DNS entries for the VPC Endpoint for Lambda."
+  value       = module.vpc_endpoints.endpoints["lambda"].dns_entry
 }
