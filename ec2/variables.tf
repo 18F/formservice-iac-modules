@@ -16,8 +16,8 @@ variable "linux_monitoring" {default = "true"}
 
 variable "vpc_id" {}
 variable "subnet_id" {}
-variable "kms_key" {}
-variable "key_pair" { default = "faas-sandb-bastion"}
+variable "kms_key" {default = ""}
+variable "key_pair" {}
 
 variable "linux_root_block_size" {
   type        = string
@@ -29,4 +29,10 @@ variable "linux_ingress_cidr_blocks" {
   type        = list(string)
   default     = []
   description = "List of sg ingress cidr blocks"
+}
+
+variable "iam_instance_profile" {
+  type        = string
+  default     = ""
+  description = "IAM Instance Role"
 }
