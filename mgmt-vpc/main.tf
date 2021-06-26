@@ -144,54 +144,54 @@ module "vpc_endpoints" {
     #},
     sns = {
       service             = "sns"
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       tags                = { Name = "${var.name_prefix}-sns-vpc-endpoint" }
     },
     sqs = {
       service             = "sqs"
       private_dns_enabled = true
       #security_group_ids  = ["sg-987654321"]
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       tags                = { Name = "${var.name_prefix}-sqs-vpc-endpoint" }
     },
     ssm = {
       service             = "ssm"
       private_dns_enabled = true
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
 
     },
     ssmmessages = {
       service             = "ssmmessages"
       private_dns_enabled = true
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
 
     },
     lambda = {
       service             = "lambda"
       private_dns_enabled = true
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       tags                = { Name = "${var.name_prefix}-lambda-vpc-endpoint" }
     },
     ecr_api = {
       service             = "ecr.api"
       private_dns_enabled = true
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
       tags                = { Name = "${var.name_prefix}-ecr-api-vpc-endpoint" }
     },
     ecr_dkr = {
       service             = "ecr.dkr"
       private_dns_enabled = true
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
       tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
     },
     kms = {
       service             = "kms"
       private_dns_enabled = true
-      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      subnet_ids          = flatten([module.vpc.private_subnets, module.vpc.public_subnets])
       tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
     }
   }
