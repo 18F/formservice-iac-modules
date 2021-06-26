@@ -34,12 +34,17 @@ module "ec2_linux" {
   instance_type = var.linux_instance_type
 
   subnet_id              = var.subnet_id
-  #vpc_security_group_ids = [aws_security_group.linux_bastion.id]
-  #key_name              = var.key_pair
   monitoring = var.linux_monitoring
-  # kms_keyid = var.kms_key
   iam_instance_profile = var.iam_instance_profile
-  
+  user_data = << EOF
+		#! /bin/bash
+    sudo yum update
+		sudo install -y git
+		sudo yum install -y yum-utils
+    sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+    sudo yum -y install terraform
+	EOF
+
   root_block_device = [
     {
       volume_size = var.linux_root_block_size
