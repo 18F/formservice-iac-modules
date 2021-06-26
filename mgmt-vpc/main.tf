@@ -64,9 +64,9 @@ module "vpc" {
   default_route_table_tags   = { DefaultRouteTable = true }
 
   # Default security group - ingress/egress rules cleared to deny all
-  manage_default_security_group  = true
-  default_security_group_ingress = []
-  default_security_group_egress  = []
+  #manage_default_security_group  = true
+  #default_security_group_ingress = []
+  #default_security_group_egress  = []
 
   ###################
   # public subnets
@@ -101,10 +101,10 @@ module "vpc" {
 # transit gateway
 ##############################
 
-resource "aws_ec2_transit_gateway" "tgw" {
-  auto_accept_shared_attachments = "enable"
-  tags = { Name = "${var.name_prefix}-TGW"}
-}
+#resource "aws_ec2_transit_gateway" "tgw" {
+#  auto_accept_shared_attachments = "enable"
+#  tags = { Name = "${var.name_prefix}-TGW"}
+#}
 
 # ## Attachment
 # resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
@@ -144,47 +144,54 @@ module "vpc_endpoints" {
     #},
     sns = {
       service             = "sns"
-      subnet_ids          = module.vpc.private_subnets
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       tags                = { Name = "${var.name_prefix}-sns-vpc-endpoint" }
     },
     sqs = {
       service             = "sqs"
       private_dns_enabled = true
-      # security_group_ids  = ["sg-987654321"]
-      subnet_ids          = module.vpc.private_subnets
+      #security_group_ids  = ["sg-987654321"]
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       tags                = { Name = "${var.name_prefix}-sqs-vpc-endpoint" }
     },
     ssm = {
       service             = "ssm"
       private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
+      tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
+
+    },
+    ssmmessages = {
+      service             = "ssmmessages"
+      private_dns_enabled = true
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
 
     },
     lambda = {
       service             = "lambda"
       private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       tags                = { Name = "${var.name_prefix}-lambda-vpc-endpoint" }
     },
     ecr_api = {
       service             = "ecr.api"
       private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
       tags                = { Name = "${var.name_prefix}-ecr-api-vpc-endpoint" }
     },
     ecr_dkr = {
       service             = "ecr.dkr"
       private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
       tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
     },
     kms = {
       service             = "kms"
       private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
+      subnet_ids          = flatten(module.vpc.private_subnets, module.vpc.public_subnets)
       tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
     }
   }
