@@ -36,3 +36,9 @@ variable "iam_instance_profile" {
   default     = ""
   description = "IAM Instance Role"
 }
+
+variable "user_data" {
+  type        = string
+  default     = ""
+  description = "input for user data"
+}

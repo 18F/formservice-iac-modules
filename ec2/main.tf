@@ -36,14 +36,7 @@ module "ec2_linux" {
   subnet_id              = var.subnet_id
   monitoring = var.linux_monitoring
   iam_instance_profile = var.iam_instance_profile
-  user_data = << EOF
-		#! /bin/bash
-    sudo yum update
-		sudo install -y git
-		sudo yum install -y yum-utils
-    sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
-    sudo yum -y install terraform
-	EOF
+  user_data_base64 = "${base64encode(var.user_data)}"
 
   root_block_device = [
     {
