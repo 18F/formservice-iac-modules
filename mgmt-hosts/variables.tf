@@ -5,29 +5,21 @@
 variable "name_prefix" {
   type        = string
   description = "Used for overall naming of resources"
-  default     = "ide-sandb-hyperscience"
+  default     = "terraform linux instance"
 }
 
 variable "linux_ami" {}
-variable "windows_ami" {}
 
 variable "linux_instance_type" {}
-variable "windows_instance_type" {}
 
 variable "linux_monitoring" {default = "true"}
-variable "windows_monitoring" {default = "true"}
 
 variable "vpc_id" {}
 variable "subnet_id" {}
-variable "key_pair" { default = "faas-sandb-bastion"}
+variable "kms_key" {default = ""}
+variable "key_pair" {default = ""}
 
 variable "linux_root_block_size" {
-  type        = string
-  description = "Size in GB of root_block_device"
-  default     = "50"
-}
-
-variable "windows_root_block_size" {
   type        = string
   description = "Size in GB of root_block_device"
   default     = "50"
@@ -39,14 +31,14 @@ variable "linux_ingress_cidr_blocks" {
   description = "List of sg ingress cidr blocks"
 }
 
-variable "windows_rdp_ingress_cidr_blocks" {
-  type        = list(string)
-  default     = []
-  description = "List of sg ingress cidr blocks"
+variable "iam_instance_profile" {
+  type        = string
+  default     = ""
+  description = "IAM Instance Role"
 }
 
-variable "windows_tls_ingress_cidr_blocks" {
-  type        = list(string)
-  default     = []
-  description = "List of sg ingress cidr blocks"
+variable "user_data" {
+  type        = string
+  default     = ""
+  description = "input for user data"
 }
