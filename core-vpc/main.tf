@@ -126,7 +126,7 @@ module "vpc_endpoints" {
     #  tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
     #},
     ses = {
-      service             = "ses"
+      service             = "email-smtp"
       subnet_ids          = module.vpc.private_subnets
       tags                = { Name = "${var.name_prefix}-ses-vpc-endpoint" }
     },
