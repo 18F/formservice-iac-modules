@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# module/formio-security
+# module/mgmt-security
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 terraform {
   # Live modules pin exact Terraform version; generic modules let consumers pin the version.
@@ -16,51 +16,17 @@ terraform {
 }
 
 ###################################
-# security items for formIO
+# security items for mgmt
 ###################################
 
 
-resource "aws_security_group" "documentdb_sg" {
-  name        = "${var.name_prefix}-document-db-sg"
-  description = "Allow Mongo Connections"
-  vpc_id      = var.vpc_id
 
-  ingress {
-    from_port   = 27017
-    to_port     = 27017
-    protocol    = "tcp"
-    cidr_blocks = var.documentdb_allowed_cidr_blocks
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "${var.name_prefix}-document-db-sg"
-  }
-}
-
-resource "aws_kms_key" "s3_bucket_key" {
-  description               = "${var.name_prefix}-s3-bucket-key"
-  key_usage                 = "ENCRYPT_DECRYPT"
-  customer_master_key_spec  = "RSA_4096"
-  
-}
-
-resource "aws_kms_alias" "s3_bucket_key" {
-  name          = "alias/${var.name_prefix}-s3-bucket-key"
-  target_key_id = aws_kms_key.s3_bucket_key.key_id
-}
 
 ############
-# iam policy for s3 bucket key
+# iam policy for kms managment
 ############
-resource "aws_iam_policy" "s3_key_user" {
-  name        = "${var.name_prefix}-s3-key-user-policy"
+resource "aws_iam_policy" "faas_global_key_admin" {
+  name        = "${var.name_prefix}-key-admin-policy"
   description = "Alow use of the ${var.name_prefix} s3 bucket key"
   policy      = <<EOF
 {
@@ -68,20 +34,17 @@ resource "aws_iam_policy" "s3_key_user" {
   "Statement": {
     "Effect": "Allow",
     "Action": [
-      "kms:DescribeKey",
-      "kms:GenerateDataKey",
-      "kms:Decrypt"
+      "kms:*"
     ],
     "Resource": [
-      "arn:aws:kms:${var.region}:${var.account_num}:key/${aws_kms_key.s3_bucket_key.key_id}",
-      "arn:aws:kms:${var.region}:${var.account_num}:key/${aws_kms_key.s3_bucket_key.key_id}"
+      "arn:aws:kms:*:${var.account_num}:key/*"
     ]
   }
 }
 EOF
 }
 
-resource "aws_kms_key" "documentDB_key" {
+/* resource "aws_kms_key" "documentDB_key" {
   description               = "${var.name_prefix}-documentDB-key"
   key_usage                 = "ENCRYPT_DECRYPT"
   customer_master_key_spec  = "RSA_4096"
@@ -117,3 +80,4 @@ resource "aws_iam_policy" "documentDB_key_user" {
 }
 EOF
 }
+ */
