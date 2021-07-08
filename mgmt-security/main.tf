@@ -19,7 +19,14 @@ terraform {
 # security items for mgmt
 ###################################
 
+###################################
+# create user groups
+###################################
 
+resource "aws_iam_group" "kms_admins" {
+  name = "KMS Admins"
+  path = "/"
+}
 
 
 ############
@@ -27,7 +34,7 @@ terraform {
 ############
 resource "aws_iam_policy" "faas_global_key_admin" {
   name        = "${var.name_prefix}-key-admin-policy"
-  description = "Alow use of the ${var.name_prefix} s3 bucket key"
+  description = "Alow use of the ${var.name_prefix} EKS keys"
   policy      = <<EOF
 {
   "Version": "2012-10-17",
@@ -42,6 +49,11 @@ resource "aws_iam_policy" "faas_global_key_admin" {
   }
 }
 EOF
+}
+
+resource "aws_iam_group_policy_attachment" "faas_key_admin_attach" {
+  group      = aws_iam_group.kms_admins.name
+  policy_arn = aws_iam_policy.faas_global_key_admin.arn
 }
 
 /* resource "aws_kms_key" "documentDB_key" {
@@ -61,7 +73,7 @@ resource "aws_kms_alias" "documentDB_key" {
 ############
 resource "aws_iam_policy" "documentDB_key_user" {
   name        = "${var.name_prefix}-documentDB-key-user-policy"
-  description = "Alow use of the ${var.name_prefix} documentDB key"
+  description = "Alow use of the ${var.name_prefix} EKS keys"
   policy      = <<EOF
 {
   "Version": "2012-10-17",
