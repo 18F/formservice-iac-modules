@@ -18,7 +18,7 @@ terraform {
 
 module "documentdb_cluster" {
   source  = "cloudposse/documentdb-cluster/aws"
-  version = "0.6.0"
+  version = "0.13.0"
   # insert the 3 required variables here
   
   engine_version = "3.6.0"
