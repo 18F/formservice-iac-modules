@@ -37,7 +37,7 @@ resource "aws_iam_policy" "faas_global_key_admin" {
       "kms:*"
     ],
     "Resource": [
-      "arn:aws:kms:*:${var.account_num}:key/*"
+      "arn:aws-us-gov:kms:*:${var.account_num}:key/*"
     ]
   }
 }
