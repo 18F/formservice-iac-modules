@@ -7,6 +7,11 @@ variable "name_prefix" {
   description = "Used for overall naming of resources"
 }
 
+variable "vpc_id" {
+  type        = string
+  description = "Used the vpc id"
+}
+
 variable "documentdb_allowed_cidr_blocks" {
   type        = list(string)
   default     = []
