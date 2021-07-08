@@ -48,3 +48,8 @@ resource "aws_kms_key" "s3_bucket_key" {
   customer_master_key_spec  = "SYMMETRIC_DEFAULT"
   
 }
+
+resource "aws_kms_alias" "s3_bucket_key" {
+  name          = "${var.name_prefix}-s3-bucket-key"
+  target_key_id = aws_kms_key.s3_bucket_key.key_id
+}
