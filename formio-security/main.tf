@@ -90,7 +90,7 @@ resource "aws_kms_key" "documentDB_key" {
 
 resource "aws_kms_alias" "documentDB_key" {
   name          = "alias/${var.name_prefix}-documentDB-key"
-  target_key_id = aws_kms_key.s3_bucket_key.key_id
+  target_key_id = aws_kms_key.documentDB_key.key_id
 }
 
 ############
