@@ -73,7 +73,6 @@ resource "aws_iam_policy" "s3_key_user" {
       "kms:Decrypt"
     ],
     "Resource": [
-      "arn:aws-us-gov:kms:${var.region}:${var.account_num}:key/${aws_kms_key.s3_bucket_key.key_id}",
       "arn:aws-us-gov:kms:${var.region}:${var.account_num}:key/${aws_kms_key.s3_bucket_key.key_id}"
     ]
   }
@@ -110,7 +109,6 @@ resource "aws_iam_policy" "documentDB_key_user" {
       "kms:Decrypt"
     ],
     "Resource": [
-      "arn:aws-us-gov:kms:${var.region}:${var.account_num}:key/${aws_kms_key.documentDB_key.key_id}",
       "arn:aws-us-gov:kms:${var.region}:${var.account_num}:key/${aws_kms_key.documentDB_key.key_id}"
     ]
   }

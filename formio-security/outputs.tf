@@ -10,6 +10,10 @@ output "s3_bucket_key_arn" {
   value = aws_kms_key.s3_bucket_key.arn
 }
 
+output "documentdb_key_arn" {
+  value = aws_kms_key.documentDB_key.arn
+}
+
 output "s3_bucket_key_id" {
   value = aws_kms_key.s3_bucket_key.key_id
 }
