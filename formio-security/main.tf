@@ -18,6 +18,8 @@ terraform {
 ###################################
 # security items for formIO
 ###################################
+
+
 resource "aws_security_group" "documentdb_sg" {
   name        = "${var.name_prefix}-document-db-sg"
   description = "Allow Mongo Connections"
@@ -45,11 +47,36 @@ resource "aws_security_group" "documentdb_sg" {
 resource "aws_kms_key" "s3_bucket_key" {
   description               = "${var.name_prefix}-s3-bucket-key"
   key_usage                 = "ENCRYPT_DECRYPT"
-  customer_master_key_spec  = "SYMMETRIC_DEFAULT"
+  customer_master_key_spec  = "RSA_4096"
   
 }
 
 resource "aws_kms_alias" "s3_bucket_key" {
   name          = "alias/${var.name_prefix}-s3-bucket-key"
   target_key_id = aws_kms_key.s3_bucket_key.key_id
+}
+
+############
+# iam policy for s3 bucket key
+############
+resource "aws_iam_policy" "s3_key_user" {
+  name        = "${var.name_prefix}-s3-key-user-policy"
+  description = "Alow use of the ${var.name_prefix} s3 bucket key"
+  policy      = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": {
+    "Effect": "Allow",
+    "Action": [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey",
+      "kms:Decrypt"
+    ],
+    "Resource": [
+      "arn:aws:kms:${var.region}:${var.account_num}:key/${aws_kms_key.s3_bucket_key.key_id}",
+      "arn:aws:kms:${var.region}:${var.account_num}:key/${aws_kms_key.s3_bucket_key.key_id}"
+    ]
+  }
+}
+EOF
 }
