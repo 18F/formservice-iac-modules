@@ -24,7 +24,7 @@ terraform {
 ###################################
 
 resource "aws_iam_group" "kms_admins" {
-  name = "KMS Admins"
+  name = "KMS-Admins"
   path = "/"
 }
 
