@@ -34,3 +34,7 @@ variable "allowed_cidr_blocks" {
 variable "zone_id" {
   default = ""
 } 
+
+variable "kms_key_id" {
+  default = ""
+}

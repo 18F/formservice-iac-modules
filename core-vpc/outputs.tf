@@ -109,7 +109,7 @@ output "public_subnets" {
   value       = module.vpc.public_subnets
 }
 
-output "database_subnet" {
+output "database_subnet_ids" {
   description = "List of IDs of database subnets"
   value       = module.vpc.database_subnets
 }
