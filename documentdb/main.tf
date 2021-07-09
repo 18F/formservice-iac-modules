@@ -33,8 +33,8 @@ module "documentdb_cluster" {
   allowed_security_groups = var.allowed_security_groups
   allowed_cidr_blocks     = var.allowed_cidr_blocks
   zone_id                 = ""
-  kms_key_id              = var.kms_key_id
-  storage_encrypted       = true
+  #kms_key_id              = var.kms_key_id
+  #storage_encrypted       = true
 }
 
 
