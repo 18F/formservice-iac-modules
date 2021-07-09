@@ -20,7 +20,7 @@ terraform {
 ###################################
 
 
-resource "aws_security_group" "documentdb_sg" {
+/* resource "aws_security_group" "documentdb_sg" {
   name        = "${var.name_prefix}-document-db-sg"
   description = "Allow Mongo Connections"
   vpc_id      = var.vpc_id
@@ -42,12 +42,12 @@ resource "aws_security_group" "documentdb_sg" {
   tags = {
     Name = "${var.name_prefix}-document-db-sg"
   }
-}
+} */
 
 resource "aws_kms_key" "s3_bucket_key" {
   description               = "${var.name_prefix}-s3-bucket-key"
   key_usage                 = "ENCRYPT_DECRYPT"
-  customer_master_key_spec  = "RSA_4096"
+  customer_master_key_spec  = "SYMMETRIC_DEFAULT"
   
 }
 
@@ -83,7 +83,7 @@ EOF
 resource "aws_kms_key" "documentDB_key" {
   description               = "${var.name_prefix}-documentDB-key"
   key_usage                 = "ENCRYPT_DECRYPT"
-  customer_master_key_spec  = "RSA_4096"
+  customer_master_key_spec  = "SYMMETRIC_DEFAULT"
   
 }
 

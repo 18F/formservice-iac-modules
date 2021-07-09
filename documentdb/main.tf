@@ -30,7 +30,7 @@ module "documentdb_cluster" {
   instance_class          = var.instance_class
   vpc_id                  = var.vpc_id
   subnet_ids              = var.subnet_ids
-  allowed_security_groups = var.allowed_security_groups
+  #allowed_security_groups = var.allowed_security_groups
   allowed_cidr_blocks     = var.allowed_cidr_blocks
   zone_id                 = ""
   #kms_key_id              = var.kms_key_id
