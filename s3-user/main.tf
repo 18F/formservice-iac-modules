@@ -78,8 +78,7 @@ resource "aws_iam_policy" "policy" {
                 "s3:ListAllMyBuckets",
                 "s3:ListAccessPoints",
                 "s3:ListJobs",
-                "s3:CreateJob",
-                "s3:HeadBucket"
+                "s3:CreateJob"
             ],
             "Resource": "*"
         },
