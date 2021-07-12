@@ -20,11 +20,11 @@ variable "subnet_ids" {
   description = "List of subnet IDs to install DocumentDB cluster into"
 }
 
-variable "allowed_security_groups" {
+/* variable "allowed_security_groups" {
   type        = list(string)
   default     = []
   description = "List of existing Security Groups to be allowed to connect to the DocumentDB cluster"
-}
+} */
 
 variable "allowed_cidr_blocks" {
   type        = list(string)
