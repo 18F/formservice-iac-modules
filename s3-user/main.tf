@@ -35,7 +35,7 @@ resource "aws_s3_bucket" "bucket" {
     }
   }
   tags = {
-    name = "${var.name_prefix}-formio-bucket"
+    name = "${var.name_prefix}-s3-bucket"
   }
 }
 
