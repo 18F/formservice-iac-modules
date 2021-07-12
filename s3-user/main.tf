@@ -68,6 +68,21 @@ resource "aws_iam_policy" "policy" {
 {
     "Version": "2012-10-17",
     "Statement": [
+         {
+            "Sid": "BucketView",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetAccessPoint",
+                "s3:PutAccountPublicAccessBlock",
+                "s3:GetAccountPublicAccessBlock",
+                "s3:ListAllMyBuckets",
+                "s3:ListAccessPoints",
+                "s3:ListJobs",
+                "s3:CreateJob",
+                "s3:HeadBucket"
+            ],
+            "Resource": "*"
+        },
         {
             "Sid": "BucketFullAccess",
             "Effect": "Allow",
