@@ -12,6 +12,7 @@ output "s3_user_key" {
 
 output "s3_user_secret" {
   value = aws_iam_access_key.access_key.secret
+  sensitive = true
 }
 
 output "s3_policy_name" {
