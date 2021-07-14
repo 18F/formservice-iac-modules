@@ -18,14 +18,14 @@ terraform {
 
 
 resource "aws_elastic_beanstalk_application" "app" {
-  name        = "${var.name_prefix}-formio-app"
-  description = "tf-test-desc"
+  name        = "${var.name_prefix}-app"
+  description = "${var.name_prefix} Elastic Beanstalk Stack"
   tags = {
-    name = "${var.name_prefix}-formio-app"
+    name = "${var.name_prefix}-app"
   }
 }
 
-resource "aws_elastic_beanstalk_application_version" "default" {
+/* resource "aws_elastic_beanstalk_application_version" "default" {
   name        = "${var.name_prefix}-formio-app-version"
   application = "${var.name_prefix}-formio-app"
   description = "application version created by terraform"
@@ -33,7 +33,7 @@ resource "aws_elastic_beanstalk_application_version" "default" {
   key         = var.app_version_source
   # bucket      = aws_s3_bucket.default.id
   # key         = aws_s3_bucket_object.default.id
-}
+} */
 
 # resource "aws_s3_bucket" "default" {
 #   bucket = "${var.name_prefix}-formio-app-versions-bucket"
@@ -46,13 +46,12 @@ resource "aws_elastic_beanstalk_application_version" "default" {
 # }
 
 resource "aws_elastic_beanstalk_environment" "env" {
-  name                = "${var.name_prefix}-formio-env"
+  name                = "${var.name_prefix}-env"
   application         = aws_elastic_beanstalk_application.app.name
-  solution_stack_name = "64bit Amazon Linux 2018.03 v2.23.0 running Multi-container Docker 19.03.6-ce (Generic)"
-                         
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.26.2 running Multi-container Docker 19.03.13-ce (Generic)"
 
   tags = {
-    name = "${var.name_prefix}-formio-env"
+    name = "${var.name_prefix}-env"
   }
 
   setting {
@@ -115,11 +114,11 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = var.key_name
   }
 
-  setting {
+  /* setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SSHSourceRestriction"
     value     = "tcp,22,22,10.20.1.214/32"
-  }
+  } */
 
   setting {
     namespace = "aws:elbv2:listener:443"
@@ -133,11 +132,11 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "true"
   }
 
-  setting {
+  /* setting {
     namespace = "aws:elbv2:listener:443"
     name      = "ListenerEnabled"
     value     = "true"
-  }
+  } */
 
   setting {
     namespace = "aws:elbv2:listener:443"
@@ -155,7 +154,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   # env vars
   ##################
 
-  setting {
+  /* setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "ADMIN_EMAIL"
     value     = var.ADMIN_EMAIL
@@ -225,7 +224,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "FORMIO_S3_SECRET"
     value     = var.FORMIO_S3_SECRET
-  }
+  } */
 
   # setting {
   #   namespace = "aws:elasticbeanstalk:environment"

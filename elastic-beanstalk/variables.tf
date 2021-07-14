@@ -33,7 +33,7 @@ variable "autoscale_max" { default = 5 }
 variable "key_name" { default = "" }
 variable "ssl_cert" { default = "" }
 
-variable "ADMIN_EMAIL" {  }
+/* variable "ADMIN_EMAIL" {  }
 variable "ADMIN_PASS" {  }
 variable "DB_SECRET" {  }
 variable "JWT_SECRET" {  }
@@ -52,4 +52,4 @@ variable "PORT" {  }
 variable "DEFAULT_DATABASE" {  }
 variable "PER_PROJECT_DBS" {  }
 variable "PROXY" {  }
-variable "PRIMARY" {  }
+variable "PRIMARY" {  } */
