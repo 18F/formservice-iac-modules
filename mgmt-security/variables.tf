@@ -17,3 +17,7 @@ variable "region" {
   description = "AWS region"
 }
 
+variable "prod-key-pub" {
+  type        = string
+  description = "Public Key for EC2 Instances"
+}

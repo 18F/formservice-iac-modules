@@ -56,40 +56,7 @@ resource "aws_iam_group_policy_attachment" "faas_key_admin_attach" {
   policy_arn = aws_iam_policy.faas_global_key_admin.arn
 }
 
-/* resource "aws_kms_key" "documentDB_key" {
-  description               = "${var.name_prefix}-documentDB-key"
-  key_usage                 = "ENCRYPT_DECRYPT"
-  customer_master_key_spec  = "RSA_4096"
-  
+resource "aws_key_pair" "prodkey" {
+  key_name   = "prod-ec2-key"
+  public_key = "${var.prod-key-pub}"
 }
-
-resource "aws_kms_alias" "documentDB_key" {
-  name          = "alias/${var.name_prefix}-documentDB-key"
-  target_key_id = aws_kms_key.s3_bucket_key.key_id
-}
-
-############
-# iam policy for documentDB key
-############
-resource "aws_iam_policy" "documentDB_key_user" {
-  name        = "${var.name_prefix}-documentDB-key-user-policy"
-  description = "Alow use of the ${var.name_prefix} EKS keys"
-  policy      = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": {
-    "Effect": "Allow",
-    "Action": [
-      "kms:DescribeKey",
-      "kms:GenerateDataKey",
-      "kms:Decrypt"
-    ],
-    "Resource": [
-      "arn:aws:kms:${var.region}:${var.account_num}:key/${aws_kms_key.documentDB_key.key_id}",
-      "arn:aws:kms:${var.region}:${var.account_num}:key/${aws_kms_key.documentDB_key.key_id}"
-    ]
-  }
-}
-EOF
-}
- */

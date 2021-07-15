@@ -1,6 +1,14 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# module/formio-security outputs
+# module/mgmt-security outputs
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+output "prod_ec2_key_name" {
+  value = aws_key_pair.prodkey.key_name
+}
+
+output "prod_ec2_key_arn" {
+  value = aws_key_pair.prodkey.arn
+}
 
 /* output "documentdb_sg_id" {
   value = aws_security_group.documentdb_sg.id
