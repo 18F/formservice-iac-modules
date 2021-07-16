@@ -66,7 +66,7 @@ resource "aws_key_pair" "prodkey" {
 ############
 
 resource "aws_iam_role" "beanstalk_ec2_role" {
-  name = "test-role"
+  name = "elastic-beanstalk-ec2-role"
 
   assume_role_policy = <<EOF
 {
