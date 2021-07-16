@@ -10,6 +10,10 @@ output "prod_ec2_key_arn" {
   value = aws_key_pair.prodkey.arn
 }
 
+output "beanstalk_ec2_role_arn" {
+  value = aws_iam_role.beanstalk_ec2_role.arn
+}
+
 /* output "documentdb_sg_id" {
   value = aws_security_group.documentdb_sg.id
 }

@@ -60,3 +60,37 @@ resource "aws_key_pair" "prodkey" {
   key_name   = "prod-ec2-key"
   public_key = "${var.prod-key-pub}"
 }
+
+############
+# iam policy for Elastic Beanstalk Instances
+############
+
+resource "aws_iam_role" "beanstalk_ec2_role" {
+  name = "test-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "attach1" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = "arn:aws-us-gov:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
+}
+resource "aws_iam_role_policy_attachment" "attach2" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = "arn:aws-us-gov:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
