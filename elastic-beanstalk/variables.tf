@@ -33,6 +33,8 @@ variable "autoscale_max" { default = 5 }
 variable "key_name" { default = "" }
 variable "ssl_cert" { default = "" }
 
+variable "beanstalk_ec2_role" { default = "" }
+
 /* variable "ADMIN_EMAIL" {  }
 variable "ADMIN_PASS" {  }
 variable "DB_SECRET" {  }
