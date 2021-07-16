@@ -108,3 +108,8 @@ resource "aws_iam_role_policy_attachment" "attach5" {
   role       = aws_iam_role.beanstalk_ec2_role.name
   policy_arn = "arn:aws-us-gov:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
+
+resource "aws_iam_role_policy_attachment" "attach6" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = "arn:aws-us-gov:iam::aws:policy/AmazonS3FullAccess"
+}
