@@ -113,3 +113,8 @@ resource "aws_iam_role_policy_attachment" "attach6" {
   role       = aws_iam_role.beanstalk_ec2_role.name
   policy_arn = "arn:aws-us-gov:iam::aws:policy/AmazonS3FullAccess"
 }
+
+resource "aws_iam_instance_profile" "aws-elasticbeanstalk-ec2-role" {
+  name = "aws-elasticbeanstalk-ec2-role"
+  role = aws_iam_role.beanstalk_ec2_role.name
+}
