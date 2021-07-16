@@ -94,3 +94,17 @@ resource "aws_iam_role_policy_attachment" "attach2" {
   policy_arn = "arn:aws-us-gov:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_role_policy_attachment" "attach3" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = "arn:aws-us-gov:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker"
+}
+
+resource "aws_iam_role_policy_attachment" "attach4" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = "arn:aws-us-gov:iam::aws:policy/AWSElasticBeanstalkWebTier"
+}
+
+resource "aws_iam_role_policy_attachment" "attach5" {
+  role       = aws_iam_role.beanstalk_ec2_role.name
+  policy_arn = "arn:aws-us-gov:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
