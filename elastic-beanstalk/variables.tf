@@ -38,7 +38,7 @@ variable "ssl_cert" { default = "" }
 
 variable "beanstalk_ec2_role" { default = "" }
 
-/* variable "ADMIN_EMAIL" {  }
+variable "ADMIN_EMAIL" {  }
 variable "ADMIN_PASS" {  }
 variable "DB_SECRET" {  }
 variable "JWT_SECRET" {  }
@@ -57,4 +57,4 @@ variable "PORT" {  }
 variable "DEFAULT_DATABASE" {  }
 variable "PER_PROJECT_DBS" {  }
 variable "PROXY" {  }
-variable "PRIMARY" {  } */
+variable "PRIMARY" {  }
