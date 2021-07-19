@@ -27,7 +27,7 @@ resource "aws_elastic_beanstalk_application" "app" {
 
 resource "aws_elastic_beanstalk_application_version" "default" {
   name        = "${var.name_prefix}-formio-app-version"
-  application = "${var.name_prefix}-formio-app"
+  application = "${var.name_prefix}-app"
   description = "Initial application version created by terraform"
   bucket      = var.code_bucket
   key         = var.code_version
