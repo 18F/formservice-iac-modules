@@ -25,18 +25,16 @@ resource "aws_elastic_beanstalk_application" "app" {
   }
 }
 
-/* resource "aws_elastic_beanstalk_application_version" "default" {
+resource "aws_elastic_beanstalk_application_version" "default" {
   name        = "${var.name_prefix}-formio-app-version"
   application = "${var.name_prefix}-formio-app"
-  description = "application version created by terraform"
-  bucket      = var.app_version_bucket
-  key         = var.app_version_source
-  # bucket      = aws_s3_bucket.default.id
-  # key         = aws_s3_bucket_object.default.id
-} */
+  description = "Initial application version created by terraform"
+  bucket      = var.code_bucket
+  key         = var.code_version
+}
 
 # resource "aws_s3_bucket" "default" {
-#   bucket = "${var.name_prefix}-formio-app-versions-bucket"
+#   bucket = var.code_bucket
 # }
 
 # resource "aws_s3_bucket_object" "default" {
@@ -45,110 +43,110 @@ resource "aws_elastic_beanstalk_application" "app" {
 #   source = "multicontainer-gov.zip"
 # }
 
-resource "aws_elastic_beanstalk_environment" "env" {
-  name                = "${var.name_prefix}-env"
-  application         = aws_elastic_beanstalk_application.app.name
-  solution_stack_name = "64bit Amazon Linux 2018.03 v2.26.2 running Multi-container Docker 19.03.13-ce (Generic)"
+# resource "aws_elastic_beanstalk_environment" "env" {
+#   name                = "${var.name_prefix}-env"
+#   application         = aws_elastic_beanstalk_application.app.name
+#   solution_stack_name = "64bit Amazon Linux 2018.03 v2.26.2 running Multi-container Docker 19.03.13-ce (Generic)"
 
-  tags = {
-    name = "${var.name_prefix}-env"
-  }
+#   tags = {
+#     name = "${var.name_prefix}-env"
+#   }
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "VPCId"
-    value     = var.vpc_id
-  }
+#   setting {
+#     namespace = "aws:ec2:vpc"
+#     name      = "VPCId"
+#     value     = var.vpc_id
+#   }
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "ELBSubnets"
-    value     = var.loadbalancer_subnets
-  }
+#   setting {
+#     namespace = "aws:ec2:vpc"
+#     name      = "ELBSubnets"
+#     value     = var.loadbalancer_subnets
+#   }
 
-  setting {
-    namespace = "aws:ec2:vpc"
-    name      = "Subnets"
-    value     = var.application_subnets
-  }
+#   setting {
+#     namespace = "aws:ec2:vpc"
+#     name      = "Subnets"
+#     value     = var.application_subnets
+#   }
 
-  setting {
-    namespace = "aws:elbv2:loadbalancer"
-    name      = "SecurityGroups"
-    value     = var.allowed_security_groups
-  }
+#   setting {
+#     namespace = "aws:elbv2:loadbalancer"
+#     name      = "SecurityGroups"
+#     value     = var.allowed_security_groups
+#   }
 
-  setting {
-    namespace = "aws:elasticbeanstalk:environment"
-    name      = "LoadBalancerType"
-    value     = "application"
-  }
+#   setting {
+#     namespace = "aws:elasticbeanstalk:environment"
+#     name      = "LoadBalancerType"
+#     value     = "application"
+#   }
 
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "InstanceType"
-    value     = var.instance_type
-  }
+#   setting {
+#     namespace = "aws:autoscaling:launchconfiguration"
+#     name      = "InstanceType"
+#     value     = var.instance_type
+#   }
 
-  setting {
-    namespace = "aws:autoscaling:asg"
-    name      = "MinSize"
-    value     = var.autoscale_min
-  }
+#   setting {
+#     namespace = "aws:autoscaling:asg"
+#     name      = "MinSize"
+#     value     = var.autoscale_min
+#   }
 
-  setting {
-    namespace = "aws:autoscaling:asg"
-    name      = "MaxSize"
-    value     = var.autoscale_max
-  }
+#   setting {
+#     namespace = "aws:autoscaling:asg"
+#     name      = "MaxSize"
+#     value     = var.autoscale_max
+#   }
 
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "IamInstanceProfile"
-    value     = var.beanstalk_ec2_role
-  }
+#   setting {
+#     namespace = "aws:autoscaling:launchconfiguration"
+#     name      = "IamInstanceProfile"
+#     value     = var.beanstalk_ec2_role
+#   }
 
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "EC2KeyName"
-    value     = var.key_name
-  }
+#   setting {
+#     namespace = "aws:autoscaling:launchconfiguration"
+#     name      = "EC2KeyName"
+#     value     = var.key_name
+#   }
 
-  /* setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "SSHSourceRestriction"
-    value     = "tcp,22,22,10.20.1.214/32"
-  } */
+#   /* setting {
+#     namespace = "aws:autoscaling:launchconfiguration"
+#     name      = "SSHSourceRestriction"
+#     value     = "tcp,22,22,10.20.1.214/32"
+#   } */
 
-  setting {
-    namespace = "aws:elbv2:listener:443"
-    name      = "SSLCertificateArns"
-    value     = var.ssl_cert
-  }
+#   setting {
+#     namespace = "aws:elbv2:listener:443"
+#     name      = "SSLCertificateArns"
+#     value     = var.ssl_cert
+#   }
 
-  setting {
-    namespace = "aws:elbv2:listener:443"
-    name      = "ListenerEnabled"
-    value     = "true"
-  }
+#   setting {
+#     namespace = "aws:elbv2:listener:443"
+#     name      = "ListenerEnabled"
+#     value     = "true"
+#   }
 
-  /* setting {
-    namespace = "aws:elbv2:listener:443"
-    name      = "ListenerEnabled"
-    value     = "true"
-  } */
+#   /* setting {
+#     namespace = "aws:elbv2:listener:443"
+#     name      = "ListenerEnabled"
+#     value     = "true"
+#   } */
 
-  setting {
-    namespace = "aws:elbv2:listener:443"
-    name      = "Protocol"
-    value     = "HTTPS"
-  }
+#   setting {
+#     namespace = "aws:elbv2:listener:443"
+#     name      = "Protocol"
+#     value     = "HTTPS"
+#   }
 
-  setting {
-    namespace = "aws:elasticbeanstalk:healthreporting:system"
-    name      = "SystemType"
-    value     = "enhanced"
-  }
+#   setting {
+#     namespace = "aws:elasticbeanstalk:healthreporting:system"
+#     name      = "SystemType"
+#     value     = "enhanced"
+#   }
 
   ##################
   # env vars
@@ -231,4 +229,4 @@ resource "aws_elastic_beanstalk_environment" "env" {
   #   name      = "XXXXXXX"
   #   value     = var.XXXXXXX
   # }
-}
+#}

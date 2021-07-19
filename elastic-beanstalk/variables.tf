@@ -24,6 +24,9 @@ variable "allowed_security_groups" {
   description = "List of security group ids allowed to access app"
 }
 
+variable "code_bucket" { default = "" }
+variable "code_version" {default = "" }
+
 variable "app_version_bucket" { default = "" }
 variable "app_version_source" { default = "" }
 
