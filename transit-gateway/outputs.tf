@@ -7,5 +7,5 @@ output "transit_gateway_route_table_id" {
 }
 
 output "transit_gateway_id" {
-  value = aws_ec2_transit_gateway.tgw.ec2_transit_gateway_id
+  value = aws_ec2_transit_gateway.tgw.id
 }
