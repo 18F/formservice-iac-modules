@@ -17,3 +17,8 @@ variable "single_nat_gateway" {
   type    = bool
   default = true
 }
+
+variable "transit_gateway_arn" {
+  type    = string
+  default = ""
+}
