@@ -5,3 +5,7 @@ output "transit_gateway_arn" {
 output "transit_gateway_route_table_id" {
   value = aws_ec2_transit_gateway.tgw.association_default_route_table_id
 }
+
+output "transit_gateway_id" {
+  value = aws_ec2_transit_gateway.tgw.ec2_transit_gateway_id
+}
