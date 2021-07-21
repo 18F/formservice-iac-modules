@@ -246,7 +246,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "gateway-attach" {
 } */
 
 resource "aws_route" "tgw-route-one" {
-   for_each = toset(concat(module.vpc.default_route_table_id, module.vpc.private_route_table_ids, module.vpc.public_route_table_ids))
+   for_each = toset(concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids))
   
    route_table_id         = each.value
    destination_cidr_block = "10.0.0.0/8"
