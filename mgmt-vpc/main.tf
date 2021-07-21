@@ -238,9 +238,18 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "gateway-attach" {
   vpc_id             = module.vpc.vpc_id
 }
 
-resource "aws_route" "tgw-route" {
+/* resource "aws_route" "tgw-route" {
   route_table_id            = module.vpc.default_route_table_id
   destination_cidr_block    = "10.0.0.0/8"
   transit_gateway_id        = var.transit_gateway_id
   # depends_on                = [aws_route_table.testing]
+} */
+
+resource "aws_route" "tgw-route-one" {
+   for_each = toset(concat(module.vpc.default_route_table_id, module.vpc.private_route_table_ids, module.vpc.public_route_table_ids))
+  
+   route_table_id         = each.value
+   destination_cidr_block = "10.0.0.0/8"
+   transit_gateway_id     = var.transit_gateway_id
+   depends_on = [module.vpc]
 }
