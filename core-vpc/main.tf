@@ -137,6 +137,20 @@ module "vpc_endpoints" {
       tags                = { Name = "${var.name_prefix}-ecs-vpc-endpoint" }
 
     },
+    ecs-agent = {
+      service             = "ecs-agent"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-ecs-agent-vpc-endpoint" }
+
+    },
+    ecs-telemetry = {
+      service             = "ecs-telemetry"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "${var.name_prefix}-ecs-telemetry-vpc-endpoint" }
+
+    },
     ssm = {
       service             = "ssm"
       private_dns_enabled = true
