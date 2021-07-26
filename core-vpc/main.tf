@@ -188,8 +188,8 @@ module "vpc_endpoints" {
   }
 
   tags = {
-    Owner       = "faas-prod"
-    Environment = "PROD"
+    Owner       = "${var.project}-${var.environment}"
+    Environment = "${var.environment}"
   }
 }
 
