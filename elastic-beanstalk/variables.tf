@@ -24,11 +24,9 @@ variable "allowed_security_groups" {
   description = "List of security group ids allowed to access app"
 }
 
-variable "code_bucket" { default = "" }
-variable "code_version" {default = "" }
+variable "app_name" { }
+variable "version_name" { }
 
-variable "app_version_bucket" { default = "" }
-variable "app_version_source" { default = "" }
 
 variable "instance_type" { default = "t3.medium" }
 variable "autoscale_min" { default = 3 }

@@ -17,7 +17,7 @@ terraform {
 
 
 
-resource "aws_elastic_beanstalk_application" "app" {
+/* resource "aws_elastic_beanstalk_application" "app" {
   name        = "${var.name_prefix}-app"
   description = "${var.name_prefix} Elastic Beanstalk Stack"
   tags = {
@@ -25,18 +25,23 @@ resource "aws_elastic_beanstalk_application" "app" {
   }
 }
 
-resource "aws_elastic_beanstalk_application_version" "default" {
-  name        = "${var.name_prefix}-formio-app-version"
+resource "aws_elastic_beanstalk_application_version" "initial" {
+  name        = "${var.name_prefix}-app-initial_version"
   application = "${var.name_prefix}-app"
   description = "Initial application version created by terraform"
   bucket      = var.code_bucket
   key         = var.code_version
-}
+
+  depends_on = [
+    aws_elastic_beanstalk_application.app
+  ]
+} */
 
 resource "aws_elastic_beanstalk_environment" "env" {
   name                = "${var.name_prefix}-env"
-  application         = aws_elastic_beanstalk_application.app.name
-  solution_stack_name = "64bit Amazon Linux 2018.03 v2.26.2 running Multi-container Docker 19.03.13-ce (Generic)"
+  application         = "${var.app_name}"
+  version_label       = "${var.version_name}"
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.26.3 running Multi-container Docker 19.03.13-ce (Generic)"
 
   tags = {
     name = "${var.name_prefix}-env"
