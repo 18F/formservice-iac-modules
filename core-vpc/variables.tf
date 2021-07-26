@@ -23,11 +23,6 @@ variable "transit_gateway_id" {
   default = ""
 }
 
-variable "transit_gateway_id" {
-  type    = string
-  default = ""
-}
-
 variable "environment" {
   type    = string
   default = ""
