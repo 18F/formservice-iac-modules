@@ -8,7 +8,7 @@ variable "name_prefix" {
   default = "app-vpc-01"
 }
 
-variable "tgw_id" {
+variable "transit_gateway_id" {
   type    = string
   description = "TGW ID"
 }
@@ -25,6 +25,18 @@ variable "public_subnet_ids" {
   type        = list(string)
   default     = []
   description = "List of IDs of public subnets"
+}
+
+variable "private_subnet_ids" {
+  type        = list(string)
+  default     = []
+  description = "List of IDs of private subnets"
+}
+
+variable "default_route_table_id" {
+  type        = string
+  default     = ""
+  description = "The default route table ID"
 }
 
 variable "public_route_table_ids" {

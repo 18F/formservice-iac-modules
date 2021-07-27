@@ -87,6 +87,11 @@ output "database_route_table_ids" {
   value       = module.vpc.database_route_table_ids
 }
 
+output "default_route_table_id" {
+  description = "ID of default route table"
+  value       = module.vpc.default_route_table_id
+}
+
 ## Transit Gateway
 /* output "tgw_id" {
   description = "EC2 Transit Gateway identifier"

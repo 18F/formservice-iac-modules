@@ -250,11 +250,11 @@ data "aws_iam_policy_document" "generic_endpoint_policy" {
 #######################
 # Transit Gateway Attachment
 #######################
-resource "aws_ec2_transit_gateway_vpc_attachment" "gateway-attach" {
+/* resource "aws_ec2_transit_gateway_vpc_attachment" "gateway-attach" {
   subnet_ids         = module.vpc.private_subnets
   transit_gateway_id = var.transit_gateway_id
   vpc_id             = module.vpc.vpc_id
-}
+} */
 
 /* resource "aws_route" "tgw-route" {
   route_table_id            = module.vpc.default_route_table_id

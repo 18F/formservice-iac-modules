@@ -16,27 +16,6 @@ terraform {
 }
 
 
-
-/* resource "aws_elastic_beanstalk_application" "app" {
-  name        = "${var.name_prefix}-app"
-  description = "${var.name_prefix} Elastic Beanstalk Stack"
-  tags = {
-    name = "${var.name_prefix}-app"
-  }
-}
-
-resource "aws_elastic_beanstalk_application_version" "initial" {
-  name        = "${var.name_prefix}-app-initial_version"
-  application = "${var.name_prefix}-app"
-  description = "Initial application version created by terraform"
-  bucket      = var.code_bucket
-  key         = var.code_version
-
-  depends_on = [
-    aws_elastic_beanstalk_application.app
-  ]
-} */
-
 resource "aws_elastic_beanstalk_environment" "env" {
   name                = "${var.name_prefix}-env"
   application         = "${var.app_name}"
@@ -124,12 +103,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name      = "ListenerEnabled"
     value     = "true"
   }
-
-  /* setting {
-    namespace = "aws:elbv2:listener:443"
-    name      = "ListenerEnabled"
-    value     = "true"
-  } */
 
   setting {
     namespace = "aws:elbv2:listener:443"
@@ -219,9 +192,4 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = var.FORMIO_S3_SECRET
   }
 
-  # setting {
-  #   namespace = "aws:elasticbeanstalk:environment"
-  #   name      = "XXXXXXX"
-  #   value     = var.XXXXXXX
-  # }
 }
