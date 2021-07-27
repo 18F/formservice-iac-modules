@@ -87,6 +87,11 @@ output "database_route_table_ids" {
   value       = module.vpc.database_route_table_ids
 }
 
+output "default_route_table_id" {
+  description = "ID of default route table"
+  value       = module.vpc.default_route_table_id
+}
+
 ## Transit Gateway
 /* output "tgw_id" {
   description = "EC2 Transit Gateway identifier"
@@ -109,6 +114,11 @@ output "public_subnets" {
   value       = module.vpc.public_subnets
 }
 
+output "database_subnet_ids" {
+  description = "List of IDs of database subnets"
+  value       = module.vpc.database_subnets
+}
+
 # VPC endpoints
 output "vpc_endpoint_ssm_id" {
   description = "The ID of VPC endpoint for SSM"
@@ -125,17 +135,3 @@ output "vpc_endpoint_ssm_dns_entry" {
   value       = module.vpc_endpoints.endpoints["ssm"].dns_entry
 }
 
-output "vpc_endpoint_lambda_id" {
-  description = "The ID of VPC endpoint for Lambda"
-  value       = module.vpc_endpoints.endpoints["lambda"].id
-}
-
-output "vpc_endpoint_lambda_network_interface_ids" {
-  description = "One or more network interfaces for the VPC Endpoint for Lambda."
-  value       = module.vpc_endpoints.endpoints["lambda"].network_interface_ids
-}
-
-output "vpc_endpoint_lambda_dns_entry" {
-  description = "The DNS entries for the VPC Endpoint for Lambda."
-  value       = module.vpc_endpoints.endpoints["lambda"].dns_entry
-}
