@@ -53,9 +53,14 @@ resource "aws_iam_access_key" "access_key" {
   user    = aws_iam_user.user.name
 }
 
-resource "aws_iam_user_policy_attachment" "test-attach" {
+resource "aws_iam_user_policy_attachment" "use-attach" {
   user       = aws_iam_user.user.name
   policy_arn = aws_iam_policy.policy.arn
+}
+
+resource "aws_iam_user_policy_attachment" "key-use-attach" {
+  user       = aws_iam_user.user.name
+  policy_arn = var.kms_key_policy_arn
 }
 
 ############
@@ -69,10 +74,30 @@ resource "aws_iam_policy" "policy" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "BucketFullAccess",
-            "Action": "s3:*",
+            "Sid": "VisualEditor0",
             "Effect": "Allow",
-            "Resource": "${aws_s3_bucket.bucket.arn}/*"
+            "Action": [
+                "s3:GetAccessPoint",
+                "s3:PutAccountPublicAccessBlock",
+                "s3:GetAccountPublicAccessBlock",
+                "s3:ListAllMyBuckets",
+                "s3:ListAccessPoints",
+                "s3:ListJobs",
+                "s3:CreateJob",
+                "s3:HeadBucket"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": [
+                "${aws_s3_bucket.bucket.arn}",
+                "arn:aws-us-gov:s3:*:${local.aws_account_id}:accesspoint/*",
+                "arn:aws-us-gov:s3:*:*:job/*",
+                "${aws_s3_bucket.bucket.arn}/*"
+            ]
         }
     ]
 }

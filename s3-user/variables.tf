@@ -14,3 +14,7 @@ variable "aws_account_id" {
 variable "kms_key_arn" {
   type        = string
 }
+
+variable "kms_key_policy_arn" {
+  type        = string
+}
