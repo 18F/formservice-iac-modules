@@ -34,6 +34,19 @@ variable "autoscale_max" { default = 5 }
 variable "key_name" { default = "" }
 variable "ssl_cert" { default = "" }
 
+variable "asg_breach_duration" { default = "5" }
+variable "asg_lower_breach_scale_increment" { default = "-1" }
+variable "asg_lower_breach_threshold" { default = "2000000" }
+variable "asg_scaling_measure_name" { default = "NetworkOut" }
+variable "asg_scaling_period" { default = "5" }
+variable "asg_scaling_statistic" { default = "Average" }
+variable "asg_scaling_unit" { default = "Bytes" }
+variable "asg_upper_breach_scale_increment" { default = "1" }
+variable "asg_upper_breach_threshold" { default = "6000000" }
+
+
+
+
 variable "beanstalk_ec2_role" { default = "" }
 
 variable "ADMIN_EMAIL" {  }
