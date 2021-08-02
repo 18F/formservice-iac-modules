@@ -245,5 +245,37 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name      = "FORMIO_S3_SECRET"
     value     = var.FORMIO_S3_SECRET
   }
-
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PORTAL_SECRET"
+    value     = var.PORTAL_SECRET
+  }
+  ############
+  # Submission Server Specific ENV Variables
+  ############
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PORT"
+    value     = var.PORT
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DEFAULT_DATABASE"
+    value     = var.DEFAULT_DATABASE
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PER_PROJECT_DBS"
+    value     = var.PER_PROJECT_DBS
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PROXY"
+    value     = var.PROXY
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PRIMARY"
+    value     = var.PRIMARY
+  }
 }

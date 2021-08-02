@@ -49,23 +49,24 @@ variable "asg_upper_breach_threshold" { default = "6000000" }
 
 variable "beanstalk_ec2_role" { default = "" }
 
-variable "ADMIN_EMAIL" {  }
-variable "ADMIN_PASS" {  }
-variable "DB_SECRET" {  }
-variable "JWT_SECRET" {  }
+variable "ADMIN_EMAIL" { default = "" }
+variable "ADMIN_PASS" { default = "" }
+variable "DB_SECRET" { default = "" }
+variable "JWT_SECRET" { default = "" }
 
-variable "LICENSE_KEY" {  }
-variable "MONGO" {  }
-variable "PORTAL_ENABLED" {  }
-variable "VPAT" {  }
+variable "LICENSE_KEY" { default = "" }
+variable "MONGO" { default = "" }
+variable "PORTAL_ENABLED" { default = "" }
+variable "VPAT" { default = "" }
 
-variable "FORMIO_S3_BUCKET" {  }
-variable "FORMIO_S3_REGION" {  }
-variable "FORMIO_S3_KEY" {  }
-variable "FORMIO_S3_SECRET" {  }
+variable "FORMIO_S3_BUCKET" { default = "" }
+variable "FORMIO_S3_REGION" { default = "" }
+variable "FORMIO_S3_KEY" { default = "" }
+variable "FORMIO_S3_SECRET" { default = "" }
 
-variable "PORT" {  }
-variable "DEFAULT_DATABASE" {  }
-variable "PER_PROJECT_DBS" {  }
-variable "PROXY" {  }
-variable "PRIMARY" {  }
+variable "PORT" { default = "" }
+variable "DEFAULT_DATABASE" { default = "" }
+variable "PER_PROJECT_DBS" { default = "" }
+variable "PROXY" { default = "" }
+variable "PRIMARY" { default = "" }
+variable "PORTAL_SECRET" { default = "" }
