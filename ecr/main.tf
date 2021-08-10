@@ -16,8 +16,44 @@ terraform {
 # ECR Container Registry
 ####################################
 
-resource "aws_ecr_repository" "formio" {
-  name                 = "faas/formio"
+resource "aws_ecr_repository" "formio-enterprise" {
+  name                 = "formio/enterprise"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository" "formio-pdf-server" {
+  name                 = "formio/pdf-server"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository" "formio-submission-server" {
+  name                 = "formio/submission-server"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository" "formio-utils-redis" {
+  name                 = "formio/redis"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository" "formio-utils-nginx" {
+  name                 = "formio/nginx"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
