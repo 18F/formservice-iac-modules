@@ -64,3 +64,10 @@ variable "FORMIO_S3_BUCKET" { default = "" }
 variable "FORMIO_S3_REGION" { default = "" }
 variable "FORMIO_S3_KEY" { default = "" }
 variable "FORMIO_S3_SECRET" { default = "" }
+
+variable "PORT" { default = "" }
+variable "DEFAULT_DATABASE" { default = "" }
+variable "PER_PROJECT_DBS" { default = "" }
+variable "PROXY" { default = "" }
+variable "PRIMARY" { default = "" }
+variable "PORTAL_SECRET" { default = "" }

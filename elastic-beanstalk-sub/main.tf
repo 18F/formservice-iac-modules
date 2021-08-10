@@ -255,4 +255,32 @@ resource "aws_elastic_beanstalk_environment" "env" {
     name      = "ADMIN_KEY"
     value     = var.ADMIN_KEY
   }
+  ############
+  # Submission Server Specific ENV Variables
+  ############
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PORT"
+    value     = var.PORT
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "DEFAULT_DATABASE"
+    value     = var.DEFAULT_DATABASE
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PER_PROJECT_DBS"
+    value     = var.PER_PROJECT_DBS
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PROXY"
+    value     = var.PROXY
+  }
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "PRIMARY"
+    value     = var.PRIMARY
+  }
 }
