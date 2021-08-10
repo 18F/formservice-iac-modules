@@ -53,6 +53,7 @@ variable "ADMIN_EMAIL" { default = "" }
 variable "ADMIN_PASS" { default = "" }
 variable "DB_SECRET" { default = "" }
 variable "JWT_SECRET" { default = "" }
+variable "PORTAL_SECRET" { default = "" }
 
 variable "LICENSE_KEY" { default = "" }
 variable "MONGO" { default = "" }
