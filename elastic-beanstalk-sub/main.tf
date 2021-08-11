@@ -194,31 +194,31 @@ resource "aws_elastic_beanstalk_environment" "env" {
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "api__libs__persistence__mongo__uri"
+    name      = "api_libs__persistence__mongo__uri"
     value     = var.MONGO
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "api__libs__formiosdk__PORTAL_BASE_URL"
+    name      = "api_libs__formiosdk__PORTAL_BASE_URL"
     value     = var.PORTAL_BASE_URL
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "api__libs__server__PORTAL_ADMIN_KEY"
+    name      = "api_libs__server__PORTAL_ADMIN_KEY"
     value     = var.PORTAL_ADMIN_KEY
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "api__libs__authentication__REMOTE_SECRET"
+    name      = "api_libs__authentication__REMOTE_SECRET"
     value     = var.REMOTE_SECRET
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "api__libs__server__PROJECT_KEYS__${var.REMOTE_PROJECT_ID}"
+    name      = "api_libs__server__PROJECT_KEYS__${var.REMOTE_PROJECT_ID}"
     value     = var.REMOTE_PROJECT_KEY
   }
 }
