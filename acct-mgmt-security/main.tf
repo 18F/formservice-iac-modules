@@ -57,8 +57,8 @@ resource "aws_iam_group_policy_attachment" "faas_key_admin_attach" {
 }
 
 resource "aws_key_pair" "prodkey" {
-  key_name   = "prod-ec2-key"
-  public_key = "${var.prod-key-pub}"
+  key_name   = "${var.env}-ec2-key"
+  public_key = "${var.key-pub}"
 }
 
 ############

@@ -1,5 +1,5 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# module/mgmt-security variables
+# module/acct-mgmt-security variables
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 variable "name_prefix" {
@@ -17,7 +17,12 @@ variable "region" {
   description = "AWS region"
 }
 
-variable "prod-key-pub" {
+variable "key-pub" {
   type        = string
   description = "Public Key for EC2 Instances"
+}
+
+variable "env" {
+   type        = string
+   description = "Environment label"
 }
