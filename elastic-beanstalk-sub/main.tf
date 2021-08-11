@@ -176,111 +176,49 @@ resource "aws_elastic_beanstalk_environment" "env" {
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "ADMIN_EMAIL"
-    value     = var.ADMIN_EMAIL
-  }
-
-    setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "ADMIN_PASS"
-    value     = var.ADMIN_PASS
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "DB_SECRET"
+    name      = "api_libs__persistence__DB_SECRET"
     value     = var.DB_SECRET
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "JWT_SECRET"
+    name      = "api_libs__authentication__JWT_SECRET"
     value     = var.JWT_SECRET
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "LICENSE_KEY"
+    name      = "api_libs__license__LICENSE_KEY"
     value     = var.LICENSE_KEY
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "MONGO"
+    name      = "api__libs__persistence__mongo__uri"
     value     = var.MONGO
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "PORTAL_ENABLED"
-    value     = var.PORTAL_ENABLED
+    name      = "api__libs__formiosdk__PORTAL_BASE_URL"
+    value     = var.PORTAL_BASE_URL
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "VPAT"
-    value     = var.VPAT
+    name      = "api__libs__server__PORTAL_ADMIN_KEY"
+    value     = var.PORTAL_ADMIN_KEY
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "FORMIO_S3_BUCKET"
-    value     = var.FORMIO_S3_BUCKET
+    name      = "api__libs__authentication__REMOTE_SECRET"
+    value     = var.REMOTE_SECRET
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "FORMIO_S3_REGION"
-    value     = var.FORMIO_S3_REGION
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "FORMIO_S3_KEY"
-    value     = var.FORMIO_S3_KEY
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "FORMIO_S3_SECRET"
-    value     = var.FORMIO_S3_SECRET
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "PORTAL_SECRET"
-    value     = var.PORTAL_SECRET
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "ADMIN_KEY"
-    value     = var.ADMIN_KEY
-  }
-  ############
-  # Submission Server Specific ENV Variables
-  ############
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "PORT"
-    value     = var.PORT
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "DEFAULT_DATABASE"
-    value     = var.DEFAULT_DATABASE
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "PER_PROJECT_DBS"
-    value     = var.PER_PROJECT_DBS
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "PROXY"
-    value     = var.PROXY
-  }
-  setting {
-    namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "PRIMARY"
-    value     = var.PRIMARY
+    name      = "api__libs__server__PROJECT_KEYS__${var.REMOTE_PROJECT_ID}"
+    value     = var.REMOTE_PROJECT_KEY
   }
 }
