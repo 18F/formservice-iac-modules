@@ -170,6 +170,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "enhanced"
   }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:application"
+    name      = "Application Healthcheck URL"
+    value     = "/health"
+  }
+
   ##################
   # env vars
   ##################
