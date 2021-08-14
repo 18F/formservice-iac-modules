@@ -8,7 +8,7 @@ variable "name_prefix" {
   default = ""
 }
 
-variable "vpc_cidr" {
+variable "vpc_cidr_block" {
   type    = string
   default = ""
 }
