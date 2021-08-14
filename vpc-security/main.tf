@@ -23,14 +23,14 @@ resource "aws_security_group" "endpoint-sg" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = tolist(var.vpc_cidr_block)
+    cidr_blocks = var.vpc_cidr_block
   }
 
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = tolist(var.vpc_cidr_block)
+    cidr_blocks = var.vpc_cidr_block
   }
 
   tags = {
