@@ -86,11 +86,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = var.key_name
   }
 
-  setting {
+## Not supported for Amazon Linux 1 based multi-container docker
+/*   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "DisableIMDSv1"
     value     = var.DisableIMDSv1
-  }
+  } */
 
   setting {
     namespace = "aws:autoscaling:trigger"

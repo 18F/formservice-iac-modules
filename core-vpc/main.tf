@@ -25,6 +25,30 @@ data "aws_security_group" "default" {
   vpc_id = module.vpc.vpc_id
 }
 
+resource "aws_security_group" "endpoint-sg" {
+  name        = "${var.name_prefix}-endpoint-sg"
+  description = "Allow connections to endpoints from within the VPC"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = tolist(module.vpc.vpc_cider_block)
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = tolist(module.vpc.vpc_cider_block)
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-endpoint-sg"
+  }
+} 
+
 ################################################################################
 # VPC Module
 ################################################################################
@@ -111,7 +135,7 @@ module "vpc_endpoints" {
   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
   vpc_id             = module.vpc.vpc_id
-  security_group_ids = [data.aws_security_group.default.id]
+  security_group_ids = var.endpointSGList
 
   endpoints = {
     s3 = {
