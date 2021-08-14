@@ -9,8 +9,8 @@ variable "name_prefix" {
 }
 
 variable "vpc_cidr_block" {
-  type    = string
-  default = ""
+  type    = list(string)
+  default = [""]
 }
 
 variable "vpc_id" {
