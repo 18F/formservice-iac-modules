@@ -43,11 +43,8 @@ variable "asg_scaling_statistic" { default = "Average" }
 variable "asg_scaling_unit" { default = "Bytes" }
 variable "asg_upper_breach_scale_increment" { default = "1" }
 variable "asg_upper_breach_threshold" { default = "6000000" }
-
-
-
-
 variable "beanstalk_ec2_role" { default = "" }
+variable "DisableIMDSv1" { default = "" }
 
 variable "DB_SECRET" { default = "" }
 variable "JWT_SECRET" { default = "" }

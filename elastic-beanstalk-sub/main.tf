@@ -87,6 +87,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "DisableIMDSv1"
+    value     = var.DisableIMDSv1
+  }
+
+  setting {
     namespace = "aws:autoscaling:trigger"
     name      = "BreachDuration"
     value     = var.asg_breach_duration
