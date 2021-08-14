@@ -22,3 +22,8 @@ variable "transit_gateway_id" {
   type    = string
   default = ""
 }
+
+variable "endpointSGList" {
+  type    = list(string)
+  default = [""]
+}
