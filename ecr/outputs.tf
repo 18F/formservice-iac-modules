@@ -22,8 +22,3 @@ output "faas_formio_repo_utils-nginx" {
   description = "URL of the FormIO NGINX Repository"
   value       = aws_ecr_repository.formio-utils-nginx.repository_url
 }
-
-output "faas_signreq_repo" {
-  description = "URL of the Sign Request Repository"
-  value       = aws_ecr_repository.signreq.repository_url
-}
