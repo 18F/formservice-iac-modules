@@ -1,0 +1,1 @@
+variable "ecr_policy"  { default = "" }

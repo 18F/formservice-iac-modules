@@ -25,6 +25,12 @@ resource "aws_ecr_repository" "formio-enterprise" {
   }
 }
 
+resource "aws_ecr_repository_policy" "formio-enterprise" {
+  repository = aws_ecr_repository.formio-enterprise.name
+
+  policy = var.ecr_policy
+}
+
 resource "aws_ecr_repository" "formio-pdf-server" {
   name                 = "formio/pdf-server"
   image_tag_mutability = "MUTABLE"
@@ -32,6 +38,12 @@ resource "aws_ecr_repository" "formio-pdf-server" {
   image_scanning_configuration {
     scan_on_push = true
   }
+}
+
+resource "aws_ecr_repository_policy" "formio-pdf-server" {
+  repository = aws_ecr_repository.formio-pdf-server.name
+
+  policy = var.ecr_policy
 }
 
 resource "aws_ecr_repository" "formio-submission-server" {
