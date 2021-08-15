@@ -125,18 +125,18 @@ output "database_subnet_ids" {
 }
 
 # VPC endpoints
-output "vpc_endpoint_ssm_id" {
-  description = "The ID of VPC endpoint for SSM"
-  value       = module.vpc_endpoints.endpoints["ssm"].id
-}
+# output "vpc_endpoint_ssm_id" {
+#   description = "The ID of VPC endpoint for SSM"
+#   value       = module.vpc_endpoints.endpoints["ssm"].id
+# }
 
-output "vpc_endpoint_ssm_network_interface_ids" {
-  description = "One or more network interfaces for the VPC Endpoint for SSM."
-  value       = module.vpc_endpoints.endpoints["ssm"].network_interface_ids
-}
+# output "vpc_endpoint_ssm_network_interface_ids" {
+#   description = "One or more network interfaces for the VPC Endpoint for SSM."
+#   value       = module.vpc_endpoints.endpoints["ssm"].network_interface_ids
+# }
 
-output "vpc_endpoint_ssm_dns_entry" {
-  description = "The DNS entries for the VPC Endpoint for SSM."
-  value       = module.vpc_endpoints.endpoints["ssm"].dns_entry
-}
+# output "vpc_endpoint_ssm_dns_entry" {
+#   description = "The DNS entries for the VPC Endpoint for SSM."
+#   value       = module.vpc_endpoints.endpoints["ssm"].dns_entry
+# }
 
