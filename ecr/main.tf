@@ -55,6 +55,12 @@ resource "aws_ecr_repository" "formio-submission-server" {
   }
 }
 
+resource "aws_ecr_repository_policy" "formio-submission-server" {
+  repository = aws_ecr_repository.formio-submission-server.name
+
+  policy = var.ecr_policy
+}
+
 resource "aws_ecr_repository" "formio-utils-redis" {
   name                 = "formio/redis"
   image_tag_mutability = "MUTABLE"
@@ -62,6 +68,12 @@ resource "aws_ecr_repository" "formio-utils-redis" {
   image_scanning_configuration {
     scan_on_push = true
   }
+}
+
+resource "aws_ecr_repository_policy" "formio-utils-redis" {
+  repository = aws_ecr_repository.formio-utils-redis.name
+
+  policy = var.ecr_policy
 }
 
 resource "aws_ecr_repository" "formio-utils-nginx" {
@@ -73,11 +85,8 @@ resource "aws_ecr_repository" "formio-utils-nginx" {
   }
 }
 
-resource "aws_ecr_repository" "signreq" {
-  name                 = "faas/signreq"
-  image_tag_mutability = "MUTABLE"
+resource "aws_ecr_repository_policy" "formio-utils-nginx" {
+  repository = aws_ecr_repository.formio-utils-nginx.name
 
-  image_scanning_configuration {
-    scan_on_push = true
-  }
+  policy = var.ecr_policy
 }
