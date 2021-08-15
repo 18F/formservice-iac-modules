@@ -107,145 +107,145 @@ module "vpc" {
   # })
 }
 
-module "vpc_endpoints" {
-  source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+# module "vpc_endpoints" {
+#   source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
 
-  vpc_id             = module.vpc.vpc_id
-  security_group_ids = [data.aws_security_group.default.id]
+#   vpc_id             = module.vpc.vpc_id
+#   security_group_ids = [data.aws_security_group.default.id]
 
-  endpoints = {
-    s3 = {
-      # interface endpoint
-      service             = "s3"
-      tags                = { Name = "${var.name_prefix}-s3-vpc-endpoint" }
-    },
-    #dynamodb = {
-      # gateway endpoint
-    #  service         = "dynamodb"
-    #  route_table_ids = [ "rtb-05f5b51d08a2d4b9c", "rtb-030b6d714908a02d9" ]
-    #  tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
-    #},
-    ses = {
-      service             = "email-smtp"
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-ses-vpc-endpoint" }
-    },
-    /* ecs = {
-      service             = "ecs"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-ecs-vpc-endpoint" }
+#   endpoints = {
+#     s3 = {
+#       # interface endpoint
+#       service             = "s3"
+#       tags                = { Name = "${var.name_prefix}-s3-vpc-endpoint" }
+#     },
+#     #dynamodb = {
+#       # gateway endpoint
+#     #  service         = "dynamodb"
+#     #  route_table_ids = [ "rtb-05f5b51d08a2d4b9c", "rtb-030b6d714908a02d9" ]
+#     #  tags            = { Name = "${var.name_prefix}-dynamodb-vpc-endpoint" }
+#     #},
+#     ses = {
+#       service             = "email-smtp"
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-ses-vpc-endpoint" }
+#     },
+#     /* ecs = {
+#       service             = "ecs"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-ecs-vpc-endpoint" }
 
-    },
-    ecs-agent = {
-      service             = "ecs-agent"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-ecs-agent-vpc-endpoint" }
+#     },
+#     ecs-agent = {
+#       service             = "ecs-agent"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-ecs-agent-vpc-endpoint" }
 
-    },
-    ecs-telemetry = {
-      service             = "ecs-telemetry"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-ecs-telemetry-vpc-endpoint" }
+#     },
+#     ecs-telemetry = {
+#       service             = "ecs-telemetry"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-ecs-telemetry-vpc-endpoint" }
 
-    }, */
-    ssm = {
-      service             = "ssm"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
+#     }, */
+#     ssm = {
+#       service             = "ssm"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
 
-    },
-    ssmmessages = {
-      service             = "ssmmessages"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
+#     },
+#     ssmmessages = {
+#       service             = "ssmmessages"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-ssm-vpc-endpoint" }
 
-    },
-    ecr_api = {
-      service             = "ecr.api"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
-      tags                = { Name = "${var.name_prefix}-ecr-api-vpc-endpoint" }
-    },
-    ecr_dkr = {
-      service             = "ecr.dkr"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
-      tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
-    },
-    kms = {
-      service             = "kms"
-      private_dns_enabled = true
-      subnet_ids          = module.vpc.private_subnets
-      tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
-    }
-  }
+#     },
+#     ecr_api = {
+#       service             = "ecr.api"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
+#       tags                = { Name = "${var.name_prefix}-ecr-api-vpc-endpoint" }
+#     },
+#     ecr_dkr = {
+#       service             = "ecr.dkr"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       policy              = data.aws_iam_policy_document.generic_endpoint_policy.json
+#       tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
+#     },
+#     kms = {
+#       service             = "kms"
+#       private_dns_enabled = true
+#       subnet_ids          = module.vpc.private_subnets
+#       tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
+#     }
+#   }
 
-  tags = {
-    Owner       = "${var.project}-${var.environment}"
-    Environment = "${var.environment}"
-  }
-}
+#   tags = {
+#     Owner       = "${var.project}-${var.environment}"
+#     Environment = "${var.environment}"
+#   }
+# }
 
-################################################################################
-# Supporting Resources
-################################################################################
+# ################################################################################
+# # Supporting Resources
+# ################################################################################
 
-# Data source used to avoid race condition
-data "aws_vpc_endpoint_service" "dynamodb" {
-  service = "dynamodb"
+# # Data source used to avoid race condition
+# data "aws_vpc_endpoint_service" "dynamodb" {
+#   service = "dynamodb"
 
-  filter {
-    name   = "service-type"
-    values = ["Gateway"]
-  }
-}
+#   filter {
+#     name   = "service-type"
+#     values = ["Gateway"]
+#   }
+# }
 
-data "aws_iam_policy_document" "dynamodb_endpoint_policy" {
-  statement {
-    effect    = "Deny"
-    actions   = ["dynamodb:*"]
-    resources = ["*"]
+# data "aws_iam_policy_document" "dynamodb_endpoint_policy" {
+#   statement {
+#     effect    = "Deny"
+#     actions   = ["dynamodb:*"]
+#     resources = ["*"]
 
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
+#     principals {
+#       type        = "*"
+#       identifiers = ["*"]
+#     }
 
-    condition {
-      test     = "StringNotEquals"
-      variable = "aws:sourceVpce"
+#     condition {
+#       test     = "StringNotEquals"
+#       variable = "aws:sourceVpce"
 
-      values = [data.aws_vpc_endpoint_service.dynamodb.id]
-    }
-  }
-}
+#       values = [data.aws_vpc_endpoint_service.dynamodb.id]
+#     }
+#   }
+# }
 
-data "aws_iam_policy_document" "generic_endpoint_policy" {
-  statement {
-    effect    = "Deny"
-    actions   = ["*"]
-    resources = ["*"]
+# data "aws_iam_policy_document" "generic_endpoint_policy" {
+#   statement {
+#     effect    = "Deny"
+#     actions   = ["*"]
+#     resources = ["*"]
 
-    principals {
-      type        = "*"
-      identifiers = ["*"]
-    }
+#     principals {
+#       type        = "*"
+#       identifiers = ["*"]
+#     }
 
-    condition {
-      test     = "StringNotEquals"
-      variable = "aws:sourceVpce"
+#     condition {
+#       test     = "StringNotEquals"
+#       variable = "aws:sourceVpce"
 
-      values = [data.aws_vpc_endpoint_service.dynamodb.id]
-    }
-  }
-}
+#       values = [data.aws_vpc_endpoint_service.dynamodb.id]
+#     }
+#   }
+# }
 
 #######################
 # Transit Gateway Attachment
