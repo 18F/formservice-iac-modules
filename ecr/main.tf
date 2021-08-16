@@ -90,3 +90,18 @@ resource "aws_ecr_repository_policy" "formio-utils-nginx" {
 
   policy = var.ecr_policy
 }
+
+resource "aws_ecr_repository" "signrequest-signer" {
+  name                 = "signrequest/signer"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+}
+
+resource "aws_ecr_repository_policy" "signrequest-signer" {
+  repository = aws_ecr_repository.signrequest-signer.name
+
+  policy = var.ecr_policy
+}
