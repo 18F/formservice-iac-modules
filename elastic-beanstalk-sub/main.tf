@@ -56,11 +56,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
     value     = "application"
   }
 
-  setting {
+# currently /health causes crashes
+  /* setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
     name      = "HealthCheckPath"
     value     = "/health"
-  }
+  } */
 
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
