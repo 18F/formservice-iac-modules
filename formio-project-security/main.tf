@@ -24,6 +24,7 @@ resource "aws_kms_key" "s3_bucket_key" {
   description               = "${var.name_prefix}-s3-bucket-key"
   key_usage                 = "ENCRYPT_DECRYPT"
   customer_master_key_spec  = "SYMMETRIC_DEFAULT"
+  enable_key_rotation       = "True"
   
 }
 
