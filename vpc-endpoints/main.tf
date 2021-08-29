@@ -72,6 +72,12 @@ module "vpc_endpoints" {
       subnet_ids          = var.private_subnets
       tags                = { Name = "${var.name_prefix}-ecr-dkr-vpc-endpoint" }
     },
+    kms = {
+      service             = "kms"
+      private_dns_enabled = true
+      subnet_ids          = var.private_subnets
+      tags                = { Name = "${var.name_prefix}-kms-vpc-endpoint" }
+    },
     ecs = {
       service             = "ecs"
       private_dns_enabled = true
