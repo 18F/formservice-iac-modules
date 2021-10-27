@@ -20,7 +20,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   name                = "${var.name_prefix}-env"
   application         = "${var.app_name}"
   version_label       = "${var.version_name}"
-  solution_stack_name = "64bit Amazon Linux 2018.03 v2.26.4 running Multi-container Docker 19.03.13-ce (Generic)"
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.27.1 running Multi-container Docker 20.10.7-ce (Generic)"
 
   tags = {
     name = "${var.name_prefix}-env"
@@ -79,6 +79,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "InstanceType"
     value     = var.instance_type
+  }
+
+  setting {
+    namespace = "aws:autoscaling:launchconfiguration"
+    name      = "ImageId"
+    value     = var.ami_id
   }
 
   setting {
@@ -164,12 +170,6 @@ resource "aws_elastic_beanstalk_environment" "env" {
     namespace = "aws:autoscaling:trigger"
     name      = "UpperThreshold"
     value     = var.asg_upper_breach_threshold
-  }
-
-  setting {
-    namespace = "aws:autoscaling:launchconfiguration"
-    name      = "SSHSourceRestriction"
-    value     = "tcp,22,22,10.1.0.0/16"
   }
 
   setting {
