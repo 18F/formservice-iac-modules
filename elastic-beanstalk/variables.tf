@@ -45,6 +45,7 @@ variable "asg_upper_breach_scale_increment" { default = "1" }
 variable "asg_upper_breach_threshold" { default = "6000000" }
 variable "beanstalk_ec2_role" { default = "" }
 variable "DisableIMDSv1" { default = "" }
+variable "ami_id" { default = "ami-020832866961d67b4" }
 
 variable "ADMIN_EMAIL" { default = "" }
 variable "ADMIN_PASS" { default = "" }
