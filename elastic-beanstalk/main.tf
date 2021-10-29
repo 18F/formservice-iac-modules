@@ -190,6 +190,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
   }
 
   setting {
+    namespace = "aws:elbv2:listener:443"
+    name      = "SSLPolicy"
+    value     = "TLS-1-2-Ext-2018-06"
+  }
+
+  setting {
     namespace = "aws:elasticbeanstalk:healthreporting:system"
     name      = "SystemType"
     value     = "enhanced"
@@ -290,6 +296,12 @@ resource "aws_elastic_beanstalk_environment" "env" {
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
     name      = "NODE_TLS_REJECT_UNAUTHORIZED"
+    value     = "0"
+  }
+
+  setting {
+    namespace = "aws:elasticbeanstalk:application:environment"
+    name      = "FORMIO_VIEWER_ADDRESS"
     value     = "0"
   }
 }

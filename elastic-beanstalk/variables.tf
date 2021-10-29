@@ -63,3 +63,5 @@ variable "FORMIO_S3_BUCKET" { default = "" }
 variable "FORMIO_S3_REGION" { default = "" }
 variable "FORMIO_S3_KEY" { default = "" }
 variable "FORMIO_S3_SECRET" { default = "" }
+
+variable "FORMIO_VIEWER_ADDRESS" { default = "" }
