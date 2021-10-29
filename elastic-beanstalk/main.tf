@@ -301,7 +301,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
 
   setting {
     namespace = "aws:elasticbeanstalk:application:environment"
-    name      = "FORMIO_VIEWER_ADDRESS"
+    name      = "FORMIO_VIEWER"
     value     = var.FORMIO_VIEWER_ADDRESS
   }
 }
