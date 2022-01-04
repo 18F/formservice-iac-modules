@@ -20,7 +20,7 @@ resource "aws_elastic_beanstalk_environment" "env" {
   name                = "${var.name_prefix}-env"
   application         = "${var.app_name}"
   version_label       = "${var.version_name}"
-  solution_stack_name = "64bit Amazon Linux 2018.03 v2.27.3 running Multi-container Docker 20.10.7 (Generic) "
+  solution_stack_name = "64bit Amazon Linux 2018.03 v2.27.1 running Multi-container Docker 20.10.7-ce (Generic)"
   tags = {
     name = "${var.name_prefix}-env"
   }
