@@ -107,14 +107,14 @@ resource "aws_security_group" "formio_alb_sg" {
     from_port   = 443
     to_port     = 443
     protocol    = "HTTPS"
-    cidr_blocks = var.formio_alb_allowed_cidr_blocks
+    cidr_blocks = tolist([ var.formio_alb_allowed_cidr_blocks ])
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "HTTP"
-    cidr_blocks = var.formio_alb_allowed_cidr_blocks
+    cidr_blocks = tolist([ var.formio_alb_allowed_cidr_blocks ])
   }
 
   egress {
