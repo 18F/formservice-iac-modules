@@ -23,6 +23,6 @@ variable "vpc_id" {
 }
 
 variable "formio_alb_allowed_cidr_blocks" {
-  default     = [ "0.0.0.0/0" ]
+  default     = "0.0.0.0/0"
   description = "List of CIDR blocks to be allowed to connect to the FormIO ALB"
 }

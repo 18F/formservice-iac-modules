@@ -112,7 +112,7 @@ resource "aws_lb_listener" "main" {
     target_group_arn = aws_lb_target_group.enterprise.arn
   }
 
-  depends_on = [ aws_lb.formio_lb aws_lb_target_group.main ]
+  depends_on = [ aws_lb.formio_lb, aws_lb_target_group.main ]
 }
 
 resource "aws_lb_listener_rule" "pdf_server" {
@@ -131,6 +131,6 @@ resource "aws_lb_listener_rule" "pdf_server" {
     }
   }
 
-  depends_on = [ aws_lb.formio_lb aws_lb_target_group.pdf_server ]
+  depends_on = [ aws_lb.formio_lb, aws_lb_target_group.pdf_server ]
 }
 
