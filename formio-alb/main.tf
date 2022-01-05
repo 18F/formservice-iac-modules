@@ -20,8 +20,8 @@ resource "aws_lb" "formio_lb" {
   name               = "${var.name_prefix}-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = var.allowed_security_group_id
-  subnets            = var.public_subnet_ids
+  security_groups    = tolist( [var.allowed_security_group_id] )
+  subnets            = tolist( [var.public_subnet_ids] )
 
   enable_deletion_protection = var.enable_deletion_protection
 
