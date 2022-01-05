@@ -109,7 +109,7 @@ resource "aws_lb_listener" "main" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.enterprise.arn
+    target_group_arn = aws_lb_target_group.main.arn
   }
 
   depends_on = [ aws_lb.formio_lb, aws_lb_target_group.main ]
@@ -117,12 +117,12 @@ resource "aws_lb_listener" "main" {
 
 resource "aws_lb_listener_rule" "pdf_server" {
   count        = var.hub ? 1 : 0
-  listener_arn = aws_lb_listener.formio_lb.arn
+  listener_arn = aws_lb_listener.main.arn
   priority     = 10
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.pdf_server.arn
+    target_group_arn = aws_lb_target_group.pdf_server[0].arn
   }
 
   condition {
