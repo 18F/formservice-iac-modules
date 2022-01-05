@@ -62,7 +62,7 @@ resource "aws_lb_target_group" "main" {
 
 resource "aws_lb_target_group" "pdf_server" {
   count    = var.hub ? 1 : 0
-  name     = "${var.name_prefix}-pdf-server-tg"
+  name     = "${var.name_prefix}-pdf-tg"
   port     = 443
   protocol = "HTTPS"
   vpc_id   = var.vpc_id
