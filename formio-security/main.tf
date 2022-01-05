@@ -139,7 +139,7 @@ resource "aws_security_group" "formio_ecs_sg" {
     from_port       = 443
     to_port         = 443
     protocol        = "HTTPS"
-    security_groups = [ aws_security_group.formio-alb-sg.id ]
+    security_groups = [ aws_security_group.formio_alb_sg.id ]
   }
 
   egress {
@@ -154,5 +154,5 @@ resource "aws_security_group" "formio_ecs_sg" {
     Environment = "${var.name_prefix}"
   }
 
-  depends_on = [ aws_security_group.formio-alb-sg ]
+  depends_on = [ aws_security_group.formio_alb_sg ]
 } 
