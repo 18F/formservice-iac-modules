@@ -106,21 +106,21 @@ resource "aws_security_group" "formio_alb_sg" {
  ingress {
     from_port   = 443
     to_port     = 443
-    protocol    = "HTTPS"
+    protocol    = "TCP"
     cidr_blocks = tolist([ var.formio_alb_allowed_cidr_blocks ])
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
-    protocol    = "HTTP"
+    protocol    = "TCP"
     cidr_blocks = tolist([ var.formio_alb_allowed_cidr_blocks ])
   }
 
   egress {
     from_port   = 443
     to_port     = 443
-    protocol    = "HTTPS"
+    protocol    = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -138,7 +138,7 @@ resource "aws_security_group" "formio_ecs_sg" {
  ingress {
     from_port       = 443
     to_port         = 443
-    protocol        = "HTTPS"
+    protocol        = "TCP"
     security_groups = [ aws_security_group.formio_alb_sg.id ]
   }
 
