@@ -15,5 +15,5 @@ output "faas_formio_ecs_alb_tg_main" {
 
 output "faas_formio_ecs_alb_tg_pdf" {
   description = "ALB Target Group id for Formio ECS pdf server instance"
-  value       = length(aws_lb_target_group.pdf_server.id) > 0 ? aws_lb_target_group.pdf_server.id : null
+  value       = length(aws_lb_target_group.pdf_server[0].id) > 0 ? aws_lb_target_group.pdf_server[0].id : null
 }
