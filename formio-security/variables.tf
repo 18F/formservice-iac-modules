@@ -22,8 +22,8 @@ variable "vpc_id" {
   description = "Used the vpc id"
 }
 
-variable "documentdb_allowed_cidr_blocks" {
-  type        = list(string)
-  default     = []
-  description = "List of CIDR blocks to be allowed to connect to the DocumentDB cluster"
+variable "formio_alb_allowed_cidr_blocks" {
+  type        = string
+  default     = "0.0.0.0/0"
+  description = "List of CIDR blocks to be allowed to connect to the FormIO ALB"
 }

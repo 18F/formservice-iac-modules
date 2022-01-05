@@ -24,7 +24,8 @@ resource "aws_kms_key" "s3_bucket_key" {
   description               = "${var.name_prefix}-s3-bucket-key"
   key_usage                 = "ENCRYPT_DECRYPT"
   customer_master_key_spec  = "SYMMETRIC_DEFAULT"
-  
+  enable_key_rotation       = true
+
 }
 
 resource "aws_kms_alias" "s3_bucket_key" {
@@ -60,7 +61,8 @@ resource "aws_kms_key" "documentDB_key" {
   description               = "${var.name_prefix}-documentDB-key"
   key_usage                 = "ENCRYPT_DECRYPT"
   customer_master_key_spec  = "SYMMETRIC_DEFAULT"
-  
+  enable_key_rotation       = true
+
 }
 
 resource "aws_kms_alias" "documentDB_key" {
@@ -91,3 +93,66 @@ resource "aws_iam_policy" "documentDB_key_user" {
 }
 EOF
 }
+
+############
+# Security Groups for FormIO ALB and ECS
+############
+
+resource "aws_security_group" "formio-alb-sg" {
+  name        = "${var.name_prefix}-alb-sg"
+  description = "Allow Connections to the Load Balancer"
+  vpc_id      = var.vpc_id
+
+ ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "HTTPS"
+    cidr_blocks = ["${var.formio_alb_allowed_cidr_blocks}"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "HTTP"
+    cidr_blocks = ["${var.formio_alb_allowed_cidr_blocks}"]
+  }
+
+  egress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "HTTPS"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-alb-sg"
+    Environment = "${var.name_prefix}"
+  }
+} 
+
+resource "aws_security_group" "formio-ecs-sg" {
+  name        = "${var.name_prefix}-alb-sg"
+  description = "Allow Connections to the Load Balancer"
+  vpc_id      = var.vpc_id
+
+ ingress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "HTTPS"
+    security_groups = [ aws_security_group.formio-alb-sg.id ]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-alb-sg"
+    Environment = "${var.name_prefix}"
+  }
+
+  depends_on = [ aws_security_group.formio-alb-sg ]
+} 
