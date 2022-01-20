@@ -212,16 +212,6 @@ output "egress_only_internet_gateway_id" {
   value       = try(aws_egress_only_internet_gateway.this[0].id, "")
 }
 
-output "vgw_id" {
-  description = "The ID of the VPN Gateway"
-  value       = try(aws_vpn_gateway.this[0].id, aws_vpn_gateway_attachment.this[0].vpn_gateway_id, "")
-}
-
-output "vgw_arn" {
-  description = "The ARN of the VPN Gateway"
-  value       = try(aws_vpn_gateway.this[0].arn, "")
-}
-
 output "default_vpc_id" {
   description = "The ID of the Default VPC"
   value       = try(aws_default_vpc.this[0].id, "")
@@ -300,27 +290,6 @@ output "inspection_network_acl_id" {
 output "inspection_network_acl_arn" {
   description = "ARN of the inspection network ACL"
   value       = try(aws_network_acl.inspection[0].arn, "")
-}
-
-# VPC flow log
-output "vpc_flow_log_id" {
-  description = "The ID of the Flow Log resource"
-  value       = try(aws_flow_log.this[0].id, "")
-}
-
-output "vpc_flow_log_destination_arn" {
-  description = "The ARN of the destination for VPC Flow Logs"
-  value       = local.flow_log_destination_arn
-}
-
-output "vpc_flow_log_destination_type" {
-  description = "The type of the destination for VPC Flow Logs"
-  value       = var.flow_log_destination_type
-}
-
-output "vpc_flow_log_cloudwatch_iam_role_arn" {
-  description = "The ARN of the IAM role used when pushing logs to Cloudwatch log group"
-  value       = local.flow_log_iam_role_arn
 }
 
 # Static values (arguments)
