@@ -1,3 +1,29 @@
+terraform {
+  # Live modules pin exact Terraform version; generic modules let consumers pin the version.
+  # The latest version of Terragrunt (v0.25.1 and above) recommends Terraform 0.13.3 or above.
+  required_version = ">= 0.13.3"
+
+  # Live modules pin exact provider version; generic modules let consumers pin the version.
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.7.0"
+    }
+  }
+}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
+
+
+
+
+
+
+
 locals {
   max_subnet_length = max(
     length(var.private_subnets),
@@ -16,6 +42,12 @@ locals {
     ),
     0,
   )
+
+  azs = [
+    data.aws_availability_zones.available.names[0],
+    data.aws_availability_zones.available.names[1],
+    data.aws_availability_zones.available.names[2]
+  ]
 }
 
 ################################################################################
