@@ -27,9 +27,7 @@ data "aws_availability_zones" "available" {
 locals {
   max_subnet_length = max(
     length(var.private_subnets),
-    length(var.elasticache_subnets),
-    length(var.database_subnets),
-    length(var.redshift_subnets),
+    length(var.inspection_subnets)
   )
   nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(var.azs) : local.max_subnet_length
 
@@ -412,20 +410,12 @@ resource "aws_default_network_acl" "this" {
     compact(flatten([
       aws_subnet.public.*.id,
       aws_subnet.private.*.id,
-      aws_subnet.intra.*.id,
-      aws_subnet.database.*.id,
-      aws_subnet.redshift.*.id,
-      aws_subnet.elasticache.*.id,
-      aws_subnet.outpost.*.id,
+      aws_subnet.inspection.*.id
     ])),
     compact(flatten([
       aws_network_acl.public.*.subnet_ids,
       aws_network_acl.private.*.subnet_ids,
-      aws_network_acl.intra.*.subnet_ids,
-      aws_network_acl.database.*.subnet_ids,
-      aws_network_acl.redshift.*.subnet_ids,
-      aws_network_acl.elasticache.*.subnet_ids,
-      aws_network_acl.outpost.*.subnet_ids,
+      aws_network_acl.inspection.*.subnet_ids
     ]))
   )
 
