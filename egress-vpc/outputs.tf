@@ -152,17 +152,6 @@ output "public_internet_gateway_ipv6_route_id" {
   description = "ID of the IPv6 internet gateway route"
   value       = try(aws_route.public_internet_gateway_ipv6[0].id, "")
 }
-
-output "private_nat_gateway_route_ids" {
-  description = "List of IDs of the private nat gateway route"
-  value       = aws_route.private_nat_gateway[*].id
-}
-
-output "private_ipv6_egress_route_ids" {
-  description = "List of IDs of the ipv6 egress route"
-  value       = aws_route.private_ipv6_egress[*].id
-}
-
 output "private_route_table_association_ids" {
   description = "List of IDs of the private route table association"
   value       = aws_route_table_association.private[*].id
@@ -221,21 +210,6 @@ output "igw_arn" {
 output "egress_only_internet_gateway_id" {
   description = "The ID of the egress only Internet Gateway"
   value       = try(aws_egress_only_internet_gateway.this[0].id, "")
-}
-
-output "cgw_ids" {
-  description = "List of IDs of Customer Gateway"
-  value       = [for k, v in aws_customer_gateway.this : v.id]
-}
-
-output "cgw_arns" {
-  description = "List of ARNs of Customer Gateway"
-  value       = [for k, v in aws_customer_gateway.this : v.arn]
-}
-
-output "this_customer_gateway" {
-  description = "Map of Customer Gateway attributes"
-  value       = aws_customer_gateway.this
 }
 
 output "vgw_id" {
