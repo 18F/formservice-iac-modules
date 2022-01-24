@@ -56,3 +56,9 @@ variable "database_route_table_ids" {
   default     = []
   description = "List of IDs of database route tables"
 }
+
+variable "appliance_mode_support" {
+  type        = string
+  default     = "disable"
+  description = "Enable appliance mode for the transit gateway to allow for firewall appliances and centralized egress"
+}
