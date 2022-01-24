@@ -51,6 +51,11 @@ variable "private_route_table_ids" {
   description = "List of IDs of private route tables"
 }
 
+variable "inspection_route_table_ids" {
+  type        = list(string)
+  default     = []
+  description = "List of IDs of inspection route tables"
+}
 variable "database_route_table_ids" {
   type        = list(string)
   default     = []
