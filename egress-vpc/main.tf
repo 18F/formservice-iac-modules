@@ -279,7 +279,7 @@ resource "aws_route_table" "private" {
       "Name" = var.single_nat_gateway ? "${var.name}-${var.private_subnet_suffix}" : format(
         "%s-${var.private_subnet_suffix}-%s",
         var.name,
-        element(var.azs, count.index),
+        element(var.local.azs, count.index),
       )
     },
     var.tags,
@@ -302,7 +302,7 @@ resource "aws_route_table" "inspection" {
       "Name" = var.single_nat_gateway ? "${var.name}-${var.inspection_subnet_suffix}" : format(
         "%s-${var.inspection_subnet_suffix}-%s",
         var.name,
-        element(var.azs, count.index),
+        element(var.local.azs, count.index),
       )
     },
     var.tags,
