@@ -24,6 +24,9 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "gateway-attach" {
   transit_gateway_id     = var.transit_gateway_id
   vpc_id                 = var.vpc_id
   appliance_mode_support = var.appliance_mode_support
+  tags = {
+    "Name" = "${var.name_prefix}-tg-attachment"
+  }
 }
 
 resource "aws_route" "tgw-route-default" {
