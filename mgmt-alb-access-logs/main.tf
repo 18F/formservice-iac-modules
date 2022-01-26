@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "alb_access_logs" {
   statement {
     sid       = ""
     effect    = "Allow"
-    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${account_num}/*"]
+    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${var.account_num}/*"]
     actions   = ["s3:PutObject"]
 
     principals {
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "alb_access_logs" {
   statement {
     sid       = ""
     effect    = "Allow"
-    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${account_num}/*"]
+    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${var.account_num}/*"]
     actions   = ["s3:PutObject"]
 
     condition {
