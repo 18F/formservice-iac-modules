@@ -1,6 +1,5 @@
 resource "aws_s3_bucket" "alb_access_logs" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
-  region = var.region
 }
 
 resource "aws_s3_bucket_public_access_block" "alb_access_logs" {

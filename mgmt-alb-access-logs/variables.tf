@@ -12,8 +12,3 @@ variable "project" {
   type        = string
   description = "The name of the project."
 }
-
-variable "region" {
-  type        = string
-  description = "The AWS region this bucket resides in."
-}
