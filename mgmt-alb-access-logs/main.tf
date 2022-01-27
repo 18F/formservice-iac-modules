@@ -1,5 +1,15 @@
 resource "aws_s3_bucket" "alb_access_logs" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
+  lifecycle_rule {
+    abort_incomplete_multipart_upload_days = 0
+    enabled                                = true
+    id                                     = "${var.project}-90-day-delete"
+
+    expiration {
+        days                         = 90
+        expired_object_delete_marker = false
+    }
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
