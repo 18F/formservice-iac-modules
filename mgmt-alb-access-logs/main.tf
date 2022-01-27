@@ -10,6 +10,16 @@ resource "aws_s3_bucket" "alb_access_logs" {
         expired_object_delete_marker = false
     }
   }
+
+  server_side_encryption_configuration {
+    rule {
+      bucket_key_enabled = false
+
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
