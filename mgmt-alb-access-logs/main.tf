@@ -3,11 +3,11 @@ data "aws_canonical_user_id" "current_user" {}
 resource "aws_s3_bucket" "alb_access_logs" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
 
-  grant {
-    id          = data.aws_canonical_user_id.current_user.id
-    type        = "CanonicalUser"
-    permissions = ["READ", "WRITE", "READ_ACP", "WRITE_ACP"]
-  }
+  // grant {
+  //   id          = data.aws_canonical_user_id.current_user.id
+  //   type        = "CanonicalUser"
+  //   permissions = ["READ", "WRITE", "READ_ACP", "WRITE_ACP"]
+  // }
 
   lifecycle_rule {
     abort_incomplete_multipart_upload_days = 0
