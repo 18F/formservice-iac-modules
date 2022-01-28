@@ -85,4 +85,4 @@ resource "aws_s3_bucket_ownership_controls" "disable_s3_acl" {
 //       identifiers = ["delivery.logs.amazonaws.com"]
 //     }
 //   }
-}
+// }
