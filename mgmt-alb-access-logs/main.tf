@@ -24,7 +24,7 @@
 // }
 
 resource "aws_s3_bucket_ownership_controls" "disable_s3_acl" {
-  bucket = aws_s3_bucket.alb_access_logs.bucket
+  bucket = "faas-dev-alb-access-logs"
 
   rule {
     object_ownership = "BucketOwnerEnforced"
