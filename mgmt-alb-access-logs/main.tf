@@ -1,13 +1,5 @@
-data "aws_canonical_user_id" "current_user" {}
-
 resource "aws_s3_bucket" "alb_access_logs" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
-
-  grant {
-    id          = data.aws_canonical_user_id.current_user.id
-    type        = "CanonicalUser"
-    permissions = ["READ", "WRITE"]
-  }
 
   lifecycle_rule {
     abort_incomplete_multipart_upload_days = 0
@@ -28,6 +20,14 @@ resource "aws_s3_bucket" "alb_access_logs" {
         sse_algorithm = "AES256"
       }
     }
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "disable_s3_acl" {
+  bucket = aws_s3_bucket.alb_access_logs
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
   }
 }
 
