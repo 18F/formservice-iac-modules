@@ -3,6 +3,9 @@ data "aws_canonical_user_id" "current_user" {}
 resource "aws_s3_bucket" "alb_access_logs" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
 
+  force_destroy = null
+  acl = null
+
   grant {
     id          = data.aws_canonical_user_id.current_user.id
     type        = "CanonicalUser"
