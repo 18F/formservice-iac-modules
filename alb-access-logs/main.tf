@@ -31,14 +31,6 @@ resource "aws_s3_bucket" "alb_access_logs" {
   }
 }
 
-// resource "aws_s3_bucket_ownership_controls" "disable_s3_acl" {
-//   bucket = "aws_s3_bucket.alb_access_logs.bucket"
-//
-//   rule {
-//     object_ownership = "BucketOwnerEnforced"
-//   }
-// }
-
 resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
   bucket = aws_s3_bucket.alb_access_logs.id
 
@@ -47,52 +39,52 @@ resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
-//
-// resource "aws_s3_bucket_policy" "alb_access_logs" {
-//   bucket = aws_s3_bucket.alb_access_logs.id
-//   policy = data.aws_iam_policy_document.alb_access_logs.json
-// }
-//
-// data "aws_iam_policy_document" "alb_access_logs" {
-//   statement {
-//     sid       = ""
-//     effect    = "Allow"
-//     resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${var.account_num}/*"]
-//     actions   = ["s3:PutObject"]
-//
-//     principals {
-//       type        = "AWS"
-//       identifiers = ["arn:aws-us-gov:iam::048591011584:root"]
-//     }
-//   }
-//
-//   statement {
-//     sid       = ""
-//     effect    = "Allow"
-//     resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${var.account_num}/*"]
-//     actions   = ["s3:PutObject"]
-//
-//     condition {
-//       test     = "StringEquals"
-//       variable = "s3:x-amz-acl"
-//       values   = ["bucket-owner-full-control"]
-//     }
-//
-//     principals {
-//       type        = "Service"
-//       identifiers = ["delivery.logs.amazonaws.com"]
-//     }
-//   }
-//
-//   statement {
-//     sid       = ""
-//     effect    = "Allow"
-//     resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs"]
-//     actions   = ["s3:GetBucketAcl"]
-//
-//     principals {
-//       type        = "Service"
-//       identifiers = ["delivery.logs.amazonaws.com"]
-//     }
-//   }
-// }
+
+resource "aws_s3_bucket_policy" "alb_access_logs" {
+  bucket = aws_s3_bucket.alb_access_logs.id
+  policy = data.aws_iam_policy_document.alb_access_logs.json
+}
+
+data "aws_iam_policy_document" "alb_access_logs" {
+  statement {
+    sid       = ""
+    effect    = "Allow"
+    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${var.account_num}/*"]
+    actions   = ["s3:PutObject"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:aws-us-gov:iam::048591011584:root"]
+    }
+  }
+
+  statement {
+    sid       = ""
+    effect    = "Allow"
+    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs/*/AWSLogs/${var.account_num}/*"]
+    actions   = ["s3:PutObject"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values   = ["bucket-owner-full-control"]
+    }
+
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+  }
+
+  statement {
+    sid       = ""
+    effect    = "Allow"
+    resources = ["arn:aws-us-gov:s3:::${var.project}-${var.env}-alb-access-logs"]
+    actions   = ["s3:GetBucketAcl"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["delivery.logs.amazonaws.com"]
+    }
+  }
+}
