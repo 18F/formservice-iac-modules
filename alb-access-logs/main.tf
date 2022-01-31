@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "alb_access_logs" {
   grant {
     id          = data.aws_canonical_user_id.current_user.id
     type        = "CanonicalUser"
-    permissions = ["FULL_CONTROL"]
+    permissions = ["READ", "WRITE", "READ_ACP", "WRITE_ACP"]
   }
 
   lifecycle_rule {
