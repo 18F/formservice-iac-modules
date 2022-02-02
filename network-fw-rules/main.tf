@@ -3,8 +3,7 @@ resource "aws_networkfirewall_rule_group" "domain_filter" {
   name     = var.rule_name
   type     = "STATEFUL"
   rule_group {
-    rules_source {
-      rule_variables {
+    rule_variables {
         ip_sets {
           key = "HOME_NET"
           ip_set {
@@ -12,7 +11,8 @@ resource "aws_networkfirewall_rule_group" "domain_filter" {
           }
         }
       }
-      rules_source_list {
+    rules_source {
+        rules_source_list {
         generated_rules_type = var.rule_type
         target_types         = ["HTTP_HOST", "TLS_SNI"]
         targets              = var.allowed_domains
