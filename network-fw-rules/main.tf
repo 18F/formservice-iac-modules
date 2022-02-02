@@ -13,7 +13,7 @@ resource "aws_networkfirewall_rule_group" "domain_filter" {
         }
       }
       rules_source_list {
-        generated_rules_type = "DENYLIST"
+        generated_rules_type = var.rule_type
         target_types         = ["HTTP_HOST", "TLS_SNI"]
         targets              = var.allowed_domains
       }
