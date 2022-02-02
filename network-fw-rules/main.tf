@@ -7,7 +7,7 @@ resource "aws_networkfirewall_rule_group" "domain_filter" {
         ip_sets {
           key = "HOME_NET"
           ip_set {
-            definition = var.allowed_networks
+            definition = var.home_networks
           }
         }
       }
@@ -15,13 +15,8 @@ resource "aws_networkfirewall_rule_group" "domain_filter" {
         rules_source_list {
         generated_rules_type = var.rule_type
         target_types         = ["HTTP_HOST", "TLS_SNI"]
-        targets              = var.allowed_domains
+        targets              = var.filtered_domains
       }
     }
-  }
-
-  tags = {
-    Tag1 = "Value1"
-    Tag2 = "Value2"
   }
 }
