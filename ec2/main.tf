@@ -16,7 +16,7 @@ resource "aws_ebs_encryption_by_default" "enabled" {
   enabled = true
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "this" {
   ami                   = var.ami
   instance_type         = var.instance_type
   subnet_id             = var.subnet_id
@@ -28,5 +28,13 @@ resource "aws_instance" "web" {
 
   tags = {
     Name = "${var.project}-${var.env}-mgmt-bastion"
+  }
+
+  provisioner "local_exec" {
+    command = var.local_exec
+  }
+
+  provisioner "remote_exec" {
+    command = var.remote_exec
   }
 }

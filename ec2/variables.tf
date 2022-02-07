@@ -23,17 +23,27 @@ variable "instance_type" {
   description = "The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance."
 }
 
+variable "local_exec" {
+  type        = string
+  description = "Invokes a local executable after a resource is created. This invokes a process on the machine running Terraform, not on the resource."
+}
+
 variable "project" {
   type        = string
   description = "The name of the project."
 }
 
-variable "volume_size" {
-  type        = number
-  description = "Size of the volume in gibibytes (GiB)."
+variable "remote_exec" {
+  type        = string
+  description = "Invokes a script on a remote resource after it is created."
 }
 
 variable "subnet_id" {
   type        = string
   description = "VPC Subnet ID to launch in."
+}
+
+variable "volume_size" {
+  type        = number
+  description = "Size of the volume in gibibytes (GiB)."
 }
