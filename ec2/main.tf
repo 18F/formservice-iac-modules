@@ -31,7 +31,7 @@ resource "aws_instance" "this" {
   }
 
   provisioner "local_exec" {
-    command = var.local_exec
+    command = "${var.local_exec}"
   }
 
   provisioner "remote_exec" {
