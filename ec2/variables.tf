@@ -22,3 +22,8 @@ variable "project" {
   type        = string
   description = "The name of the project."
 }
+
+variable "subnet_id" {
+  type        = string
+  description = "VPC Subnet ID to launch in."
+}
