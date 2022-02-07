@@ -17,9 +17,10 @@ resource "aws_ebs_encryption_by_default" "enabled" {
 }
 
 resource "aws_instance" "web" {
-  ami           = var.ami
-  instance_type = var.instance_type
-  subnet_id     = var.subnet_id
+  ami                   = var.ami
+  instance_type         = var.instance_type
+  subnet_id             = var.subnet_id
+  iam_instance_profile  = var.iam_instance_profile
 
   root_block_device {
     volume_size = var.volume_size

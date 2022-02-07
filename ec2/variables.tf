@@ -13,6 +13,11 @@ variable "env" {
   description = "The name of the infrastructure environment."
 }
 
+variable "iam_instance_profile" {
+  type        = string
+  description = "IAM Instance Profile to launch the instance with. Specified as the name of the Instance Profile."
+}
+
 variable "instance_type" {
   type        = string
   description = "The instance type to use for the instance. Updates to this field will trigger a stop/start of the EC2 instance."
