@@ -23,6 +23,11 @@ variable "project" {
   description = "The name of the project."
 }
 
+variable "volume_size" {
+  type        = number
+  description = "Size of the volume in gibibytes (GiB)."
+}
+
 variable "subnet_id" {
   type        = string
   description = "VPC Subnet ID to launch in."

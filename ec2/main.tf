@@ -21,6 +21,10 @@ resource "aws_instance" "web" {
   instance_type = var.instance_type
   subnet_id     = var.subnet_id
 
+  root_block_device {
+    volume_size = var.volume_size
+  }
+
   tags = {
     Name = "${var.project}-${var.env}-mgmt-bastion"
   }
