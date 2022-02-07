@@ -27,7 +27,7 @@ resource "aws_instance" "this" {
   }
 
   tags = {
-    Name = "${var.project}-${var.env}-mgmt-bastion"
+    Name = "${var.project}-${var.env}-${var.purpose}"
   }
 
   provisioner "local_exec" {
@@ -35,6 +35,8 @@ resource "aws_instance" "this" {
   }
 
   provisioner "remote_exec" {
-    command = var.remote_exec
+    inline = [
+      "${var.remote_exec}"
+    ]
   }
 }

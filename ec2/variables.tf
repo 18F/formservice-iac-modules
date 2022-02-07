@@ -33,6 +33,11 @@ variable "project" {
   description = "The name of the project."
 }
 
+variable "purpose" {
+  type        = string
+  description = "The purpose of this instance."
+}
+
 variable "remote_exec" {
   type        = string
   description = "Invokes a script on a remote resource after it is created."
