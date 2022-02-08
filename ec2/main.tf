@@ -30,11 +30,11 @@ resource "aws_instance" "this" {
     Name = "${var.project}-${var.env}-${var.purpose}"
   }
 
-  provisioner "local_exec" {
+  provisioner "local-exec" {
     command = "${var.local_exec}"
   }
 
-  provisioner "remote_exec" {
+  provisioner "remote-exec" {
     inline = [
       "${var.remote_exec}"
     ]
