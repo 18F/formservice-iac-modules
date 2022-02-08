@@ -8,9 +8,12 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
       version = ">= 3.7.0"
-      region  = "${var.region}"
     }
   }
+}
+
+provider "aws" {
+  region  = "${var.region}"
 }
 
 resource "aws_ebs_encryption_by_default" "enabled" {
