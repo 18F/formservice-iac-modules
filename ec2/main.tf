@@ -25,6 +25,7 @@ resource "aws_instance" "this" {
   instance_type         = var.instance_type
   subnet_id             = var.subnet_id
   iam_instance_profile  = var.iam_instance_profile
+  get_password_data     = true
 
   root_block_device {
     volume_size = var.volume_size
@@ -35,12 +36,19 @@ resource "aws_instance" "this" {
   }
 
   provisioner "local-exec" {
-    command = "${var.local_exec}"
+    command = "${var.local_exec_command}"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "${var.remote_exec}"
+      "${var.remote_exec_command}"
     ]
+
+    connection {
+      type     = "ssh"
+      user     = "root"
+      password = aws_instance.this.password_data
+      host     = aws_instance.this.private_dns
+    }
   }
 }
