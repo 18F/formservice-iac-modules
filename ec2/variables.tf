@@ -38,6 +38,11 @@ variable "purpose" {
   description = "The purpose of this instance."
 }
 
+variable "region" {
+  type        = string
+  description = "The region where AWS operations will take place."
+}
+
 variable "remote_exec" {
   type        = string
   description = "Invokes a script on a remote resource after it is created."
