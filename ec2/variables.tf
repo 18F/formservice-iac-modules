@@ -44,12 +44,6 @@ variable "region" {
   description = "The region where AWS operations will take place."
 }
 
-variable "remote_exec_command" {
-  type        = string
-  description = "Invokes a script on a remote resource after it is created."
-  default     = "echo 'This is an example of a remote_exec command'"
-}
-
 variable "subnet_id" {
   type        = string
   description = "VPC Subnet ID to launch in."

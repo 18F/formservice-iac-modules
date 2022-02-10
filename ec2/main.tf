@@ -46,16 +46,4 @@ resource "aws_instance" "this" {
     command = "${var.local_exec_command}"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "${var.remote_exec_command}"
-    ]
-
-    connection {
-      type     = "ssh"
-      user     = "root"
-      password = aws_instance.this.password_data
-      host     = aws_instance.this.private_dns
-    }
-  }
 }
