@@ -16,10 +16,10 @@ provider "aws" {
   region  = "${var.region}"
 }
 
-// data "aws_s3_object" "post_install_script" {
-//   bucket  = "faas-prod-mgmt-bucket"
-//   key     = "/mgmt-server/mgmt-server-post-install.sh"
-// }
+data "aws_s3_object" "post_install_script" {
+  bucket  = "faas-prod-mgmt-bucket"
+  key     = "/mgmt-server/mgmt-server-post-install.sh"
+}
 
 resource "aws_ebs_encryption_by_default" "enabled" {
   enabled = true
@@ -31,7 +31,7 @@ resource "aws_instance" "this" {
   subnet_id             = var.subnet_id
   iam_instance_profile  = var.iam_instance_profile
 
-  // user_data = data.aws_s3_object.post_install_script.body
+  user_data = data.aws_s3_object.post_install_script.body
 
   root_block_device {
     volume_size = var.volume_size
