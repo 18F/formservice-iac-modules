@@ -16,7 +16,7 @@ provider "aws" {
   region  = "${var.region}"
 }
 
-data "aws_s3_bucket_object" "post_install_script" {
+data "aws_s3_object" "post_install_script" {
   bucket  = "faas-prod-mgmt-bucket"
   key     = "/mgmt-server/mgmt-server-post-install.sh"
 }
@@ -30,9 +30,8 @@ resource "aws_instance" "this" {
   instance_type         = var.instance_type
   subnet_id             = var.subnet_id
   iam_instance_profile  = var.iam_instance_profile
-  get_password_data     = true
 
-  user_data = data.aws_s3_bucket_object.post_install_script.body
+  user_data = data.aws_s3_object.post_install_script.body
 
   root_block_device {
     volume_size = var.volume_size
