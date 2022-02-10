@@ -46,7 +46,7 @@ variable "region" {
 
 variable "security_groups" {
   type        = list
-  description = ""
+  description = "A list of security group names to associate with."
 }
 
 variable "subnet_id" {
