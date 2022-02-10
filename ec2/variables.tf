@@ -44,6 +44,11 @@ variable "region" {
   description = "The region where AWS operations will take place."
 }
 
+variable "security_groups" {
+  type        = list
+  description = ""
+}
+
 variable "subnet_id" {
   type        = string
   description = "VPC Subnet ID to launch in."
