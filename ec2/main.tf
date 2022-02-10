@@ -18,7 +18,7 @@ provider "aws" {
 
 data "aws_s3_object" "post_install_script" {
   bucket  = "faas-prod-mgmt-bucket"
-  key     = "/mgmt-server/mgmt-server-post-install.sh"
+  key     = "mgmt-server/test.sh"
 }
 
 resource "aws_ebs_encryption_by_default" "enabled" {
