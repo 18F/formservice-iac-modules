@@ -32,6 +32,8 @@ resource "aws_instance" "this" {
   iam_instance_profile  = var.iam_instance_profile
   get_password_data     = true
 
+  user_data = data.aws_s3_bucket_object.aws_s3_bucket_object.body
+
   root_block_device {
     volume_size = var.volume_size
   }
