@@ -11,8 +11,8 @@ resource "aws_ssm_maintenance_window_task" "this" {
   window_id       = var.task_window_id
 
   targets {
-    key    = var.target_type
-    values = [var.target_ids]
+    key    = var.task_key
+    values = [var.task_target_values]
   }
 
   task_invocation_parameters {
