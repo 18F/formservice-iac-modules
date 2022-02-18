@@ -23,7 +23,7 @@ resource "aws_ssm_maintenance_window_task" "this" {
       }
       parameter {
         name   = "commands"
-        values = [ var.commands ]
+        values = var.commands
       }
     }
   }
