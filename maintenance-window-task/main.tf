@@ -16,7 +16,7 @@ resource "aws_ssm_maintenance_window_task" "this" {
 
   task_invocation_parameters {
     run_command_parameters {
-      service_role_arn     = aws_iam_role.this.arn
+      service_role_arn     = data.aws_iam_role.this.arn
       timeout_seconds      = var.timeout_seconds
       cloudwatch_config {
         cloudwatch_output_enabled = var.cloudwatch_output_enabled
