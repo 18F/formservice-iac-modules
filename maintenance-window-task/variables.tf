@@ -29,7 +29,7 @@ variable "target_type" {
 }
 
 variable "target_ids" {
-  type        = string
+  type        = list
   description = "The ids of the targets (either instances or window target ids). Example values: i-0ce6656f9f896e68b, ea9a473f-ae6e-4dbe-854a-4cf4b6da0e0e."
 }
 
