@@ -1,10 +1,10 @@
 resource "aws_ssm_maintenance_window_target" "this" {
-  window_id     = var.target_window_id
-  name          = var.target_name
-  resource_type = var.target_resource_type
+  window_id     = var.window_id
+  name          = var.name
+  resource_type = var.resource_type
 
   targets {
-    key    = var.target_key
-    values = [var.target_values]
+    key    = var.key
+    values = [var.values]
   }
 }
