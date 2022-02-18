@@ -8,6 +8,11 @@ variable "commands" {
   description = "An array of commands to run."
 }
 
+variable "max_concurrency" {
+  type        = number
+  description = "The maximum number of targets this task can be run for in parallel."
+}
+
 variable "max_errors" {
   type        = number
   description = "The maximum number of errors allowed before this task stops being scheduled."
