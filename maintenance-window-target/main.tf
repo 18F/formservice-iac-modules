@@ -5,6 +5,6 @@ resource "aws_ssm_maintenance_window_target" "this" {
 
   targets {
     key    = var.key
-    values = [var.values]
+    values = var.values
   }
 }
