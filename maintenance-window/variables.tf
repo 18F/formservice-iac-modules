@@ -1,10 +1,10 @@
 variable "cutoff" {
-  type        = string
+  type        = number
   description = "The number of hours before the end of the Maintenance Window that Systems Manager stops scheduling new tasks for execution."
 }
 
 variable "duration" {
-  type        = string
+  type        = number
   description = "The duration of the Maintenance Window in hours."
 }
 
