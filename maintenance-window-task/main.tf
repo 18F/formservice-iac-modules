@@ -31,7 +31,7 @@ resource "aws_ssm_maintenance_window_task" "this" {
 }
 
 resource "aws_iam_policy" "this" {
-  name       = var.iam_policy_name
+  # name       = var.iam_policy_name
   policy     = var.iam_policy_document
 }
 
