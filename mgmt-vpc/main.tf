@@ -39,11 +39,11 @@ module "vpc" {
     data.aws_availability_zones.available.names[1],
     data.aws_availability_zones.available.names[2]
   ]
-  public_subnets   = [
-    cidrsubnet(var.vpc_cidr, 8, 1), # "10.20.0.0/16" becomes ["10.20.1.0/24", "10.20.2.0/24", "10.20.3.0/24"]
-    cidrsubnet(var.vpc_cidr, 8, 2),
-    cidrsubnet(var.vpc_cidr, 8, 3)
-  ]
+  // public_subnets   = [
+  //   cidrsubnet(var.vpc_cidr, 8, 1), # "10.20.0.0/16" becomes ["10.20.1.0/24", "10.20.2.0/24", "10.20.3.0/24"]
+  //   cidrsubnet(var.vpc_cidr, 8, 2),
+  //   cidrsubnet(var.vpc_cidr, 8, 3)
+  // ]
   private_subnets   = [
     cidrsubnet(var.vpc_cidr, 8, 11),
     cidrsubnet(var.vpc_cidr, 8, 12),
@@ -68,12 +68,12 @@ module "vpc" {
   #default_security_group_ingress = []
   #default_security_group_egress  = []
 
-  ###################
-  # public subnets
-  ###################
-  public_acl_tags         = { Name = "${var.name_prefix}-public-acl" }
-  public_subnet_tags      = { Name = "${var.name_prefix}-public" }
-  public_route_table_tags = { Name = "${var.name_prefix}-public-rt" }
+  // ###################
+  // # public subnets
+  // ###################
+  // public_acl_tags         = { Name = "${var.name_prefix}-public-acl" }
+  // public_subnet_tags      = { Name = "${var.name_prefix}-public" }
+  // public_route_table_tags = { Name = "${var.name_prefix}-public-rt" }
   ###################
   # private subnets
   ###################
@@ -87,7 +87,7 @@ module "vpc" {
   enable_dns_hostnames = true
 
   # nat
-  enable_nat_gateway = true
+  enable_nat_gateway = false
   single_nat_gateway = var.single_nat_gateway
 
 }
