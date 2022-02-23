@@ -9,7 +9,7 @@ output "description" {
 }
 
 output "id" {
-  value       = aws_ssm_maintenance_window_task.this[*].id
+  value       = aws_ssm_maintenance_window_task.this.id
   description = "The ID of the maintenance window task."
 }
 
