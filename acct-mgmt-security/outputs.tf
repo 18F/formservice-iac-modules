@@ -14,6 +14,10 @@ output "beanstalk_ec2_role_arn" {
   value = aws_iam_instance_profile.aws-elasticbeanstalk-ec2-role.arn
 }
 
+output "beanstalk_ec2_role_name" {
+  value = aws_iam_role.beanstalk_ec2_role.name
+}
+
 /* output "documentdb_sg_id" {
   value = aws_security_group.documentdb_sg.id
 }
