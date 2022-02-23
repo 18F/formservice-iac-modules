@@ -1,6 +1,7 @@
 data "aws_iam_role" "this" {
   name = "AWSServiceRoleForAmazonSSM"
 }
+
 resource "aws_ssm_maintenance_window_task" "this" {
   max_concurrency = var.max_concurrency
   max_errors      = var.max_errors
@@ -27,4 +28,14 @@ resource "aws_ssm_maintenance_window_task" "this" {
       }
     }
   }
+}
+
+resource "aws_iam_policy" "this" {
+  name       = var.iam_policy_name
+  policy     = var.iam_policy_document
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  role       = var.iam_role
+  policy_arn = aws_iam_policy.this.arn
 }

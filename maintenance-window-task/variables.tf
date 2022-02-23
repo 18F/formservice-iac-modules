@@ -8,6 +8,24 @@ variable "commands" {
   description = "An array of commands to run."
 }
 
+variable "iam_policy_document" {
+  type        = string
+  description = "The policy document. This is a JSON formatted string."
+  default     = ""
+}
+
+variable "iam_policy_name" {
+  type        = string
+  description = "The name of the policy."
+  default     = ""
+}
+
+variable "iam_role" {
+  type        = string
+  description = "The name of the IAM role to which the policy should be applied."
+  default     = ""
+}
+
 variable "max_concurrency" {
   type        = number
   description = "The maximum number of targets this task can be run for in parallel."
