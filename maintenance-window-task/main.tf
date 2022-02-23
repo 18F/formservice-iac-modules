@@ -34,12 +34,12 @@ resource "aws_iam_policy" "this" {
   name        = var.iam_policy_name
   policy      = var.iam_policy_document
   # only create this resource if the following variable is passed to the module
-  count       = var.iam_policy_name ? 1 : 0
+  count       = var.iam_policy_name == "" ? 0 : 1
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
   role        = var.iam_role
   policy_arn  = aws_iam_policy.this[*].arn
   # only create this resource if the following variable is passed to the module
-  count       = var.iam_role ? 1 : 0
+  count       = var.iam_role == "" ? 0 : 1
 }
