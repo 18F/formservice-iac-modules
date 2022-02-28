@@ -1,3 +1,21 @@
+terraform {
+  # Live modules pin exact Terraform version; generic modules let consumers pin the version.
+  # The latest version of Terragrunt (v0.25.1 and above) recommends Terraform 0.13.3 or above.
+  required_version = ">= 0.13.3"
+
+  # Live modules pin exact provider version; generic modules let consumers pin the version.
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.7.0"
+    }
+  }
+}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 locals {
   max_subnet_length = max(
     length(var.private_subnets),
@@ -7,8 +25,22 @@ locals {
   )
   nat_gateway_count = var.single_nat_gateway ? 1 : var.one_nat_gateway_per_az ? length(var.azs) : local.max_subnet_length
 
-  # Use `local.vpc_id` to give a hint to Terraform that subnets should be deleted before secondary CIDR blocks can be free!
-  vpc_id = try(aws_vpc_ipv4_cidr_block_association.this[0].vpc_id, aws_vpc.this[0].id, "")
+   # Use `local.vpc_id` to give a hint to Terraform that subnets should be deleted before secondary CIDR blocks can be free!
+  vpc_id = element(
+    concat(
+      aws_vpc_ipv4_cidr_block_association.this.*.vpc_id,
+      aws_vpc.this.*.id,
+      [""],
+    ),
+    0,
+  )
+
+  azs = [
+    data.aws_availability_zones.available.names[0],
+    data.aws_availability_zones.available.names[1],
+    data.aws_availability_zones.available.names[2]
+  ]
+
 }
 
 ################################################################################
