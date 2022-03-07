@@ -5,7 +5,7 @@ variable "hub" {
 }
 
 variable "vpc_id" { type = string }
-variable "public_subnet_ids" { type = string }
+variable "public_subnet_ids" { }
 variable "allowed_security_group_id" { type = string }
 
 
