@@ -6,3 +6,7 @@ variable "backup_policy"  {
 variable "private_subnet_ids"  { type = list(string) }
 variable "name_prefix" { type = string }
 variable "kms_key_id" { type = string }
+variable "allowed_security_groups" { 
+     type = list(string)
+     default = [""]
+}

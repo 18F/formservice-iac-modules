@@ -74,8 +74,9 @@ resource "aws_efs_backup_policy" "policy" {
 
 resource "aws_efs_mount_target" "mout_point" {
   count = local.private_subnet_count
-  file_system_id = aws_efs_file_system.fs.id
-  subnet_id      = var.private_subnet_ids[count.index]
+  file_system_id  = aws_efs_file_system.fs.id
+  subnet_id       = var.private_subnet_ids[count.index]
+  security_groups = var.allowed_security_groups
 }
 
 resource "aws_efs_access_point" "mountpoint" {
