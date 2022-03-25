@@ -4,3 +4,5 @@ variable "backup_policy"  {
      default = "DISABLED"
 }
 variable "private_subnet_ids"  { type = list(string) }
+variable "name_prefix" { type = string }
+variable "kms_key_id" { type = string }

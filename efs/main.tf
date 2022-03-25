@@ -25,7 +25,7 @@ resource "aws_efs_file_system" "fs" {
   creation_token = var.creation_token
 
   encrypted = true
-  kms_key_id = ""
+  kms_key_id =var.kms_key_id
 
   tags = {
     Name = "${var.name_prefix}-efs"
