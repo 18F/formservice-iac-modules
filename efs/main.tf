@@ -80,4 +80,18 @@ resource "aws_efs_mount_target" "mout_point" {
 
 resource "aws_efs_access_point" "mountpoint" {
   file_system_id = aws_efs_file_system.fs.id
+  posix_user {
+    gid = 1000
+    uid = 1000
+  }
+
+  root_directory {
+    creation_info {
+      owner_gid = 1000
+      owner_uid = 1000
+      permissions = 777
+    }
+
+    path = "formio"
+  }
 }
