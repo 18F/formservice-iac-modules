@@ -92,6 +92,6 @@ resource "aws_efs_access_point" "mountpoint" {
       permissions = 777
     }
 
-    path = "formio"
+    path = "/formio"
   }
 }
