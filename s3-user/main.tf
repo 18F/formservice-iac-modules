@@ -10,7 +10,7 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = ">= 3.5.0"
+      version = ">= 4.0.0"
     }
   }
 }
@@ -19,24 +19,46 @@ terraform {
 # s3 Bucket
 ############
 resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.name_prefix}-bucket"
-  acl    = "private"
-
-  versioning {
-    enabled = true
-  }
-  # Enable server-side encryption by default
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        kms_master_key_id = var.kms_key_arn
-        sse_algorithm = "aws:kms"
-      }
-      bucket_key_enabled = true
-    }
-  }
+  bucket = "${var.name_prefix}-bucket"  
   tags = {
     name = "${var.name_prefix}-s3-bucket"
+  }
+  
+}
+
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  bucket = aws_s3_bucket.bucket.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "bucket_versioning" {
+  bucket = aws_s3_bucket.bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+  # Enable server-side encryption by default
+ resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
+  bucket = aws_s3_bucket.bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      kms_master_key_id = var.kms_key_arn
+      sse_algorithm     = "aws:kms"
+    }
+    bucket_key_enabled = true
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "bucket_cors" {
+  bucket = aws_s3_bucket.bucket.id
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "POST", "GET", "HEAD"]
+    allowed_origins = ["*"]
+    expose_headers  = [""]
+    max_age_seconds = 3000
   }
 }
 
