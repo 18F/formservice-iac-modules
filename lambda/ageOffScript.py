@@ -123,8 +123,6 @@ def lambda_handler(event, context):
         secrets = get_secret_dict(secret_name, region_name)
         doc_db_master_username = secrets["doc_db_master_username"]
         doc_db_master_password_sub = secrets["doc_db_master_password_sub"]
-        
-        logger.debug("REMOVE: got secrets")
 
         # Initialize the db submissions collection
         connectionTxt = "mongodb://{db_name}:{db_pwd}@{db_path}/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
@@ -138,7 +136,7 @@ def lambda_handler(event, context):
         # TODO: For each new form in this submission collection, copy the below four lines, paste before "END Processing Forms" and modify, 
         # providing the formid, friendly form name, and number of days for age-off
 
-        # Age-off the Made in America non-availability waiver dev stage
+        # Age-off the Made in America non-availability waiver
         miaStatusCode = age_off_form("6179b6894a1dcb14ae235ec0", "Made in America Nonavailability Proposed Waiver - Prod SubSvr Live Stage", 30, submissions)
         if miaStatusCode == 500:
             statusFlag = "failure"
