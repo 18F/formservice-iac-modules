@@ -67,7 +67,7 @@ def get_secret_dict(secret_name, region_name):
 
 def age_off_form(form_id, friendly_form_name, age_off_days, submissions):
 
-    logger.debug("Attempting to age off form {}".format(form_id))
+    logger.info("Attempting to age off form {}".format(form_id))
     ageOffStatusCode = 200
     numFormsAgedOff = 0
     numFormSubmissionsRemaining = 0
@@ -78,10 +78,10 @@ def age_off_form(form_id, friendly_form_name, age_off_days, submissions):
         ageOffDate = datetime.datetime.today() - ageOffDelta
 
         # query submissions for forms with formId and created before ageOffDate
-        logger.debug("getting the submissions older than {}".format(ageOffDate))
+        logger.info("getting the submissions older than {}".format(ageOffDate))
 
         ageOffResults = submissions.find({ 
-            "$and": [ { 
+            "$and": [{ 
                     "form": form_id 
                 },
                 { 
@@ -117,11 +117,14 @@ def lambda_handler(event, context):
         region_name = os.environ['REGION_NAME']
         secret_name = os.environ['SECRET_NAME']
         db_cluster_path = os.environ['DB_CLUSTER_PATH']
+        metricName = os.environ['METRIC_NAME']
         
         logger.debug("Getting Secrets")    
         secrets = get_secret_dict(secret_name, region_name)
         doc_db_master_username = secrets["doc_db_master_username"]
         doc_db_master_password_sub = secrets["doc_db_master_password_sub"]
+        
+        logger.debug("REMOVE: got secrets")
 
         # Initialize the db submissions collection
         connectionTxt = "mongodb://{db_name}:{db_pwd}@{db_path}/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
@@ -129,21 +132,15 @@ def lambda_handler(event, context):
         db = client.formio
         submissions = db.submissions
 
-
         # BEGIN Processing Forms
         statusFlag = "success"
 
         # TODO: For each new form in this submission collection, copy the below four lines, paste before "END Processing Forms" and modify, 
         # providing the formid, friendly form name, and number of days for age-off
 
-        #Age-off the Made in America non-availability waiver
-        miaStatusCode = age_off_form("6185938ddadb6b9de5580647", "Made in America Nonavailability Proposed Waiver - Dev SubSvr Test Stage", 111, submissions)
+        # Age-off the Made in America non-availability waiver dev stage
+        miaStatusCode = age_off_form("6179b6894a1dcb14ae235ec0", "Made in America Nonavailability Proposed Waiver - Prod SubSvr Live Stage", 30, submissions)
         if miaStatusCode == 500:
-            statusFlag = "failure"
-        
-        #Age-off the X waiver
-        form2StatusCode = age_off_form("617c033f4f0d388f532316b5", "StephanieTestMapping - Dev SubSvr Test Stage", 111, submissions)
-        if form2StatusCode == 500:
             statusFlag = "failure"
 
         # END Processing Forms
@@ -162,7 +159,7 @@ def lambda_handler(event, context):
             Namespace='AgeOff',
             MetricData=[
                 {
-                    'MetricName': 'TotalSubmissionsMiA_DevSub',
+                    'MetricName': metricName,
                     'Value': numSubmissionsRemaining,
                 },
             ]
@@ -191,7 +188,3 @@ def lambda_handler(event, context):
             }
         }
     return response
-
-
-
-
