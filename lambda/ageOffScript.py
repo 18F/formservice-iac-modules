@@ -10,7 +10,7 @@ from datetime import timedelta
 
 # Logger settings - CloudWatch
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 def get_secret_dict(secret_name, region_name):
@@ -65,31 +65,21 @@ def get_secret_dict(secret_name, region_name):
     return json.loads(secret)  # returns the secret as dictionary
 
 
-def age_off_form(form_id, age_off_days, doc_db_master_username, doc_db_master_password_sub, connectionTxt):
+def age_off_form(form_id, friendly_form_name, age_off_days, submissions):
 
     logger.debug("Attempting to age off form {}".format(form_id))
+    ageOffStatusCode = 200
+    numFormsAgedOff = 0
+    numFormSubmissionsRemaining = 0
 
     try:
-        # # Set client
-        client = MongoClient(connectionTxt.format(db_name = doc_db_master_username, db_pwd = doc_db_master_password_sub))
-        
-        # # Set database
-        db = client.formio
-            
-        # # Initialize the collection
-        submissions = db.submissions
-        
-        
-        logger.info("getting the count of all submissions for the form")
-        
-        result_1 = submissions.find({ "form": form_id })
-        logger.info("Count: {}".format(len(list(result_1.clone()))))
-        #logger.info(len(list(result_1.clone())))
-        
+        # Calculate the ageOffDate given the num of days to retain data
         ageOffDelta = timedelta(days=age_off_days)
         ageOffDate = datetime.datetime.today() - ageOffDelta
-        
-        logger.info("getting the submissions older than {}".format(ageOffDate))
+
+        # query submissions for forms with formId and created before ageOffDate
+        logger.debug("getting the submissions older than {}".format(ageOffDate))
+
         ageOffResults = submissions.find({ 
             "$and": [ { 
                     "form": form_id 
@@ -98,60 +88,108 @@ def age_off_form(form_id, age_off_days, doc_db_master_username, doc_db_master_pa
                     "created": { "$lt": ageOffDate }
                 }]
         })
+
+        # age off each form in the results
         for ageOffResult in ageOffResults:
-            logger.info(ageOffResult['_id'])
-            logger.info(ageOffResult['created'])
             response = submissions.delete_one({ "_id" : ageOffResult['_id'] })
-            logger.info(response)
+            logger.debug("Successfully aged off {} form {} created {}".format(friendly_form_name, ageOffResult['_id'], ageOffResult['created']))
+            numFormsAgedOff+=1
+
+        # get the count of all submissions for the form
+        formSubmissions = submissions.find({ "form": form_id })
+        numFormSubmissionsRemaining = len(list(formSubmissions.clone()))
 
     except Exception as e:
-        # Error while opening connection or processing
         logging.info(e)
+        ageOffStatusCode = 500
     finally:
-        client.close()
-        
-    logger.debug("Aged off form {}".format(form_id))
+        logger.info("Aged off {} {} forms, {} forms remain".format(numFormsAgedOff, friendly_form_name, numFormSubmissionsRemaining))
+
+    return ageOffStatusCode
 
 
 def lambda_handler(event, context):
     
-    #####  TODO NEED TO FINALIZE MESSAGING AND ERROR HANDLING (RESPONSE CODE RETURN VALUE)
-    #####  NEED TO GET SOME OF THE INFORMATION FROM ENV VARS
-    #####  NEED TO DO BETTER HANDLING OF DB CONNECTION?  MAYBE NOT WORTH IT, JUST HAVE TWO JOBS.
-    #####  RIGHT NOW, ONLY RUNS FOR SPECIFIED FORM.  DO WE NEED IT TO RUN FOR ALL?
-    
     try:
         logger.debug("Starting lambda_handler")
         
-        secret_name = ""
-        region_name = "us-gov-west-1"
+        logger.debug("Getting Environment Variables") 
+        region_name = os.environ['REGION_NAME']
+        secret_name = os.environ['SECRET_NAME']
+        db_cluster_path = os.environ['DB_CLUSTER_PATH']
         
         logger.debug("Getting Secrets")    
         secrets = get_secret_dict(secret_name, region_name)
         doc_db_master_username = secrets["doc_db_master_username"]
         doc_db_master_password_sub = secrets["doc_db_master_password_sub"]
-        
-        connectionTxt = "mongodb://{db_name}:{db_pwd}@faas-dev-runtime-submission-docdb.cluster-clh7f7tmo3dk.us-gov-west-1.docdb.amazonaws.com:27017/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
-        
-        #Age-off the Made in America non-availability waiver
-        age_off_form("6185938ddadb6b9de5580647", 111, doc_db_master_username, doc_db_master_password_sub, connectionTxt)
-        
-    except Exception as e:
-        # Error while opening connection or processing
-        logging.info(e)
-        content = "Exception!!"
-    finally:
-        content = "In finally"
 
-    
-    # content =  "Selected %d items from RDS MySQL table" % (item_count)
-    response = {
-        "statusCode": 200,
-        "body": content,
-        "headers": {
-            'Content-Type': 'text/html',
+        # Initialize the db submissions collection
+        connectionTxt = "mongodb://{db_name}:{db_pwd}@{db_path}/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
+        client = MongoClient(connectionTxt.format(db_name = doc_db_master_username, db_pwd = doc_db_master_password_sub, db_path = db_cluster_path))
+        db = client.formio
+        submissions = db.submissions
+
+
+        # BEGIN Processing Forms
+        statusFlag = "success"
+
+        # TODO: For each new form in this submission collection, copy the below four lines, paste before "END Processing Forms" and modify, 
+        # providing the formid, friendly form name, and number of days for age-off
+
+        #Age-off the Made in America non-availability waiver
+        miaStatusCode = age_off_form("6185938ddadb6b9de5580647", "Made in America Nonavailability Proposed Waiver - Dev SubSvr Test Stage", 111, submissions)
+        if miaStatusCode == 500:
+            statusFlag = "failure"
+        
+        #Age-off the X waiver
+        form2StatusCode = age_off_form("617c033f4f0d388f532316b5", "StephanieTestMapping - Dev SubSvr Test Stage", 111, submissions)
+        if form2StatusCode == 500:
+            statusFlag = "failure"
+
+        # END Processing Forms
+
+
+        # get the count of all submissions for the collection
+        allSubmissions = submissions.find({})
+        numSubmissionsRemaining = len(list(allSubmissions.clone()))
+        logger.info("All Submissions Remaining {}".format(numSubmissionsRemaining))
+
+        # Create a CloudWatch Manager client
+        cwClient = boto3.client('cloudwatch')
+        
+        # TODO:  Set this as a metric
+        metricResponse = cwClient.put_metric_data(
+            Namespace='AgeOff',
+            MetricData=[
+                {
+                    'MetricName': 'TotalSubmissionsMiA_DevSub',
+                    'Value': numSubmissionsRemaining,
+                },
+            ]
+        )
+        if metricResponse == 500:
+            statusFlag = "failure"
+
+    except Exception as e:
+        logging.info(e)
+        statusFlag = "failure"
+    finally:
+        client.close()
+
+        if statusFlag == "failure":
+            statusCode = 500
+            content = "Error completing AgeOff of forms, please check logs"
+        else:
+            statusCode = 200
+            content = "AgeOff of forms completed successfully"
+
+        response = {
+            "statusCode": statusCode,
+            "body": content,
+            "headers": {
+                'Content-Type': 'text/html',
+            }
         }
-    }
     return response
 
 
