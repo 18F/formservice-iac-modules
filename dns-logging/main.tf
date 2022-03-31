@@ -31,11 +31,11 @@ resource "aws_cloudwatch_log_group" "dns_logs" {
 }
 
 resource "aws_route53_resolver_query_log_config" "query_log_config" {
-  name            = "${var.name_prefix}"
+  name            = "${var.name_prefix}-dns-logging"
   destination_arn = aws_cloudwatch_log_group.dns_logs.arn
 
   tags = {
-    Name = "${var.name_prefix}"
+    Name = "${var.name_prefix}-dns-logging"
   }
 }
 
