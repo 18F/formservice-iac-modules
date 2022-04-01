@@ -93,35 +93,35 @@ resource "aws_iam_policy" "policy" {
   description = "Allow access to ${var.name_prefix} s3 bucket"
   policy      = <<EOF
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetAccessPoint",
-                "s3:PutAccountPublicAccessBlock",
-                "s3:GetAccountPublicAccessBlock",
-                "s3:ListAllMyBuckets",
-                "s3:ListAccessPoints",
-                "s3:ListJobs",
-                "s3:CreateJob",
-                "s3:HeadBucket"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "VisualEditor1",
-            "Effect": "Allow",
-            "Action": "s3:*",
-            "Resource": [
-                "${aws_s3_bucket.bucket.arn}",
-                "arn:aws-us-gov:s3:*:${var.aws_account_id}:accesspoint/*",
-                "arn:aws-us-gov:s3:*:*:job/*",
-                "${aws_s3_bucket.bucket.arn}/*"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+              "s3:GetAccessPoint",
+              "s3:PutAccountPublicAccessBlock",
+              "s3:GetAccountPublicAccessBlock",
+              "s3:ListAllMyBuckets",
+              "s3:ListAccessPoints",
+              "s3:ListJobs",
+              "s3:CreateJob",
+              "s3:HeadBucket"
+          ],
+          "Resource": "*"
+      },
+      {
+          "Sid": "VisualEditor1",
+          "Effect": "Allow",
+          "Action": "s3:*",
+          "Resource": [
+              "${aws_s3_bucket.bucket.arn}",
+              "arn:aws-us-gov:s3:*:${var.aws_account_id}:accesspoint/*",
+              "arn:aws-us-gov:s3:*:*:job/*",
+              "${aws_s3_bucket.bucket.arn}/*"
+          ]
+      }
+  ]
 }
 EOF
 }
