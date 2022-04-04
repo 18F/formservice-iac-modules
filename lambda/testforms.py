@@ -4,7 +4,9 @@
         # providing the formid, friendly form name, number of days for age-off, and initialized submissions collection
 
         # FaaS
-        # ADD STUFF HERE
+        age_off_form("615617bb7e96b7061208ed48", "FaaS SmokeTest - Test SubSvr Dev Stage", 111, submissions)
+        age_off_form("620a7396ffcf8a2c4010c39f", "FaaS stephanieTestMoveDelete- Test SubSvr Dev Stage", 111, submissions)
+        age_off_form("62193852767bf4d4385b101a", "FaaS New User Request For Sandbox - Test SubSvr Dev Stage", 111, submissions)
 
         # Made in America
         age_off_form("61e5b93b396609452b8c91c4", "Made in America Nonavailability Proposed Waiver - Test SubSvr Dev Stage", 111, submissions)
