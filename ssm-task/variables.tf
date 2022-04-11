@@ -39,11 +39,9 @@ variable "max_errors" {
 variable "parameters" {
   type        = map
   description = "The parameters for the RUN_COMMAND task execution."
-  default     = [
-    {
+  default     = {
       commands = ["echo 'Hello world!'"]
-    }
-  ]
+  }
 }
 
 variable "priority" {
