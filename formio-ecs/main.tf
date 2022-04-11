@@ -42,8 +42,9 @@ resource "aws_ecs_cluster" "ecs_cluster" {
   }
 
   }
+}
 
-  resource "aws_ecs_cluster_capacity_providers" "fargate_provider" {
+resource "aws_ecs_cluster_capacity_providers" "fargate_provider" {
   cluster_name = aws_ecs_cluster.ecs_cluster.name
 
   capacity_providers = ["FARGATE"]
