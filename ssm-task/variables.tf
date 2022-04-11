@@ -36,6 +36,16 @@ variable "max_errors" {
   description = "The maximum number of errors allowed before this task stops being scheduled."
 }
 
+variable "parameters" {
+  type        = map
+  description = "The parameters for the RUN_COMMAND task execution."
+  default     = [
+    {
+      commands = ["echo 'Hello world!'"]
+    }
+  ]
+}
+
 variable "priority" {
   type        = number
   description = "The priority of the task in the Maintenance Window, the lower the number the higher the priority. Tasks in a Maintenance Window are scheduled in priority order with tasks that have the same priority scheduled in parallel."
