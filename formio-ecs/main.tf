@@ -37,10 +37,10 @@ resource "aws_ecs_cluster" "ecs_cluster" {
       }
     }
 
-  tags = {
-    Environment = "${var.name_prefix}"
   }
 
+  tags = {
+    Environment = "${var.name_prefix}"
   }
 }
 
