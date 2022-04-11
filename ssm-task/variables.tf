@@ -3,11 +3,6 @@ variable "cloudwatch_output_enabled" {
   description = "Enables Systems Manager to send command output to CloudWatch Logs."
 }
 
-variable "commands" {
-  type        = list
-  description = "An array of commands to run."
-}
-
 variable "iam_policy_document" {
   type        = string
   description = "The policy document. This is a JSON formatted string."
@@ -39,9 +34,6 @@ variable "max_errors" {
 variable "parameters" {
   type        = map
   description = "The parameters for the RUN_COMMAND task execution."
-  default     = {
-      commands = ["echo 'Hello world!'"]
-  }
 }
 
 variable "priority" {
