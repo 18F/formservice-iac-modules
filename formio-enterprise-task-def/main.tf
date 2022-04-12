@@ -105,10 +105,10 @@ resource "aws_iam_role" "ecs_task_role" {
          "Action":"sts:AssumeRole",
          "Condition":{
             "ArnLike":{
-               "aws-us-gov:SourceArn":"aws-us-gov:ecs:*:${data.aws_caller_identity.current.account_id}:*"
+               "aws:SourceArn":"aws-us-gov:ecs:*:${data.aws_caller_identity.current.account_id}:*"
             },
             "StringEquals":{
-               "aws-us-gov:SourceAccount":"aws-us-gov.ecs*.${data.aws_caller_identity.current.account_id}"
+               "aws:SourceAccount":"aws-us-gov.ecs*.${data.aws_caller_identity.current.account_id}"
             }
          }
       }
