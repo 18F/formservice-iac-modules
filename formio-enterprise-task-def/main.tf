@@ -199,10 +199,7 @@ resource "aws_ecs_task_definition" "enterprise" {
               "awslogs-group": "${aws_cloudwatch_log_group.task_logs.name}",
               "awslogs-region": "${var.aws_region}"
           }
-      },
-      "dockerSecurityOptions": [
-        "no-new-privileges"
-      ]
+      }
     }
 ]
 ENTERPRISE_TASK_DEFINITION
