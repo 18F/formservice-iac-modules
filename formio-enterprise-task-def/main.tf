@@ -102,15 +102,7 @@ resource "aws_iam_role" "ecs_task_role" {
                "ecs-tasks.amazonaws.com"
             ]
          },
-         "Action":"sts:AssumeRole",
-         "Condition":{
-            "ArnLike":{
-               "aws:SourceArn":"aws:ecs:*:${data.aws_caller_identity.current.account_id}:*"
-            },
-            "StringEquals":{
-               "aws:SourceAccount":"aws.ecs*.${data.aws_caller_identity.current.account_id}"
-            }
-         }
+         "Action":"sts:AssumeRole"
       }
    ]
 }
