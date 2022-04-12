@@ -198,7 +198,7 @@ resource "aws_ecs_task_definition" "enterprise" {
       "mountPoints": [
         {
           "sourceVolume": "${var.enterprise_volume_name}",
-          "containerPath": ${var.container_mount_path}"
+          "containerPath": "${var.container_mount_path}"
         }
       ],
       "logConfiguration": {
