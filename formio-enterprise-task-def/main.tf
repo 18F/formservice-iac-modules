@@ -197,7 +197,8 @@ resource "aws_ecs_task_definition" "enterprise" {
           "logDriver": "awslogs",
           "options": {
               "awslogs-group": "${aws_cloudwatch_log_group.task_logs.name}",
-              "awslogs-region": "${var.aws_region}"
+              "awslogs-region": "${var.aws_region}",
+              "awslogs-stream-prefix": "${var.log_stream_prefix}"
           }
       }
     }

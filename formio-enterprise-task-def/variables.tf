@@ -25,6 +25,11 @@ variable "container_mount_path" {
 }
 variable "efs_file_system_id" { type = string }
 variable "efs_access_point_id" { type = string }
+
+variable "log_stream_prefix" { 
+     type = string
+     default = "enterprise"
+}
 variable "aws_region" {
      type = string
      default = "us-gov-west-1"
