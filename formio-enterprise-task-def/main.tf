@@ -121,7 +121,7 @@ resource "aws_ecs_task_definition" "enterprise" {
   container_definitions    = <<ENTERPRISE_TASK_DEFINITION
 [
     {
-      "name": "api-server",
+      "name": "enterprise-api-server",
       "image": "${var.enterprise_image}",
       "environment": [
         {
