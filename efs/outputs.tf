@@ -1,9 +1,9 @@
-output "fsap_arn" {
+output "fsap_id" {
   description = "ARN for the file system access points"
-  value       = aws_efs_access_point.mountpoint.arn
+  value       = aws_efs_access_point.mountpoint.id
 }
 
-output "fs_arn" {
+output "fs_id" {
   description = "ARN for the file system"
-  value       = aws_efs_file_system.fs.arn
+  value       = aws_efs_file_system.fs.id
 }
