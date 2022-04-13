@@ -34,7 +34,7 @@ resource "aws_iam_group" "kms_admins" {
 ############
 resource "aws_iam_policy" "faas_global_key_admin" {
   name        = "${var.name_prefix}-key-admin-policy"
-  description = "Alow use of the ${var.name_prefix} EKS keys"
+  description = "Allow use of the ${var.name_prefix} EKS keys"
   policy      = <<EOF
 {
   "Version": "2012-10-17",
