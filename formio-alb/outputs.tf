@@ -8,12 +8,7 @@ output "faas_formio_ecs_alb_dns_name" {
   value       = aws_lb.formio_lb.dns_name
 }
 
-output "faas_formio_ecs_alb_tg_main" {
+output "faas_formio_alb_listener" {
   description = "ALB Target Group id for Formio ECS main instance"
-  value       = aws_lb_target_group.main.id
-}
-
-output "faas_formio_ecs_alb_tg_pdf" {
-  description = "ALB Target Group id for Formio ECS pdf server instance"
-  value       = length(aws_lb_target_group.pdf_server[0].id) > 0 ? aws_lb_target_group.pdf_server[0].id : null
+  value       = aws_lb_listener.main.arn
 }

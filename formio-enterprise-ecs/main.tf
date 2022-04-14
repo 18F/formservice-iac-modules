@@ -226,3 +226,43 @@ ENTERPRISE_TASK_DEFINITION
   }
 }
 
+####################################
+# Formio Enterprise ALB TG and Listener Rule Setup
+####################################
+
+resource "aws_lb_target_group" "formio" {
+  name     = "${var.name_prefix}-formio-tg"
+  port     = 443
+  protocol = "HTTPS"
+  vpc_id   = var.vpc_id
+
+  load_balancing_algorithm_type = var.load_balancing_algo
+
+  health_check {
+    enabled = true
+    protocol = "HTTPS"
+    path = "${var.health_path}"
+    port = 443
+    healthy_threshold = var.healthy_threshold
+    unhealthy_threshold = var.unhealthy_threshold
+    timeout = var.health_timeout
+    interval = var.health_interval
+    matcher = "200"
+  }
+}
+
+resource "aws_lb_listener_rule" "formio_listener" {
+  listener_arn = var.formio_alb_listener_arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.formio.arn
+  }
+
+  condition {
+    host_header {
+      values = ["${var.customer_url}"]
+    }
+  }
+  depends_on = [ aws_lb_target_group.formio ]
+}

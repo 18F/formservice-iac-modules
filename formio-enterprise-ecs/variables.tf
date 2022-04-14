@@ -1,4 +1,11 @@
+###################################
+# Global Vars
+###################################
 variable "name_prefix" { type = string }
+
+###################################
+# Task Definition Vars
+###################################
 variable "task_secrets" { type = string }
 
 variable "enterprise_task_cpu" {
@@ -34,3 +41,43 @@ variable "aws_region" {
      type = string
      default = "us-gov-west-1"
 }
+
+###################################
+# Load Balancer Vars
+###################################
+variable "vpc_id" { type = string }
+
+variable "load_balancing_algo" { 
+    type = string
+    default = "least_outstanding_requests"
+}
+
+variable "health_path" { 
+    type = string
+    default = "/health"
+}
+
+variable "healthy_threshold" { 
+    type = number
+    default = 3
+}
+
+variable "unhealthy_threshold" { 
+    type = number
+    default = 3
+}
+
+variable "health_timeout" { 
+    type = number 
+    default = 5
+}
+
+variable "health_interval" { 
+    type = number
+    default = 30
+}
+
+variable "formio_alb_listener_arn" { type = string }
+
+variable "customer_url" { type = string }
+
