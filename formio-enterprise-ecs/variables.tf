@@ -111,5 +111,5 @@ variable "service_private_subnets" {
 }
 
 variable "service_security_group" {
-     type = string
+     type = list(string)
 }
