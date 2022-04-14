@@ -30,6 +30,6 @@ output "formio_ecs_sg" {
   value = aws_security_group.formio_ecs_sg.id
 }
 
-output "formio_ecs__pdf_sg" {
+output "formio_ecs_pdf_sg" {
   value = aws_security_group.formio_ecs_pdf_sg.id
 }
