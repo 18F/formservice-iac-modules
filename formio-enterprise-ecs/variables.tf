@@ -81,3 +81,35 @@ variable "formio_alb_listener_arn" { type = string }
 
 variable "customer_url" { type = string }
 
+###################################
+# ECS Service  Vars
+###################################
+variable "ecs_cluster_id" { type = string }
+
+variable "service_desired_task_count" {
+     type = number
+     default = 3
+}
+
+variable "enable_execute_command" { 
+     type = bool
+     default = true
+}
+
+variable "force_new_deployment" { 
+     type = bool
+     default = true
+}
+
+variable "health_check_grace_period_seconds" { 
+     type = number
+     default = 120
+}
+
+variable "service_private_subnets" {
+     type = list(string)
+}
+
+variable "service_security_group" {
+     type = string
+}

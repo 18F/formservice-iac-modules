@@ -266,3 +266,34 @@ resource "aws_lb_listener_rule" "formio_listener" {
   }
   depends_on = [ aws_lb_target_group.formio ]
 }
+
+####################################
+# Formio Enterprise ECS Service Setup
+####################################
+
+resource "aws_ecs_service" "formio_enterprise" {
+  name            = "${var.name_prefix}-formio-service"
+  cluster         = var.ecs_cluster_id
+  task_definition = aws_ecs_task_definition.enterprise.arn
+  desired_count   = var.service_desired_task_count
+  launch_type     = "FARGATE"
+
+  enable_execute_command            = var.enable_execute_command
+  force_new_deployment              = var.force_new_deployment
+  health_check_grace_period_seconds = var.health_check_grace_period_seconds
+  load_balancer {
+    target_group_arn = aws_lb_target_group.formio.arn
+    container_name   = "enterprise-api-server"
+    container_port   = 3000
+  }
+
+  network_configuration {
+    subnets          = var.service_private_subnets
+    security_groups  = var.service_security_group
+    assign_public_ip = false
+  }
+
+   lifecycle {
+    ignore_changes = [desired_count]
+  }
+}

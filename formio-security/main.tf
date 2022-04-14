@@ -136,8 +136,8 @@ resource "aws_security_group" "formio_ecs_sg" {
   vpc_id      = var.vpc_id
 
  ingress {
-    from_port       = 443
-    to_port         = 443
+    from_port       = 3000
+    to_port         = 3000
     protocol        = "TCP"
     security_groups = [ aws_security_group.formio_alb_sg.id ]
   }
@@ -151,6 +151,33 @@ resource "aws_security_group" "formio_ecs_sg" {
 
   tags = {
     Name = "${var.name_prefix}-ecs-sg"
+    Environment = "${var.name_prefix}"
+  }
+
+  depends_on = [ aws_security_group.formio_alb_sg ]
+} 
+
+resource "aws_security_group" "formio_ecs_pdf_sg" {
+  name        = "${var.name_prefix}-ecs-pdf-sg"
+  description = "Allow Connections to the Load Balancer"
+  vpc_id      = var.vpc_id
+
+ ingress {
+    from_port       = 4005
+    to_port         = 4005
+    protocol        = "TCP"
+    security_groups = [ aws_security_group.formio_alb_sg.id ]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-ecs-pdf-sg"
     Environment = "${var.name_prefix}"
   }
 
