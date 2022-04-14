@@ -22,9 +22,12 @@ resource "aws_ssm_maintenance_window_task" "this" {
       cloudwatch_config {
         cloudwatch_output_enabled = var.cloudwatch_output_enabled
       }
-      parameter {
-        name   = "commands"
-        values = var.commands
+      dynamic "parameter" {
+        for_each = var.parameters
+        content {
+          name   = parameter.key
+          values = parameter.value
+        }
       }
     }
   }

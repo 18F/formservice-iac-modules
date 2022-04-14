@@ -3,11 +3,6 @@ variable "cloudwatch_output_enabled" {
   description = "Enables Systems Manager to send command output to CloudWatch Logs."
 }
 
-variable "commands" {
-  type        = list
-  description = "An array of commands to run."
-}
-
 variable "iam_policy_document" {
   type        = string
   description = "The policy document. This is a JSON formatted string."
@@ -34,6 +29,11 @@ variable "max_concurrency" {
 variable "max_errors" {
   type        = number
   description = "The maximum number of errors allowed before this task stops being scheduled."
+}
+
+variable "parameters" {
+  type        = map
+  description = "The parameters for the RUN_COMMAND task execution."
 }
 
 variable "priority" {
