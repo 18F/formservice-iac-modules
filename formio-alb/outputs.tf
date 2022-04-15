@@ -15,5 +15,5 @@ output "faas_formio_alb_listener" {
 
 output "faas_formio_autoscaling_prefx" {
   description = "alb arn portion required for autoscaling resource labels "
-  value       = regex("app/.", aws_lb.formio_lb.arn)
+  value       = regex("app/.+", aws_lb.formio_lb.arn)
 }
