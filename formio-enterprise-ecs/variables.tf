@@ -142,3 +142,5 @@ variable "scaling_metric_scale_out_cooldown" {
      type = number
      default = 300
 }
+
+variable "alb_resource_label" { type = string }

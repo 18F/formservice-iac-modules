@@ -316,6 +316,7 @@ resource "aws_appautoscaling_policy" "formio_policy" {
  target_tracking_scaling_policy_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ALBRequestCountPerTarget"
+      resource_label         = join("/", [var.alb_resource_label, regex("targetgroup/.+", aws_lb_target_group.formio.arn)])
     }
 
     target_value       = var.scaling_metric_target_value
