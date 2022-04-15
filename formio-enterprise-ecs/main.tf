@@ -259,9 +259,9 @@ resource "aws_lb_listener_rule" "formio_listener" {
     target_group_arn = aws_lb_target_group.formio.arn
   }
 
-  condition {
-    host_header {
-      values = ["${var.customer_url}"]
+ condition {
+    path_pattern {
+      values = ["/${var.customer_path}/*"]
     }
   }
   depends_on = [ aws_lb_target_group.formio ]
@@ -297,3 +297,30 @@ resource "aws_ecs_service" "formio_enterprise" {
     ignore_changes = [desired_count]
   }
 }
+
+resource "aws_appautoscaling_target" "formio_target" {
+  max_capacity       = var.service_autoscaling_max
+  min_capacity       = var.service_autoscaling_min
+  resource_id        = "service/${var.ecs_cluster_name}/${aws_ecs_service.formio_enterprise.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "formio_policy" {
+  name               = "${var.name_prefix}-formio-scaling-policy"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.formio_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.formio_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.formio_target.service_namespace
+
+ target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ALBRequestCountPerTarget"
+    }
+
+    target_value       = var.scaling_metric_target_value
+    scale_in_cooldown  = var.scaling_metric_scale_in_cooldown
+    scale_out_cooldown = var.scaling_metric_scale_out_cooldown
+  }
+}
+

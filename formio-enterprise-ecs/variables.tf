@@ -79,12 +79,14 @@ variable "health_interval" {
 
 variable "formio_alb_listener_arn" { type = string }
 
-variable "customer_url" { type = string }
+variable "customer_path" { type = string }
 
 ###################################
 # ECS Service  Vars
 ###################################
 variable "ecs_cluster_id" { type = string }
+
+variable "ecs_cluster_name" { type = string }
 
 variable "service_desired_task_count" {
      type = number
@@ -112,4 +114,31 @@ variable "service_private_subnets" {
 
 variable "service_security_group" {
      type = list(string)
+}
+
+variable "service_autoscaling_max" {
+     type = number
+     default = 8
+}
+
+variable "service_autoscaling_min" {
+     type = number
+     default = 3
+}
+
+variable "scaling_metric_target_value" {
+     type = number
+     default = 22
+}
+
+
+variable "scaling_metric_scale_in_cooldown" {
+     type = number
+     default = 300
+}
+
+
+variable "scaling_metric_scale_out_cooldown" {
+     type = number
+     default = 300
 }
