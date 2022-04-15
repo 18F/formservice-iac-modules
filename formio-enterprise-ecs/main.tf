@@ -234,10 +234,11 @@ ENTERPRISE_TASK_DEFINITION
 ####################################
 
 resource "aws_lb_target_group" "formio" {
-  name     = "${var.name_prefix}-formio-tg"
-  port     = 443
-  protocol = "HTTPS"
-  vpc_id   = var.vpc_id
+  name        = "${var.name_prefix}-formio-tg"
+  port        = 443
+  protocol    = "HTTPS"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
 
   load_balancing_algorithm_type = var.load_balancing_algo
 
