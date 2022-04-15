@@ -172,6 +172,9 @@ resource "aws_ecs_task_definition" "enterprise" {
       { "name": "SSO_TEAMS",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:SSO_TEAMS::"
       },
+      { "name": "PORTAL_SSO_LOGOUT",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:PORTAL_SSO_LOGOUT::"
+      },
       { "name": "VPAT",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:VPAT::"
       },
