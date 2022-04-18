@@ -136,6 +136,9 @@ resource "aws_ecs_task_definition" "enterprise" {
       { "name": "MONGO",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:MONGO::"
       },
+      { "name": "LICENSE_KEY",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:LICENSE_KEY::"
+      },
       { "name": "PDF_SERVER",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:PDF_SERVER::"
       },
