@@ -238,7 +238,7 @@ ENTERPRISE_TASK_DEFINITION
 
 resource "aws_lb_target_group" "formio" {
   name        = "${var.name_prefix}-formio-tg"
-  port        = 443
+  port        = 3000
   protocol    = "HTTPS"
   vpc_id      = var.vpc_id
   target_type = "ip"
@@ -249,7 +249,7 @@ resource "aws_lb_target_group" "formio" {
     enabled = true
     protocol = "HTTPS"
     path = "${var.health_path}"
-    port = 443
+    port = 3000
     healthy_threshold = var.healthy_threshold
     unhealthy_threshold = var.unhealthy_threshold
     timeout = var.health_timeout
