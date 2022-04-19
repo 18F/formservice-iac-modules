@@ -16,6 +16,7 @@ resource "aws_networkfirewall_firewall_policy" "faas_policy" {
     dynamic stateless_rule_group_reference {
       for_each = var.policy_list
       content {
+        priority = null
         resource_arn = stateless_rule_group_reference.value[rule_arn]
       }
     }
