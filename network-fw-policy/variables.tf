@@ -3,5 +3,5 @@ variable "name_prefix" {
 }
 
 variable "policy_list" {
-    type = list(object)
+    type = any
 }
