@@ -13,10 +13,9 @@ resource "aws_networkfirewall_firewall_policy" "faas_policy" {
     stateful_engine_options {
       rule_order = "DEFAULT_ACTION_ORDER"
     }
-    dynamic stateless_rule_group_reference {
+    dynamic stateful_rule_group_reference {
       for_each = var.policy_list
       content {
-        priority = stateless_rule_group_reference.value.priority
         resource_arn = stateless_rule_group_reference.value.rule_arn
       }
     }
