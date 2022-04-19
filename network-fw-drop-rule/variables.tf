@@ -5,9 +5,6 @@ variable "home_networks" {
     type = list(string)
     default = ["10.0.0.0/8"]
 }
-variable "rule_type" {
-    type = string
-}
 variable "capacity" {
     type = number
 }
