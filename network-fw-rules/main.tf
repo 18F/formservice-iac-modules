@@ -1,5 +1,5 @@
 resource "aws_networkfirewall_rule_group" "domain_filter" {
-  capacity = 500
+  capacity = var.capacity
   name     = var.rule_name
   type     = "STATEFUL"
   rule_group {

@@ -8,6 +8,9 @@ variable "home_networks" {
 variable "rule_type" {
     type = string
 }
+variable "capacity" {
+    type = number
+}
 variable "filtered_domains" {
     type = list(string)
     default = [".example.com"]
