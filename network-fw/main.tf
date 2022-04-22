@@ -6,7 +6,7 @@ resource "aws_cloudwatch_log_group" "firewall_flow" {
   retention_in_days = var.log_retention_days
 }
 
-resource "aws_cloudwatch_log_group" "firewall_flow" {
+resource "aws_cloudwatch_log_group" "firewall_alert" {
   name = "${var.name_prefix}-firewall-alert"
   retention_in_days = var.log_retention_days
 }
