@@ -33,7 +33,7 @@ resource "aws_networkfirewall_firewall" "firewall" {
 ################################################
 # Attach Logging
 ################################################
-resource "aws_networkfirewall_logging_configuration" "firewall_flow" {
+resource "aws_networkfirewall_logging_configuration" "firewall_logs" {
   firewall_arn = aws_networkfirewall_firewall.firewall.arn
   logging_configuration {
     log_destination_config {
@@ -43,18 +43,12 @@ resource "aws_networkfirewall_logging_configuration" "firewall_flow" {
       log_destination_type = "CloudWatchLogs"
       log_type             = "FLOW"
     }
-  }
-}
-
-resource "aws_networkfirewall_logging_configuration" "firewall_alerts" {
-  firewall_arn = aws_networkfirewall_firewall.firewall.arn
-  logging_configuration {
     log_destination_config {
-      log_destination = {
-        logGroup = aws_cloudwatch_log_group.firewall_alerts.name
-      }
-      log_destination_type = "CloudWatchLogs"
-      log_type             = "ALERT"
-    }
+        log_destination = {
+          logGroup = aws_cloudwatch_log_group.firewall_alerts.name
+        }
+       log_destination_type = "CloudWatchLogs"
+       log_type             = "ALERT"
+     }
   }
 }
