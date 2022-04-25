@@ -36,30 +36,6 @@ resource "aws_lb" "formio_lb" {
   }
 }
 
-resource "aws_lb_target_group" "main" {
-  name     = "${var.name_prefix}-main-tg"
-  port     = 443
-  protocol = "HTTPS"
-  vpc_id   = var.vpc_id
-
-  load_balancing_algorithm_type = var.load_balancing_algo
-
-  health_check {
-    enabled = true
-    protocol = "HTTPS"
-    path = "${var.health_path}"
-    port = 443
-    healthy_threshold = var.healthy_threshold
-    unhealthy_threshold = var.unhealthy_threshold
-    timeout = var.health_timeout
-    interval = var.health_interval
-    matcher = "200"
-  }
-
-
-  depends_on = [ aws_lb.formio_lb ]
-}
-
 resource "aws_lb_listener" "redirect" {
   load_balancer_arn = aws_lb.formio_lb.arn
   port              = "80"
