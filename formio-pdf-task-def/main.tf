@@ -216,7 +216,7 @@ PDF_TASK_DEFINITION
 ####################################
 
 resource "aws_lb_target_group" "formio" {
-  name        = "${var.name_prefix}-formio-pdf-tg"
+  name        = "${var.name_prefix}-tg"
   port        = 4005
   protocol    = "HTTPS"
   vpc_id      = var.vpc_id
