@@ -86,7 +86,7 @@ resource "aws_lb_listener" "main" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type             = "fixed_response"
+    type             = "fixed-response"
 
     fixed_response {
       content_type     = "text/plain"
