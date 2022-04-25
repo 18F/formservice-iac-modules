@@ -31,12 +31,6 @@ resource "aws_s3_bucket_acl" "bucket_acl" {
   acl    = "private"
 }
 
-resource "aws_s3_bucket_versioning" "bucket_versioning" {
-  bucket = aws_s3_bucket.bucket.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
   # Enable server-side encryption by default
  resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_encryption" {
   bucket = aws_s3_bucket.bucket.id
@@ -60,6 +54,22 @@ resource "aws_s3_bucket_cors_configuration" "bucket_cors" {
     expose_headers  = [""]
     max_age_seconds = 3000
   }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "retention-config" {
+  count = var.retention ? 1 : 0
+  bucket = aws_s3_bucket.bucket.id
+
+  rule {
+    id = "data-retention-limit"
+
+    expiration {
+      days = var.retention_days
+    }
+
+    status = "Enabled"
+  }
+
 }
 
 ###########
