@@ -113,7 +113,7 @@ EOF
 # Formio ECS Task Definitions
 ####################################
 resource "aws_ecs_task_definition" "pdf" {
-  family                   = "${var.name_prefix}-pdf-server"
+  family                   = "${var.name_prefix}-server"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = var.pdf_task_cpu
@@ -258,7 +258,7 @@ resource "aws_lb_listener_rule" "formio_listener" {
 ####################################
 
 resource "aws_ecs_service" "formio_pdf" {
-  name            = "${var.name_prefix}-formio-service"
+  name            = "${var.name_prefix}-service"
   cluster         = var.ecs_cluster_id
   task_definition = aws_ecs_task_definition.pdf.arn
   desired_count   = var.service_desired_task_count
@@ -293,7 +293,7 @@ resource "aws_appautoscaling_target" "formio_target" {
 }
 
 resource "aws_appautoscaling_policy" "formio_policy" {
-  name               = "${var.name_prefix}-formio-scaling-policy"
+  name               = "${var.name_prefix}-scaling-policy"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.formio_target.resource_id
   scalable_dimension = aws_appautoscaling_target.formio_target.scalable_dimension
