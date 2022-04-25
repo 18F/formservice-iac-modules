@@ -3,6 +3,8 @@ data "aws_iam_role" "this" {
 }
 
 resource "aws_ssm_maintenance_window_task" "this" {
+  name            = var.name
+  description     = var.description
   max_concurrency = var.max_concurrency
   max_errors      = var.max_errors
   priority        = var.priority

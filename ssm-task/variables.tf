@@ -3,6 +3,12 @@ variable "cloudwatch_output_enabled" {
   description = "Enables Systems Manager to send command output to CloudWatch Logs."
 }
 
+variable "description" {
+  type        = string
+  description = "The description of the maintenance window task."
+  default     = ""
+}
+
 variable "iam_policy_document" {
   type        = string
   description = "The policy document. This is a JSON formatted string."
@@ -29,6 +35,12 @@ variable "max_concurrency" {
 variable "max_errors" {
   type        = number
   description = "The maximum number of errors allowed before this task stops being scheduled."
+}
+
+variable "name" {
+  type        = string
+  description = "The name of the maintenance window task."
+  default     = ""
 }
 
 variable "parameters" {
