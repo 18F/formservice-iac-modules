@@ -60,28 +60,6 @@ resource "aws_lb_target_group" "main" {
   depends_on = [ aws_lb.formio_lb ]
 }
 
-resource "aws_lb_target_group" "pdf_server" {
-  count    = var.hub ? 1 : 0
-  name     = "${var.name_prefix}-pdf-tg"
-  port     = 443
-  protocol = "HTTPS"
-  vpc_id   = var.vpc_id
-
-  health_check {
-    enabled = true
-    protocol = "HTTPS"
-    path = "${var.health_path}"
-    port = 443
-    healthy_threshold = var.healthy_threshold
-    unhealthy_threshold = var.unhealthy_threshold
-    timeout = var.health_timeout
-    interval = var.health_interval
-    matcher = "200"
-  }
-
-  depends_on = [ aws_lb.formio_lb ]
-}
-
 resource "aws_lb_listener" "redirect" {
   load_balancer_arn = aws_lb.formio_lb.arn
   port              = "80"
@@ -108,29 +86,14 @@ resource "aws_lb_listener" "main" {
   certificate_arn   = var.certificate_arn
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.main.arn
+    type             = "fixed_response"
+    content_type     = "text/plain"
+    message_body     = "Placeholder"
+    status_code      = 200
   }
 
   depends_on = [ aws_lb.formio_lb, aws_lb_target_group.main ]
 }
 
-resource "aws_lb_listener_rule" "pdf_server" {
-  count        = var.hub ? 1 : 0
-  listener_arn = aws_lb_listener.main.arn
-  priority     = 10
 
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.pdf_server[0].arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/pdf/*"]
-    }
-  }
-
-  depends_on = [ aws_lb.formio_lb, aws_lb_target_group.pdf_server ]
-}
 
