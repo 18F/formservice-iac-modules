@@ -87,8 +87,14 @@ resource "aws_lb_listener" "main" {
 
   default_action {
     type             = "fixed_response"
-    content_type     = "text/plain"
-    message_body     = "Placeholder"
+
+    fixed_response {
+      content_type     = "text/plain"
+      message_body     = "Placeholder"
+      status_code      = "200"
+
+    }
+    
   }
 
   depends_on = [ aws_lb.formio_lb ]
