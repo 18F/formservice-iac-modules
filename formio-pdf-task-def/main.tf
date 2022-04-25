@@ -139,9 +139,6 @@ resource "aws_ecs_task_definition" "pdf" {
       { "name": "LICENSE_KEY",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:LICENSE_KEY::"
       },
-      { "name": "PDF_SERVER",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:PDF_SERVER::"
-      },
       { "name": "SSL_KEY",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:SSL_KEY::"
       },
@@ -151,35 +148,17 @@ resource "aws_ecs_task_definition" "pdf" {
       { "name": "NODE_TLS_REJECT_UNAUTHORIZED",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:NODE_TLS_REJECT_UNAUTHORIZED::"
       },
-      { "name": "ADMIN_EMAIL",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:ADMIN_EMAIL::"
-      },
-      { "name": "ADMIN_PASS",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:ADMIN_PASS::"
-      },
-      { "name": "ADMIN_KEY",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:ADMIN_KEY::"
-      },
       { "name": "DB_SECRET",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:DB_SECRET::"
       },
-      { "name": "JWT_SECRET",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:JWT_SECRET::"
+      { "name": "FORMIO_S3_KEY",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:FORMIO_S3_KEY::"
       },
-      { "name": "PORTAL_ENABLED",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:PORTAL_ENABLED::"
+      { "name": "FORMIO_S3_SECRET",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:FORMIO_S3_SECRET::"
       },
-      { "name": "PORTAL_SECRET",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:PORTAL_SECRET::"
-      },
-      { "name": "SSO_TEAMS",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:SSO_TEAMS::"
-      },
-      { "name": "PORTAL_SSO_LOGOUT",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:PORTAL_SSO_LOGOUT::"
-      },
-      { "name": "VPAT",
-        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:VPAT::"
+      { "name": "FORMIO_S3_BUCKET",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:FORMIO_S3_BUCKET::"
       },
       { "name": "DEBUG",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:DEBUG::"
@@ -268,7 +247,7 @@ resource "aws_lb_listener_rule" "formio_listener" {
 
  condition {
     path_pattern {
-      values = ["/${var.customer_path}/*"]
+      values = ["/pdf/*"]
     }
   }
   depends_on = [ aws_lb_target_group.formio ]
