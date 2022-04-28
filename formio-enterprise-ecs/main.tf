@@ -267,8 +267,8 @@ resource "aws_lb_listener_rule" "formio_listener" {
   }
 
  condition {
-    path_pattern {
-      values = ["/${var.customer_path}/*"]
+    host_header {
+      values = ["${var.host_header_value}.service.forms.gov"]
     }
   }
   depends_on = [ aws_lb_target_group.formio ]

@@ -79,6 +79,8 @@ variable "health_interval" {
 
 variable "formio_alb_listener_arn" { type = string }
 
+variable "host_header_value" { type = string }
+
 ###################################
 # ECS Service  Vars
 ###################################
