@@ -81,7 +81,7 @@ def age_off_form(form_id, friendly_form_name, age_off_days, submissions):
 
         ageOffResults = submissions.find({ 
             "$and": [{ 
-                    "form": form_id 
+                    "form": form_id
                 },
                 { 
                     "created": { "$lt": ageOffDate }
@@ -100,7 +100,7 @@ def age_off_form(form_id, friendly_form_name, age_off_days, submissions):
     except:
         raise
     finally:
-        logger.info("{} {} submissions remain, {} were aged off".format(numFormSubmissionsRemaining, friendly_form_name, numFormsAgedOff))
+        logger.info("{} {} submissions remain, {} were aged off after {} days".format(numFormSubmissionsRemaining, friendly_form_name, numFormsAgedOff, age_off_days))
 
     return None
 
@@ -129,18 +129,19 @@ def lambda_handler(event, context):
         logger.debug("Getting Environment Variables") 
         region_name = os.environ['REGION_NAME']
         secret_name = os.environ['SECRET_NAME']
-        db_cluster_path = os.environ['DB_CLUSTER_PATH']
+        db_path = os.environ['DB_CLUSTER_PATH']
         metricName = os.environ['METRIC_NAME']
+        database_name = os.environ['DB_NAME']
         
         logger.debug("Getting Secrets")    
         secrets = get_secret_dict(secret_name, region_name)
-        doc_db_master_username = secrets["doc_db_master_username"]
-        doc_db_master_password_sub = secrets["doc_db_master_password_sub"]
+        db_user = secrets["doc_db_master_username"]
+        db_pwd = secrets["doc_db_master_password_sub"]
 
         # Initialize the db submissions collection
-        connectionTxt = "mongodb://{db_name}:{db_pwd}@{db_path}/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false"
-        client = MongoClient(connectionTxt.format(db_name = doc_db_master_username, db_pwd = doc_db_master_password_sub, db_path = db_cluster_path))
-        db = client.formio
+        connectionTxt = f'mongodb://{db_user}:{db_pwd}@{db_path}/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false'
+        client = MongoClient(connectionTxt)
+        db = client[database_name]
         submissions = db.submissions
 
         # BEGIN Processing Forms
@@ -149,6 +150,7 @@ def lambda_handler(event, context):
         # providing the formid, friendly form name, number of days for age-off, and initialized submissions collection
 
         age_off_form("6179b6894a1dcb14ae235ec0", "Made in America Nonavailability Proposed Waiver - Prod SubSvr Live Stage", 30, submissions)
+        age_off_form("62717a07f616dae9c0003b69", "Made in America Urgent Requirements Report - Prod SubSvr Live Stage", 30, submissions)
         age_off_form("61f4540da7496979170c2582", "FaaS SmokeTest - Prod SubSvr Live Stage", 30, submissions)
 
         # END Processing Forms
@@ -160,7 +162,7 @@ def lambda_handler(event, context):
         # providing the formid for the resource, the initialized submissions collection, and friendly resource name
 
         print_submissions_count(get_form_submissions_count("6152373e22b35596706d584f", submissions), "Made in America Approver Resource - Prod SubSvr Live Stage")
-
+        
         # END Get Resource Counts
 
 
