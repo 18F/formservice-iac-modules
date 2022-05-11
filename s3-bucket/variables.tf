@@ -16,7 +16,7 @@ variable "lifecycle_configuration_rule_id" {
   default     = ""
 }
 
-variable "status" {
+variable "lifecycle_configuration_rule_status" {
   type        = string
   description = "Whether the rule is currently being applied. Valid values: Enabled or Disabled."
   default     = "Enabled"
