@@ -15,3 +15,9 @@ variable "lifecycle_configuration_rule_id" {
   description = "Unique identifier for the rule. The value cannot be longer than 255 characters."
   default     = ""
 }
+
+variable "status" {
+  type        = string
+  description = "Whether the rule is currently being applied. Valid values: Enabled or Disabled."
+  default     = "Enabled"
+}
