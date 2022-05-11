@@ -6,7 +6,7 @@ variable "bucket_prefix" {
 
 variable "expiration_days" {
   type        = number
-  description = ""
+  description = 365
   default     = "The lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer."
 }
 
