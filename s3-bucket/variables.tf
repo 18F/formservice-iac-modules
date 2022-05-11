@@ -6,12 +6,12 @@ variable "bucket_prefix" {
 
 variable "expiration_days" {
   type        = number
-  description = 365
-  default     = "The lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer."
+  description = "The lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer."
+  default     = 365
 }
 
 variable "lifecycle_configuration_rule_id" {
   type        = string
-  description = ""
-  default     = "Unique identifier for the rule. The value cannot be longer than 255 characters."
+  description = "Unique identifier for the rule. The value cannot be longer than 255 characters."
+  default     = ""
 }
