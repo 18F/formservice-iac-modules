@@ -47,7 +47,7 @@ variable "aws_region" {
 ###################################
 variable "vpc_id" { type = string }
 
-variable "private_subnet_cidrs" {}
+variable "private_subnet_cidrs" { type = list(string) }
 
 variable "load_balancing_algo" { 
     type = string
