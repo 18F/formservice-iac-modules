@@ -279,7 +279,7 @@ PDF_TASK_DEFINITION
         access_point_id = var.efs_access_point_id
       }
     }
-  },
+  }
   volume {
     name = var.pdf_conf_volume_name
 
@@ -291,7 +291,7 @@ PDF_TASK_DEFINITION
         access_point_id = var.pdf_conf_efs_access_point_id
       }
     }
-  },
+  }
   volume {
     name = var.nginx_certs_volume_name
 
