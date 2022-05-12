@@ -370,7 +370,7 @@ resource "aws_ecs_service" "formio_pdf" {
 
   network_configuration {
     subnets          = var.service_private_subnets
-    security_groups  = aws_security_group.formio_ecs_pdf_sg.id
+    security_groups  = [ aws_security_group.formio_ecs_pdf_sg.id ]
     assign_public_ip = false
   }
 
