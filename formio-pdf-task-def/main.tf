@@ -30,6 +30,41 @@ resource "aws_cloudwatch_log_group" "task_logs" {
 }
 
 ####################################
+# Set up Task Security Group
+####################################
+resource "aws_security_group" "formio_ecs_pdf_sg" {
+  name        = "${var.name_prefix}-ecs-pdf-sg"
+  description = "Allow Connections from the Load Balancer and from API tasks"
+  vpc_id      = var.vpc_id
+
+ ingress {
+    from_port       = 8443
+    to_port         = 8443
+    protocol        = "TCP"
+    security_groups = [ var.formio_alb_sg_id ]
+  }
+
+  ingress {
+    from_port       = 8443
+    to_port         = 8443
+    protocol        = "TCP"
+    cidr_blocks     = var.private_subnet_cidrs
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-ecs-pdf-sg"
+    Environment = "${var.name_prefix}"
+  }
+} 
+
+####################################
 # Formio ECS Task Policies
 ####################################
 resource "aws_iam_policy" "secret_access" {

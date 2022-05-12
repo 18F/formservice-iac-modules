@@ -47,6 +47,8 @@ variable "aws_region" {
 ###################################
 variable "vpc_id" { type = string }
 
+variable "private_subnet_cidrs" {}
+
 variable "load_balancing_algo" { 
     type = string
     default = "least_outstanding_requests"
@@ -80,6 +82,8 @@ variable "health_interval" {
 variable "formio_alb_listener_arn" { type = string }
 
 variable "host_header_value" { type = string }
+
+variable "formio_alb_sg_id" { type = string }
 
 ###################################
 # ECS Service  Vars
