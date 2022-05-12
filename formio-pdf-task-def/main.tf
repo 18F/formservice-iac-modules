@@ -22,10 +22,15 @@ data "aws_secretsmanager_secret" "task_secrets" {
 data "aws_caller_identity" "current" {}
 
 ####################################
-# Set up Log Group
+# Set up Log Groups
 ####################################
 resource "aws_cloudwatch_log_group" "task_logs" {
   name = "${var.name_prefix}/formio/pdf"
+  retention_in_days = 180
+}
+
+resource "aws_cloudwatch_log_group" "task_logs_proxy" {
+  name = "${var.name_prefix}/formio/pdf-proxy"
   retention_in_days = 180
 }
 

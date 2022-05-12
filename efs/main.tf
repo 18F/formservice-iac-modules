@@ -96,3 +96,57 @@ resource "aws_efs_access_point" "mountpoint" {
     path = "/formio"
   }
 }
+
+resource "aws_efs_access_point" "api_server" {
+  file_system_id = aws_efs_file_system.fs.id
+  posix_user {
+    gid = 1000
+    uid = 1000
+  }
+
+  root_directory {
+    creation_info {
+      owner_gid = 1000
+      owner_uid = 1000
+      permissions = 777
+    }
+
+    path = "/formio/nginx/api-conf"
+  }
+}
+
+resource "aws_efs_access_point" "pdf_server" {
+  file_system_id = aws_efs_file_system.fs.id
+  posix_user {
+    gid = 1000
+    uid = 1000
+  }
+
+  root_directory {
+    creation_info {
+      owner_gid = 1000
+      owner_uid = 1000
+      permissions = 777
+    }
+
+    path = "/formio/nginx/pdf-conf"
+  }
+}
+
+resource "aws_efs_access_point" "nginx_certs" {
+  file_system_id = aws_efs_file_system.fs.id
+  posix_user {
+    gid = 1000
+    uid = 1000
+  }
+
+  root_directory {
+    creation_info {
+      owner_gid = 1000
+      owner_uid = 1000
+      permissions = 777
+    }
+
+    path = "/formio/nginx/certs"
+  }
+}
