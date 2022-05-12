@@ -18,6 +18,8 @@ variable "pdf_task_memory" {
 }
 variable "pdf_image" { type = string }
 
+variable "nginx_image" { type = string }
+
 variable "pdf_ephemeral_storage" {
      type = number
      default = 25
@@ -32,6 +34,26 @@ variable "container_mount_path" {
 }
 variable "efs_file_system_id" { type = string }
 variable "efs_access_point_id" { type = string }
+
+variable "pdf_conf_volume_name" {
+     type = string
+     default = "nginx-conf"
+}
+variable "pdf_conf_volume_path" {
+     type = string
+     default = "/etc/nginx/conf.d"
+}
+variable "pdf_conf_efs_access_point_id" { type = string }
+
+variable "nginx_certs_volume_name" {
+     type = string
+     default = "nginx-certs"
+}
+variable "nginx_certs_volume_path" {
+     type = string
+     default = "/src/certs"
+}
+variable "nginx_certs_efs_access_point_id" { type = string }
 
 variable "log_stream_prefix" { 
      type = string
