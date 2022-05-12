@@ -10,7 +10,7 @@ output "aws_s3_bucket_lifecycle_configuration_id" {
 
 output "bucket" {
   value       = aws_s3_bucket.this.bucket
-  descritpion = "The name of the bucket."
+  description = "The name of the bucket."
 }
 
 output "bucket_domain_name" {
