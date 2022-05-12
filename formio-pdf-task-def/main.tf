@@ -252,7 +252,7 @@ resource "aws_ecs_task_definition" "pdf" {
       "logConfiguration": {
           "logDriver": "awslogs",
           "options": {
-              "awslogs-group": "${aws_cloudwatch_log_group.task_logs_proxy.name}}",
+              "awslogs-group": "${aws_cloudwatch_log_group.task_logs_proxy.name}",
               "awslogs-region": "${var.aws_region}",
               "awslogs-stream-prefix": "${var.log_stream_prefix}-proxy"
           }
