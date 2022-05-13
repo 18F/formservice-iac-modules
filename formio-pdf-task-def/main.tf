@@ -49,7 +49,7 @@ resource "aws_service_discovery_private_dns_namespace" "pdf_ns" {
 }
 
 resource "aws_service_discovery_service" "pdf_service_discovery_service" {
-  name = "example"
+  name = "${var.name_prefix}-discovery-service"
 
   dns_config {
     namespace_id = aws_service_discovery_private_dns_namespace.pdf_ns.id
