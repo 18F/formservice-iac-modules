@@ -212,6 +212,8 @@ resource "aws_ecs_task_definition" "pdf" {
       "cpu": 512,
       "memory": 2048,
       "essential": true,
+      "command": ["node" "pdf"],
+      "entryPoint": ["dumb-init" "--"],
       "mountPoints": [
         {
           "sourceVolume": "${var.pdf_volume_name}",
@@ -239,6 +241,8 @@ resource "aws_ecs_task_definition" "pdf" {
       "cpu": 256,
       "memory": 256,
       "essential": true,
+      "command": ["nginx" "-g" "daemon off;"],
+      "entryPoint": ["/docker-entrypoint.sh"],
       "mountPoints": [
         {
           "sourceVolume": "${var.pdf_conf_volume_name}",
