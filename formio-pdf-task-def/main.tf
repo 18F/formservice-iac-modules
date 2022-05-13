@@ -40,6 +40,34 @@ resource "aws_cloudwatch_log_group" "task_logs_twistlock" {
 }
 
 ####################################
+# Set up Service Discovery
+####################################
+resource "aws_service_discovery_private_dns_namespace" "pdf_ns" {
+  name        = var.service_discovery_namespace
+  description = "${var.name_prefix} Service Discovery Private Namespace"
+  vpc         = var.vpc_id
+}
+
+resource "aws_service_discovery_service" "pdf_service_discovery_service" {
+  name = "example"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.pdf_ns.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
+####################################
 # Set up Task Security Group
 ####################################
 resource "aws_security_group" "formio_ecs_pdf_sg" {
@@ -503,7 +531,11 @@ resource "aws_ecs_service" "formio_pdf" {
     assign_public_ip = false
   }
 
-   lifecycle {
+  service_registries {
+    registery_arn    = aws_service_discovery_service.pdf_service_discovery_service.arn
+  }
+
+  lifecycle {
     ignore_changes = [desired_count]
   }
 }

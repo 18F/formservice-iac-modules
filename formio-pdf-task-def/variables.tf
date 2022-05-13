@@ -2,6 +2,7 @@
 # Global Vars
 ###################################
 variable "name_prefix" { type = string }
+variable "service_discovery_namespace" { type = string }
 
 ###################################
 # Task Definition Vars
