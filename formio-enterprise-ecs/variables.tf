@@ -20,6 +20,8 @@ variable "enterprise_image" { type = string }
 
 variable "nginx_image" { type = string }
 
+variable "tw_image" { type = string }
+
 variable "enterprise_ephemeral_storage" {
      type = number
      default = 25
