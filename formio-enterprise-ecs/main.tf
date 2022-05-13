@@ -377,7 +377,7 @@ resource "aws_ecs_service" "formio_enterprise" {
   health_check_grace_period_seconds = var.health_check_grace_period_seconds
   load_balancer {
     target_group_arn = aws_lb_target_group.formio.arn
-    container_name   = "enterprise-api-server"
+    container_name   = "nginx-proxy"
     container_port   = 8443
   }
 
