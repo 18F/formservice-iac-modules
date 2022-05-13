@@ -295,7 +295,7 @@ ENTERPRISE_TASK_DEFINITION
     }
   }
   volume {
-    name = var.pdf_conf_volume_name
+    name = var.ent_conf_volume_name
 
     efs_volume_configuration {
       file_system_id          = var.efs_file_system_id
