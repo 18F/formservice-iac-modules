@@ -34,6 +34,11 @@ resource "aws_cloudwatch_log_group" "task_logs_proxy" {
   retention_in_days = 180
 }
 
+resource "aws_cloudwatch_log_group" "task_logs_twistlock" {
+  name = "${var.name_prefix}/formio/twistlock"
+  retention_in_days = 180
+}
+
 ####################################
 # Set up Task Security Group
 ####################################
@@ -160,6 +165,22 @@ resource "aws_ecs_task_definition" "enterprise" {
         {
           "name": "PORT",
           "value": "3000"
+        },
+        {
+          "name": "TW_IMAGE_NAME",
+          "value": "${var.enterprise_image}"
+        },
+        {
+          "name": "TW_CONTAINER_NAME",
+          "value": "enterprise-api-server"
+        },
+        {
+          "name": "DEFENDER_TYPE",
+          "value": "fargate"
+        },
+        {
+          "name": "FARGATE_TASK",
+          "value": "${var.name_prefix}-enterprise-server"
         }
       ],
       "secrets": [{
@@ -226,10 +247,35 @@ resource "aws_ecs_task_definition" "enterprise" {
       "cpu": 512,
       "memory": 1024,
       "essential": true,
+      "dependsOn": [
+        {
+          "condition": "START",
+          "containerName": "TwistlockDefender"
+        }
+      ],
+      "linuxParameters": {
+        "capabilities": {
+          "add": [
+            "SYS_PTRACE"
+          ]
+        }
+      },
+      "command": ["node", "formio.js", "--max_old_space_size=8192"],
+      "entryPoint": [
+        "/var/lib/twistlock/fargate/fargate_defender.sh",
+        "fargate",
+        "entrypoint"
+      ],
       "mountPoints": [
         {
           "sourceVolume": "${var.enterprise_volume_name}",
           "containerPath": "${var.container_mount_path}"
+        }
+      ],
+      "volumesFrom": [
+        {
+          "readOnly": false,
+          "sourceContainer": "TwistlockDefender"
         }
       ],
       "logConfiguration": {
@@ -244,6 +290,24 @@ resource "aws_ecs_task_definition" "enterprise" {
     {
       "name": "nginx-proxy",
       "image": "${var.nginx_image}",
+      "environment": [
+        {
+          "name": "TW_IMAGE_NAME",
+          "value": "${var.nginx_image}"
+        },
+        {
+          "name": "TW_CONTAINER_NAME",
+          "value": "nginx-proxy"
+        },
+        {
+          "name": "DEFENDER_TYPE",
+          "value": "fargate"
+        },
+        {
+          "name": "FARGATE_TASK",
+          "value": "${var.name_prefix}-enterprise-server"
+        }
+      ],
       "portMappings": [
         {
           "hostPort": 8443,
@@ -253,6 +317,26 @@ resource "aws_ecs_task_definition" "enterprise" {
       "cpu": 256,
       "memory": 256,
       "essential": true,
+      "dependsOn": [
+        {
+          "condition": "START",
+          "containerName": "TwistlockDefender"
+        }
+      ],
+      "linuxParameters": {
+        "capabilities": {
+          "add": [
+            "SYS_PTRACE"
+          ]
+        }
+      },
+      "command": ["nginx", "-g", "daemon off;"],
+      "entryPoint": [
+        "/var/lib/twistlock/fargate/fargate_defender.sh",
+        "fargate",
+        "entrypoint",
+        "/docker-entrypoint.sh"
+      ],
       "mountPoints": [
         {
           "sourceVolume": "${var.ent_conf_volume_name}",
@@ -263,12 +347,56 @@ resource "aws_ecs_task_definition" "enterprise" {
           "containerPath": "${var.nginx_certs_volume_path}"
         }
       ],
+      "volumesFrom": [
+        {
+          "readOnly": false,
+          "sourceContainer": "TwistlockDefender"
+        }
+      ],
       "logConfiguration": {
           "logDriver": "awslogs",
           "options": {
               "awslogs-group": "${aws_cloudwatch_log_group.task_logs_proxy.name}",
               "awslogs-region": "${var.aws_region}",
               "awslogs-stream-prefix": "${var.log_stream_prefix}-proxy"
+          }
+      }
+    },
+    {
+      "name": "TwistlockDefender",
+      "image": "${var.tw_image}",
+      "environment": [
+        {
+          "name": "DEFENDER_TYPE",
+          "value": "fargate"
+        },
+        {
+          "name": "FARGATE_TASK",
+          "value": "${var.name_prefix}-server"
+        },
+        {
+          "name": "WS_ADDRESS",
+          "value": "wss://us-west1.cloud.twistlock.com:443"
+        }
+      ],
+      "secrets": [{
+        "name": "INSTALL_BUNDLE",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:TW_INSTALL_BUNDLE::"
+      }],
+      "cpu": 256,
+      "memory": 256,
+      "essential": true,
+      "entryPoint": [
+        "/usr/local/bin/defender",
+        "fargate",
+        "sidecar"
+      ],
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "${aws_cloudwatch_log_group.task_logs_twistlock.name}",
+              "awslogs-region": "${var.aws_region}",
+              "awslogs-stream-prefix": "${var.log_stream_prefix}-twistlock"
           }
       }
     }
