@@ -532,7 +532,7 @@ resource "aws_ecs_service" "formio_pdf" {
   }
 
   service_registries {
-    registery_arn    = aws_service_discovery_service.pdf_service_discovery_service.arn
+    registry_arn    = aws_service_discovery_service.pdf_service_discovery_service.arn
   }
 
   lifecycle {
