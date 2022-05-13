@@ -14,7 +14,7 @@ variable "pdf_task_cpu" {
 }
 variable "pdf_task_memory" {
      type = number
-     default = 2048
+     default = 3072
 }
 variable "pdf_image" { type = string }
 
