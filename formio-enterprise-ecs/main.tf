@@ -22,12 +22,45 @@ data "aws_secretsmanager_secret" "task_secrets" {
 data "aws_caller_identity" "current" {}
 
 ####################################
-# Set up Log Group
+# Set up Log Groups
 ####################################
 resource "aws_cloudwatch_log_group" "task_logs" {
   name = "${var.name_prefix}/formio/enterprise"
   retention_in_days = 180
 }
+
+resource "aws_cloudwatch_log_group" "task_logs_proxy" {
+  name = "${var.name_prefix}/formio/ent-proxy"
+  retention_in_days = 180
+}
+
+####################################
+# Set up Task Security Group
+####################################
+resource "aws_security_group" "formio_ecs_ent_sg" {
+  name        = "${var.name_prefix}-ecs-ent-sg"
+  description = "Allow Connections from the Load Balancer"
+  vpc_id      = var.vpc_id
+
+ ingress {
+    from_port       = 8443
+    to_port         = 8443
+    protocol        = "TCP"
+    security_groups = [ var.formio_alb_sg_id ]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-ecs-ent-sg"
+    Environment = "${var.name_prefix}"
+  }
+} 
 
 ####################################
 # Formio ECS Task Policies
@@ -207,6 +240,37 @@ resource "aws_ecs_task_definition" "enterprise" {
               "awslogs-stream-prefix": "${var.log_stream_prefix}"
           }
       }
+    },
+    {
+      "name": "nginx-proxy",
+      "image": "${var.nginx_image}",
+      "portMappings": [
+        {
+          "hostPort": 8443,
+          "containerPort": 8443
+        }
+      ],
+      "cpu": 256,
+      "memory": 256,
+      "essential": true,
+      "mountPoints": [
+        {
+          "sourceVolume": "${var.ent_conf_volume_name}",
+          "containerPath": "${var.ent_conf_volume_path}"
+        },
+        {
+          "sourceVolume": "${var.nginx_certs_volume_name}",
+          "containerPath": "${var.nginx_certs_volume_path}"
+        }
+      ],
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "${aws_cloudwatch_log_group.task_logs_proxy.name}",
+              "awslogs-region": "${var.aws_region}",
+              "awslogs-stream-prefix": "${var.log_stream_prefix}-proxy"
+          }
+      }
     }
 ]
 ENTERPRISE_TASK_DEFINITION
@@ -230,6 +294,30 @@ ENTERPRISE_TASK_DEFINITION
       }
     }
   }
+  volume {
+    name = var.pdf_conf_volume_name
+
+    efs_volume_configuration {
+      file_system_id          = var.efs_file_system_id
+      transit_encryption      = "ENABLED"
+      root_directory          =  "/"
+      authorization_config {
+        access_point_id = var.ent_conf_efs_access_point_id
+      }
+    }
+  }
+  volume {
+    name = var.nginx_certs_volume_name
+
+    efs_volume_configuration {
+      file_system_id          = var.efs_file_system_id
+      transit_encryption      = "ENABLED"
+      root_directory          =  "/"
+      authorization_config {
+        access_point_id = var.nginx_certs_efs_access_point_id
+      }
+    }
+  }
 }
 
 ####################################
@@ -238,7 +326,7 @@ ENTERPRISE_TASK_DEFINITION
 
 resource "aws_lb_target_group" "formio" {
   name        = "${var.name_prefix}-formio-tg"
-  port        = 3000
+  port        = 8443
   protocol    = "HTTPS"
   vpc_id      = var.vpc_id
   target_type = "ip"
@@ -249,7 +337,7 @@ resource "aws_lb_target_group" "formio" {
     enabled = true
     protocol = "HTTPS"
     path = "${var.health_path}"
-    port = 3000
+    port = 8443
     healthy_threshold = var.healthy_threshold
     unhealthy_threshold = var.unhealthy_threshold
     timeout = var.health_timeout
@@ -271,7 +359,6 @@ resource "aws_lb_listener_rule" "formio_listener" {
       values = ["${var.host_header_value}.service.forms.gov"]
     }
   }
-  depends_on = [ aws_lb_target_group.formio ]
 }
 
 ####################################
@@ -291,12 +378,12 @@ resource "aws_ecs_service" "formio_enterprise" {
   load_balancer {
     target_group_arn = aws_lb_target_group.formio.arn
     container_name   = "enterprise-api-server"
-    container_port   = 3000
+    container_port   = 8443
   }
 
   network_configuration {
     subnets          = var.service_private_subnets
-    security_groups  = var.service_security_group
+    security_groups  = [ aws_security_group.formio_ecs_ent_sg.id ]
     assign_public_ip = false
   }
 
