@@ -351,7 +351,7 @@ resource "aws_ecs_task_definition" "pdf" {
       }
     },
     {
-      "name": "TwistlockDefender"",
+      "name": "TwistlockDefender",
       "image": "${var.tw_image}",
       "environment": [
         {
