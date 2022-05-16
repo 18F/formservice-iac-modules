@@ -249,6 +249,12 @@ resource "aws_ecs_task_definition" "pdf" {
       { "name": "FORMIO_S3_BUCKET",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:FORMIO_S3_BUCKET::"
       },
+      { "name": "FORMIO_S3_REGION",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:FORMIO_S3_REGION::"
+      },
+      { "name": "FORMIO_VIEWER",
+        "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:FORMIO_VIEWER::"
+      },
       { "name": "DEBUG",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:DEBUG::"
       }],
