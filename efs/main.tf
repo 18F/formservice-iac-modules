@@ -106,7 +106,7 @@ resource "aws_efs_mount_target" "mout_point" {
   count = local.private_subnet_count
   file_system_id  = aws_efs_file_system.fs.id
   subnet_id       = var.private_subnet_ids[count.index]
-  security_groups = var.allowed_security_groups
+  security_groups = [ aws_security_group.formio_efrs_sg.id ]
 }
 
 resource "aws_efs_access_point" "mountpoint" {
