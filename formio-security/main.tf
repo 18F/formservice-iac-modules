@@ -93,39 +93,3 @@ resource "aws_iam_policy" "documentDB_key_user" {
 }
 EOF
 }
-
-############
-# Security Groups for FormIO ALB and ECS
-############
-
-resource "aws_security_group" "formio_alb_sg" {
-  name        = "${var.name_prefix}-alb-sg"
-  description = "Allow Connections to the Load Balancer"
-  vpc_id      = var.vpc_id
-
- ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "TCP"
-    cidr_blocks = tolist([ var.formio_alb_allowed_cidr_blocks ])
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "TCP"
-    cidr_blocks = tolist([ var.formio_alb_allowed_cidr_blocks ])
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "${var.name_prefix}-alb-sg"
-    Environment = "${var.name_prefix}"
-  }
-} 

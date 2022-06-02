@@ -17,12 +17,3 @@ variable "region" {
   description = "AWS region"
 }
 
-variable "vpc_id" {
-  type        = string
-  description = "Used the vpc id"
-}
-
-variable "formio_alb_allowed_cidr_blocks" {
-  default     = "0.0.0.0/0"
-  description = "List of CIDR blocks to be allowed to connect to the FormIO ALB"
-}

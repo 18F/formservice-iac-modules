@@ -21,7 +21,3 @@ output "s3_bucket_key_id" {
 output "s3_kms_key_policy_arn" {
   value = aws_iam_policy.s3_key_user.arn
 }
-
-output "formio_alb_sg" {
-  value = aws_security_group.formio_alb_sg.id
-}
