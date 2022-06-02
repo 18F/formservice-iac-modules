@@ -15,7 +15,7 @@ resource "aws_s3_bucket" "alb_access_logs" {
     id                                     = "${var.project}-${var.days}-day-delete"
 
     expiration {
-      days                         = ${var.expiration_days}
+      days                         = "${var.expiration_days}"
       expired_object_delete_marker = false
     }
   }
