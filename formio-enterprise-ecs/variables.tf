@@ -138,10 +138,6 @@ variable "service_private_subnets" {
      type = list(string)
 }
 
-variable "service_security_group" {
-     type = list(string)
-}
-
 variable "service_autoscaling_max" {
      type = number
      default = 8

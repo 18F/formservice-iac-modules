@@ -17,7 +17,7 @@ terraform {
 ############
 
 resource "aws_security_group" "formio_alb_sg" {
-  name        = "${var.name_prefix}-alb-sg"
+  name        = "${var.name_prefix}-ecs-alb-sg"
   description = "Allow Connections to the Load Balancer"
   vpc_id      = var.vpc_id
 
@@ -43,7 +43,7 @@ resource "aws_security_group" "formio_alb_sg" {
   }
 
   tags = {
-    Name = "${var.name_prefix}-alb-sg"
+    Name = "${var.name_prefix}-ecs-alb-sg"
     Environment = "${var.name_prefix}"
   }
 }
