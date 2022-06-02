@@ -11,6 +11,7 @@ variable "env" {
 variable "expiration_days" {
   type        = number
   description = "Specifies the number of days after object creation when the specific rule action takes effect."
+  default     = 180
 }
 
 variable "project" {
