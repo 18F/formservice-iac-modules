@@ -25,11 +25,3 @@ output "s3_kms_key_policy_arn" {
 output "formio_alb_sg" {
   value = aws_security_group.formio_alb_sg.id
 }
-
-output "formio_ecs_sg" {
-  value = aws_security_group.formio_ecs_sg.id
-}
-
-output "formio_ecs_pdf_sg" {
-  value = aws_security_group.formio_ecs_pdf_sg.id
-}
