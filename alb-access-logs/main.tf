@@ -12,10 +12,10 @@ resource "aws_s3_bucket" "alb_access_logs" {
   lifecycle_rule {
     abort_incomplete_multipart_upload_days = 0
     enabled                                = true
-    id                                     = "${var.project}-90-day-delete"
+    id                                     = "${var.project}-${var.expiration_days}-day-delete"
 
     expiration {
-      days                         = 90
+      days                         = "${var.expiration_days}"
       expired_object_delete_marker = false
     }
   }
