@@ -17,3 +17,7 @@ output "faas_formio_autoscaling_prefix" {
   description = "alb arn portion required for autoscaling resource labels "
   value       = regex("app/.+", aws_lb.formio_lb.arn)
 }
+
+output "formio_alb_sg" {
+  value = aws_security_group.formio_alb_sg.id
+}
