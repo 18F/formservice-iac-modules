@@ -27,6 +27,7 @@ resource "aws_security_group" "formio_efrs_sg" {
   vpc_id      = var.vpc_id
 
  ingress {
+    description     = "NFS"
     from_port       = 2049
     to_port         = 2049
     protocol        = "TCP"
