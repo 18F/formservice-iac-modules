@@ -1,6 +1,6 @@
 data "aws_canonical_user_id" "current_user" {}
 
-resource "aws_s3_bucket" "this" {
+resource "aws_s3_bucket" "alb_access_logs" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
 
   grant {
@@ -30,20 +30,20 @@ resource "aws_s3_bucket" "this" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "this" {
-  bucket                  = aws_s3_bucket.this.id
+resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
+  bucket                  = aws_s3_bucket.alb_access_logs.id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_policy" "this" {
-  bucket = aws_s3_bucket.this.id
-  policy = data.aws_iam_policy_document.this.json
+resource "aws_s3_bucket_policy" "alb_access_logs" {
+  bucket = aws_s3_bucket.alb_access_logs.id
+  policy = data.aws_iam_policy_document.alb_access_logs.json
 }
 
-data "aws_iam_policy_document" "this" {
+data "aws_iam_policy_document" "alb_access_logs" {
   statement {
     sid       = ""
     effect    = "Allow"
