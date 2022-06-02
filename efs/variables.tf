@@ -10,3 +10,4 @@ variable "allowed_security_groups" {
      type = list(string)
      default = [""]
 }
+variable "efs_allowed_subnet_cidrs" { type = list(string) }

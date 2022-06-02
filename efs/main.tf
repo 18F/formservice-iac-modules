@@ -17,6 +17,35 @@ locals {
 
 }
 
+################################
+# Security Groups for FormIO EFS
+################################
+
+resource "aws_security_group" "formio_efrs_sg" {
+  name        = "${var.name_prefix}-efs-sg"
+  description = "Allow Connections to EFS"
+  vpc_id      = var.vpc_id
+
+ ingress {
+    from_port       = 2049
+    to_port         = 2049
+    protocol        = "TCP"
+    cidr_blocks     = var.efs_allowed_subnet_cidrs
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.name_prefix}-efs-sg"
+    Environment = "${var.name_prefix}"
+  }
+}
+
 ####################################
 # EFS Standup
 ####################################
