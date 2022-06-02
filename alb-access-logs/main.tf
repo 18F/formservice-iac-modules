@@ -1,6 +1,6 @@
 data "aws_canonical_user_id" "current_user" {}
 
-resource "aws_s3_bucket" "alb_access_logs" {
+resource "aws_s3_bucket" "this" {
   bucket = "${var.project}-${var.env}-alb-access-logs"
 
   grant {
@@ -12,7 +12,6 @@ resource "aws_s3_bucket" "alb_access_logs" {
   lifecycle_rule {
     abort_incomplete_multipart_upload_days = 0
     enabled                                = true
-    id                                     = "${var.project}-${var.expiration_days}-day-delete"
 
     expiration {
       days                         = "${var.expiration_days}"
@@ -31,20 +30,20 @@ resource "aws_s3_bucket" "alb_access_logs" {
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "alb_access_logs" {
-  bucket                  = aws_s3_bucket.alb_access_logs.id
+resource "aws_s3_bucket_public_access_block" "this" {
+  bucket                  = aws_s3_bucket.this.id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
 
-resource "aws_s3_bucket_policy" "alb_access_logs" {
-  bucket = aws_s3_bucket.alb_access_logs.id
-  policy = data.aws_iam_policy_document.alb_access_logs.json
+resource "aws_s3_bucket_policy" "this" {
+  bucket = aws_s3_bucket.this.id
+  policy = data.aws_iam_policy_document.this.json
 }
 
-data "aws_iam_policy_document" "alb_access_logs" {
+data "aws_iam_policy_document" "this" {
   statement {
     sid       = ""
     effect    = "Allow"
