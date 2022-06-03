@@ -564,12 +564,33 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
       "width": 3,
       "height": 3,
       "properties": {
-        "markdown": "Hello world"
+        "markdown": "${var.name_prefix}"
       }
     },
     {
       "type":"metric",
       "x":4,
+      "y":0,
+      "width":4,
+      "height":6,
+      "properties":{
+        "metrics": [
+            [ { "expression": "SUM(METRICS())", "label": "US-Gov-West-1", "id": "e1", "region": "us-gov-west-1" } ],
+            [ "AWS/ApplicationELB", "HealthyHostCount", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}", "LoadBalancer", "${var.alb_resource_label}", "AvailabilityZone", "${var.aws_region}a", { "id": "m1", "visible": false } ],
+            [ "...", "${var.aws_region}c", { "id": "m2", "visible": false } ],
+            [ "...", "${var.aws_region}b", { "id": "m3", "visible": false } ]
+        ],
+        "sparkline": true,
+        "view": "singleValue",
+        "region": "${var.aws_region}",
+        "stat": "Maximum",
+        "period": 300,
+        "title": "${var.name_prefix} Healthy Hosts"
+       }
+    },
+    {
+      "type":"metric",
+      "x":8,
       "y":0,
       "width":12,
       "height":6,
