@@ -572,3 +572,102 @@ resource "aws_appautoscaling_policy" "formio_policy" {
   }
 }
 
+#####################################
+# Formio PDF Server Dashboard Setup
+#####################################
+
+resource "aws_cloudwatch_dashboard" "pdf" {
+  dashboard_name = "${var.name_prefix}"
+
+  dashboard_body = <<EOF
+{
+  "widgets": [
+    {
+      "type":"metric",
+      "x":0,
+      "y":0,
+      "width":4,
+      "height":6,
+      "properties":{
+        "metrics": [
+            [ { "expression": "SUM(METRICS())", "label": "US-Gov-West-1", "id": "e1", "region": "us-gov-west-1" } ],
+            [ "AWS/ApplicationELB", "HealthyHostCount", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}", "LoadBalancer", "${var.alb_resource_label}", "AvailabilityZone", "${var.aws_region}a", { "id": "m1", "visible": false } ],
+            [ "...", "${var.aws_region}c", { "id": "m2", "visible": false } ],
+            [ "...", "${var.aws_region}b", { "id": "m3", "visible": false } ]
+        ],
+        "sparkline": true,
+        "view": "singleValue",
+        "region": "${var.aws_region}",
+        "stat": "Maximum",
+        "period": 300,
+        "title": "${var.name_prefix} Healthy Hosts"
+       }
+    },
+    {
+      "type":"metric",
+      "x":4,
+      "y":0,
+      "width":8,
+      "height":6,
+      "properties":{
+         "metrics": [
+              [ "AWS/ApplicationELB", "RequestCountPerTarget", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}" ]
+            ],
+            "view": "timeSeries",
+            "region": "${var.aws_region}",
+            "yAxis": {
+                "left": {
+                   "min": 0
+                }
+            },
+          "stat": "Sum",
+          "period": 60,
+          "title": "Request Count Per Target",
+          "liveData": false,
+          "stacked": false
+       }
+    },
+    {
+      "type":"metric",
+      "x":12,
+      "y":0,
+      "width":8,
+      "height":6,
+      "properties":{
+         "metrics": [
+             [ { "expression": "SUM(METRICS())", "label": "Request Count", "id": "e1", "region": "${var.aws_region}" } ],
+             [ "AWS/ApplicationELB", "RequestCount", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}", "LoadBalancer", "${var.alb_resource_label}", "AvailabilityZone", "${var.aws_region}a", { "id": "m1", "visible": false } ],
+             [ "...", "${var.aws_region}c", { "id": "m2", "visible": false } ],
+             [ "...", "${var.aws_region}b", { "id": "m3", "visible": false } ]
+           ],
+          "view": "timeSeries",
+          "stacked": false,
+          "region": "${var.aws_region}",
+          "stat": "Sum",
+          "period": 300,
+          "title": "Request Count"
+       }
+    },
+    {
+      "type":"metric",
+      "x":0,
+      "y":7,
+      "width":8,
+      "height":6,
+      "properties":{
+         "metrics": [
+             [ "AWS/ECS", "CPUUtilization", "ServiceName", "${aws_ecs_service.formio_pdf.name}", "ClusterName", "${var.ecs_cluster_name}" ],
+             [ ".", "MemoryUtilization", ".", ".", ".", "." ]
+          ],
+         "view": "timeSeries",
+         "stacked": false,
+         "region": "${var.aws_region}",
+         "stat": "Average",
+         "period": 60,
+         "title": "Service Utilization"
+       }
+    }
+  ]
+}
+EOF
+}
