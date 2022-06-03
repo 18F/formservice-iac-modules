@@ -489,9 +489,9 @@ resource "aws_lb_listener_rule" "formio_listener" {
   }
 }
 
-####################################
+#####################################
 # Formio Enterprise ECS Service Setup
-####################################
+#####################################
 
 resource "aws_ecs_service" "formio_enterprise" {
   name            = "${var.name_prefix}-formio-service"
@@ -547,3 +547,50 @@ resource "aws_appautoscaling_policy" "formio_policy" {
   }
 }
 
+#####################################
+# Formio Enterprise Dashboard Setup
+#####################################
+
+resource "aws_cloudwatch_dashboard" "enterprise" {
+  dashboard_name = "${var.name_prefix}"
+
+  dashboard_body = <<EOF
+{
+  "widgets": [
+    {
+      "type": "text",
+      "x": 0,
+      "y": 0,
+      "width": 3,
+      "height": 3,
+      "properties": {
+        "markdown": "Hello world"
+      }
+    },
+    {
+      "type":"metric",
+      "x":4,
+      "y":0,
+      "width":12,
+      "height":6,
+      "properties":{
+         "metrics": [
+               [ "AWS/ApplicationELB", "RequestCountPerTarget", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}" ]
+             ],
+         "view": "timeSeries",
+         "region": "${var.aws_region}",
+         "yAxis": {
+             "left": {
+                 "min": 0
+             }
+        },
+      "stat": "Sum",
+      "period": 60,
+      "title": "Request Count Per Target",
+      "liveData": false,
+      "stacked": false
+    }
+  ]
+}
+EOF
+}
