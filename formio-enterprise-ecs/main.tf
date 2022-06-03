@@ -625,8 +625,8 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
     },
     {
       "type":"metric",
-      "x":20,
-      "y":0,
+      "x":0,
+      "y":7,
       "width":8,
       "height":6,
       "properties":{
