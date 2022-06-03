@@ -631,7 +631,7 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
       "height":6,
       "properties":{
          "metrics": [
-             [ "AWS/ECS", "CPUUtilization", "ServiceName", "${aws_ecs_service.formio_enterprise.name}", "ClusterName", "${var.ecs_cluster_id}" ],
+             [ "AWS/ECS", "CPUUtilization", "ServiceName", "${aws_ecs_service.formio_enterprise.name}", "ClusterName", "${var.ecs_cluster_name}" ],
              [ ".", "MemoryUtilization", ".", ".", ".", "." ]
           ],
          "view": "timeSeries",
