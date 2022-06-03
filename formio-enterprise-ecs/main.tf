@@ -558,18 +558,8 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
 {
   "widgets": [
     {
-      "type": "text",
-      "x": 0,
-      "y": 0,
-      "width": 3,
-      "height": 3,
-      "properties": {
-        "markdown": "${var.name_prefix}"
-      }
-    },
-    {
       "type":"metric",
-      "x":4,
+      "x":0,
       "y":0,
       "width":4,
       "height":6,
@@ -590,9 +580,9 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
     },
     {
       "type":"metric",
-      "x":8,
+      "x":5,
       "y":0,
-      "width":12,
+      "width":8,
       "height":6,
       "properties":{
          "metrics": [
@@ -610,6 +600,27 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
           "title": "Request Count Per Target",
           "liveData": false,
           "stacked": false
+       }
+    },
+    {
+      "type":"metric",
+      "x":13,
+      "y":0,
+      "width":8,
+      "height":6,
+      "properties":{
+         "metrics": [
+             [ { "expression": "SUM(METRICS())", "label": "Request Count", "id": "e1", "region": "${var.aws_region}" } ],
+             [ "AWS/ApplicationELB", "RequestCount", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}", "LoadBalancer", "${var.alb_resource_label}", "AvailabilityZone", "${var.aws_region}a", { "id": "m1", "visible": false } ],
+             [ "...", "${var.aws_region}c", { "id": "m2", "visible": false } ],
+             [ "...", "${var.aws_region}b", { "id": "m3", "visible": false } ]
+           ],
+          "view": "timeSeries",
+          "stacked": false,
+          "region": "${var.aws_region}",
+          "stat": "Sum",
+          "period": 300,
+          "title": "Request Count"
        }
     }
   ]
