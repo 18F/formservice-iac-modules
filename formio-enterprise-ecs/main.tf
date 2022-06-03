@@ -566,6 +566,30 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
       "properties": {
         "markdown": "Hello world"
       }
+    },
+    {
+      "type":"metric",
+      "x":4,
+      "y":0,
+      "width":12,
+      "height":6,
+      "properties":{
+         "metrics": [
+              [ "AWS/ApplicationELB", "RequestCountPerTarget", "TargetGroup", "${aws_lb_target_group.formio.arn_suffix}" ]
+            ],
+            "view": "timeSeries",
+            "region": "${var.aws_region}",
+            "yAxis": {
+                "left": {
+                   "min": 0
+                }
+            },
+          "stat": "Sum",
+          "period": 60,
+          "title": "Request Count Per Target",
+          "liveData": false,
+          "stacked": false
+       }
     }
   ]
 }
