@@ -580,7 +580,7 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
     },
     {
       "type":"metric",
-      "x":5,
+      "x":4,
       "y":0,
       "width":8,
       "height":6,
@@ -604,7 +604,7 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
     },
     {
       "type":"metric",
-      "x":13,
+      "x":12,
       "y":0,
       "width":8,
       "height":6,
