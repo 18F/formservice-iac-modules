@@ -622,6 +622,25 @@ resource "aws_cloudwatch_dashboard" "enterprise" {
           "period": 300,
           "title": "Request Count"
        }
+    },
+    {
+      "type":"metric",
+      "x":20,
+      "y":0,
+      "width":8,
+      "height":6,
+      "properties":{
+         "metrics": [
+             [ "AWS/ECS", "CPUUtilization", "ServiceName", "${aws_ecs_service.formio_enterprise.name}", "ClusterName", "${var.ecs_cluster_id}" ],
+             [ ".", "MemoryUtilization", ".", ".", ".", "." ]
+          ],
+         "view": "timeSeries",
+         "stacked": false,
+         "region": "${var.aws_region}",
+         "stat": "Average",
+         "period": 60,
+         "title": "Service Utilization"
+       }
     }
   ]
 }
