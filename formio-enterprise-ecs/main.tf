@@ -547,6 +547,29 @@ resource "aws_appautoscaling_policy" "formio_policy" {
   }
 }
 
+######################################
+# Formio API Server Minimum Host Alarm
+######################################
+
+resource "aws_cloudwatch_metric_alarm" "tg_healthy_hosts" {
+  alarm_name          = "${var.name_prefix}-healthy-hosts"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "HealthyHostCount"
+  namespace           = "AWS/ApplicationELB"
+  period              = "60"
+  statistic           = "Average"
+  threshold           = var.alarm_threshold
+  alarm_description   = "Number of healthy nodes in Target Group"
+  actions_enabled     = var.alarm_actions_enabled
+  alarm_actions       = [ var.alarm_sns_topic ]
+  ok_actions          = [ var.alarm_sns_topic ]
+  dimensions = {
+    TargetGroup  = aws_lb_target_group.formio.arn_suffix
+    LoadBalancer = var.alb_resource_label
+  }
+}
+
 #####################################
 # Formio Enterprise Dashboard Setup
 #####################################

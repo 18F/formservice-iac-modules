@@ -166,3 +166,18 @@ variable "scaling_metric_scale_out_cooldown" {
 }
 
 variable "alb_resource_label" { type = string }
+
+###################################
+# Cloudwatch Alert Vars
+###################################
+variable "alarm_threshold" {
+     type = number
+     default = 2
+}
+
+variable "alarm_actions_enabled" {
+     type = bool
+     default = true
+}
+
+variable "alarm_sns_topic" { type = string }
