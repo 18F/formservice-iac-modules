@@ -577,7 +577,7 @@ resource "aws_appautoscaling_policy" "formio_policy" {
 ######################################
 
 resource "aws_cloudwatch_metric_alarm" "tg_healthy_hosts" {
-  alarm_name          = "${var.name_prifix}-healthy-hosts"
+  alarm_name          = "${var.name_prefix}-healthy-hosts"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "HealthyHostCount"
