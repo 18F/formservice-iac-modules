@@ -10,7 +10,6 @@ variable "formio_alb_allowed_cidr_blocks" {
   default     = "0.0.0.0/0"
   description = "List of CIDR blocks to be allowed to connect to the FormIO ALB"
 }
-variable "allowed_security_group_id" { type = string }
 
 
 variable "enable_deletion_protection" { 
