@@ -225,17 +225,28 @@ def lambda_handler(event, context):
         logger.debug("Starting lambda_handler")
         statusFlag = "success"
         
-        logger.debug("Getting Environment Variables") 
-        region_name = os.environ['REGION_NAME']
-        secret_name = os.environ['SECRET_NAME']
-        db_path = os.environ['DB_CLUSTER_PATH']
-        metricName = os.environ['METRIC_NAME']
-        database_name = os.environ['DB_NAME']
+        #TODO REMOVE
+        logger.debug(event)
         
+        logger.debug("Getting information from EventBridge")
+        AWS_REGION = event['REGION']
+        secret_name = event['SECRET_ARN']
+
+        logger.debug("Getting Environment Variables") 
+        metricName = os.environ['METRIC_NAME']
+
         logger.debug("Getting Secrets")    
-        secrets = get_secret_dict(secret_name, region_name)
+        secrets = get_secret_dict(secret_name, AWS_REGION)
+        doc_db_cluster_path = secrets['steph_doc_db_cluster_path']
+        db_name = secrets['steph_db_name']
         db_user = secrets["doc_db_master_username"]
         db_pwd = secrets["doc_db_master_password_sub"]
+
+        # Initialize the db submissions collection
+        connectionTxt = f'mongodb://{db_user}:{db_pwd}@{doc_db_cluster_path}/?ssl=true&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false'
+        client = MongoClient(connectionTxt)
+        db = client[db_name]
+        submissions = db.submissions
 
         # Initialize the db submissions collection
         connectionTxt = f'mongodb://{db_user}:{db_pwd}@{db_path}/?ssl=true&ssl_ca_certs=rds-combined-ca-us-gov-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false'
