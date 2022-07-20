@@ -65,7 +65,7 @@ resource "aws_security_group" "formio_ecs_ent_sg" {
     Name = "${var.name_prefix}-ecs-ent-sg"
     Environment = "${var.name_prefix}"
   }
-} 
+}
 
 ####################################
 # Formio ECS Task Policies
@@ -245,7 +245,7 @@ resource "aws_ecs_task_definition" "enterprise" {
         }
       ],
       "cpu": 512,
-      "memory": 1024,
+      "memory": 2560,
       "essential": true,
       "dependsOn": [
         {
