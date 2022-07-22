@@ -244,8 +244,8 @@ resource "aws_ecs_task_definition" "enterprise" {
             "hostPort": 3000
         }
       ],
-      "cpu": 512,
-      "memory": 2560,
+      "cpu": 1024,
+      "memory": 8192,
       "essential": true,
       "dependsOn": [
         {
@@ -314,8 +314,8 @@ resource "aws_ecs_task_definition" "enterprise" {
           "containerPort": 8443
         }
       ],
-      "cpu": 256,
-      "memory": 256,
+      "cpu": 512,
+      "memory": 512,
       "essential": true,
       "dependsOn": [
         {
@@ -383,8 +383,8 @@ resource "aws_ecs_task_definition" "enterprise" {
         "name": "INSTALL_BUNDLE",
         "valueFrom": "${data.aws_secretsmanager_secret.task_secrets.arn}:TW_INSTALL_BUNDLE::"
       }],
-      "cpu": 256,
-      "memory": 256,
+      "cpu": 512,
+      "memory": 512,
       "essential": true,
       "entryPoint": [
         "/usr/local/bin/defender",
