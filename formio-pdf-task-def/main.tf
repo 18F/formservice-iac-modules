@@ -282,7 +282,7 @@ resource "aws_ecs_task_definition" "pdf" {
       },
       "command": ["node", "pdf"],
       "entryPoint": [
-        "/var/lib/twistlock/fargate/fargate_defender.sh",
+        "/var/lib/twistlock/fargate/defender",
         "fargate",
         "entrypoint",
         "dumb-init",
@@ -354,7 +354,7 @@ resource "aws_ecs_task_definition" "pdf" {
       },
       "command": ["nginx", "-g", "daemon off;"],
       "entryPoint": [
-        "/var/lib/twistlock/fargate/fargate_defender.sh",
+        "/var/lib/twistlock/fargate/defender",
         "fargate",
         "entrypoint",
         "/docker-entrypoint.sh"
