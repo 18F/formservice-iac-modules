@@ -262,7 +262,7 @@ resource "aws_ecs_task_definition" "enterprise" {
       },
       "command": ["node", "formio.js", "--max_old_space_size=8192"],
       "entryPoint": [
-        "/var/lib/twistlock/fargate/fargate_defender.sh",
+        "/var/lib/twistlock/fargate/defender",
         "fargate",
         "entrypoint"
       ],
@@ -332,7 +332,7 @@ resource "aws_ecs_task_definition" "enterprise" {
       },
       "command": ["nginx", "-g", "daemon off;"],
       "entryPoint": [
-        "/var/lib/twistlock/fargate/fargate_defender.sh",
+        "/var/lib/twistlock/fargate/defender",
         "fargate",
         "entrypoint",
         "/docker-entrypoint.sh"
