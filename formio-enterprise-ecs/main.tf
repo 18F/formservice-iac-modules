@@ -260,7 +260,7 @@ resource "aws_ecs_task_definition" "enterprise" {
           ]
         }
       },
-      "command": ["node", "formio.js", "--max_old_space_size=8192", "--openssl-legacy-provider"],
+      "command": ["node", "--openssl-legacy-provider", "formio.js", "--max_old_space_size=8192"],
       "entryPoint": [
         "/var/lib/twistlock/fargate/defender",
         "fargate",
