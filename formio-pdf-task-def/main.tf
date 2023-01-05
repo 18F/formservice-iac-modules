@@ -285,8 +285,7 @@ resource "aws_ecs_task_definition" "pdf" {
         "/var/lib/twistlock/fargate/defender",
         "fargate",
         "entrypoint",
-        "dumb-init",
-        "--"
+        "./node_modules/pm2/bin/pm2"
       ],
       "mountPoints": [
         {
