@@ -280,7 +280,7 @@ resource "aws_ecs_task_definition" "pdf" {
           ]
         }
       },
-      "command": ["start", "pm2.config.js", "--no-daemon"],
+      "command": ["node", "pdf"],
       "entryPoint": [
         "/var/lib/twistlock/fargate/defender",
         "fargate",
